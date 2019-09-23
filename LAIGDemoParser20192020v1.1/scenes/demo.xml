@@ -48,7 +48,7 @@
             <rectangle x1="-0.5" y1="-1" x2="0.5" y2="1" />
         </primitive>
         <primitive id="demoTriangle">
-            <triangle x1="-0.5" y1="-1" x2="0.5" y2="1" />
+            <triangle x1="-4" y1="-1" x2="0.5" y2="1" x3 ="-2" y3="3" />
         </primitive>
     </primitives>
 

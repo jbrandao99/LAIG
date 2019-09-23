@@ -476,7 +476,7 @@ class MySceneGraph {
 
                         transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
                         break;
-                    case 'scale':                        
+                    case 'scale':
                         this.onXMLMinorError("To do: Parse scale transformations.");
                         break;
                     case 'rotate':
@@ -581,10 +581,20 @@ class MySceneGraph {
 
                 // y2
                 var y2 = this.reader.getFloat(grandChildren[0], 'y2');
-                if (!(y2 != null && !isNaN(y2) && y2 > y1))
+                if (!(y2 != null && !isNaN(y2) && y2 >= y1))
                     return "unable to parse y2 of the primitive coordinates for ID = " + primitiveId;
 
-                var tri = new MyTriangle(this.scene, primitiveId, x1, x2, y1, y2);
+                // x3
+                var x3 = this.reader.getFloat(grandChildren[0], 'x3');
+                if (!(x3 != null && !isNaN(x3) && x3 < x2 && x3 > x1))
+                    return "unable to parse x3 of the primitive coordinates for ID = " + primitiveId;
+
+                // y3
+                var y3 = this.reader.getFloat(grandChildren[0], 'y3');
+                if (!(y3 != null && !isNaN(y3) && y3 > y2))
+                    return "unable to parse y3 of the primitive coordinates for ID = " + primitiveId;
+
+                var tri = new MyTriangle(this.scene, primitiveId, x1, x2, x3, y1, y2, y3);
 
                 this.primitives[primitiveId] = tri;
             }
