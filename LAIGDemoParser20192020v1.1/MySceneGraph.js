@@ -574,6 +574,11 @@ class MySceneGraph {
                 if (!(y1 != null && !isNaN(y1)))
                     return "unable to parse y1 of the primitive coordinates for ID = " + primitiveId;
 
+                // z1
+                var z1 = this.reader.getFloat(grandChildren[0], 'z1');
+                if (!(z1 != null && !isNaN(z1)))
+                    return "unable to parse z1 of the primitive coordinates for ID = " + primitiveId;
+
                 // x2
                 var x2 = this.reader.getFloat(grandChildren[0], 'x2');
                 if (!(x2 != null && !isNaN(x2) && x2 > x1))
@@ -584,9 +589,14 @@ class MySceneGraph {
                 if (!(y2 != null && !isNaN(y2) && y2 >= y1))
                     return "unable to parse y2 of the primitive coordinates for ID = " + primitiveId;
 
+                // z2
+                var z2 = this.reader.getFloat(grandChildren[0], 'z2');
+                if (!(z2 != null && !isNaN(z2)))
+                    return "unable to parse z1 of the primitive coordinates for ID = " + primitiveId;
+
                 // x3
                 var x3 = this.reader.getFloat(grandChildren[0], 'x3');
-                if (!(x3 != null && !isNaN(x3) && x3 < x2 && x3 > x1))
+                if (!(x3 != null && !isNaN(x3)))
                     return "unable to parse x3 of the primitive coordinates for ID = " + primitiveId;
 
                 // y3
@@ -594,7 +604,12 @@ class MySceneGraph {
                 if (!(y3 != null && !isNaN(y3) && y3 > y2))
                     return "unable to parse y3 of the primitive coordinates for ID = " + primitiveId;
 
-                var tri = new MyTriangle(this.scene, primitiveId, x1, x2, x3, y1, y2, y3);
+                // z3
+                var z3 = this.reader.getFloat(grandChildren[0], 'z3');
+                if (!(z3 != null && !isNaN(z3)))
+                    return "unable to parse z1 of the primitive coordinates for ID = " + primitiveId;
+
+                var tri = new MyTriangle(this.scene, primitiveId, x1, x2, x3, y1, y2, y3, z1, z2, z3);
 
                 this.primitives[primitiveId] = tri;
             }
