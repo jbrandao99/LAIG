@@ -1,5 +1,5 @@
 <lxs>
-    <scene root="QuidditchPitch" axis_length="10"/>
+    <scene root="QuidditchPitch" axis_length="0"/>
 
     <views default="defaultCamera">
         <perspective id="defaultCamera" near="0.1" far="500" angle="45">
@@ -32,6 +32,7 @@
         <texture id="demoTexture" file="scenes/images/TexturesCom_FloorsRegular0204_1_seamless_S.jpg" />
 		<texture id="LinesTexture" file="scenes/images/White_full.png" />
         <texture id="balizaTexture" file="scenes/images/gold.png" />
+        <texture id="bancadaTexture1" file="scenes/images/slytherin.jpg" />
     </textures>
 
     <materials>
@@ -90,10 +91,18 @@
         <primitive id="balizaCylinder2">
             <cylinder base="1" top="1" slices="100" height="20" stacks="100"/>
         </primitive>
-		
-		
-		
-		
+
+		<primitive id="bancadaCylinder">
+            <cylinder base="0.75" top="0.75" slices="4" height="4" stacks="4"/>
+        </primitive>
+
+        <primitive id="bancadaTriangle">
+            <triangle x1="0" x2="1" x3="0" y1="0" y2="0" y3="1" z1="0" z2="0" z3="0"/>
+        </primitive>
+
+        <primitive id="bancadaRectangle">
+            <rectangle x1="0" x2="1" y1="0" y2="1" />
+        </primitive>
 		
     </primitives>
 
@@ -344,7 +353,162 @@
                 <componentref id="baliza3" />
             </children>
         </component>
-		
+
+        <component id="bancadaSuporte">
+            <transformation>
+				<translate x="0" y="0" z="0"/>
+                <rotate axis="x" angle="-90" />
+                <rotate axis="z" angle="-45" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="bancadaTexture1" length_s="0.1" length_t="0.1"/>
+            <children>
+               <primitiveref id="bancadaCylinder" />
+            </children>
+        </component>
+
+		 <component id="bancadaTop1">
+            <transformation>
+                <rotate axis="y" angle="-90" />
+                <translate x="-0.5" y="4" z="0.5"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="bancadaTexture1" length_s="0.1" length_t="0.1"/>
+            <children>
+               <primitiveref id="bancadaTriangle" />
+            </children>
+        </component>
+
+        <component id="bancadaTop2">
+            <transformation>
+                <rotate axis="y" angle="-90" />
+                <translate x="-0.5" y="4" z="-0.5"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="bancadaTexture1" length_s="0.1" length_t="0.1"/>
+            <children>
+               <primitiveref id="bancadaTriangle" />
+            </children>
+        </component>
+
+        <component id="bancadaTop3">
+            <transformation>
+                <translate x="-0.5" y="4" z="-0.5"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="bancadaTexture1" length_s="0.1" length_t="0.1"/>
+            <children>
+               <primitiveref id="bancadaRectangle" />
+            </children>
+        </component>
+
+        
+
+        <component id="Bancada1">
+            <transformation>
+                <translate x="-1.5" y="0" z="0"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none" length_s="5" length_t="5"/>
+            <children>
+               <componentref id="bancadaTop1" />
+               <componentref id="bancadaTop2" />
+               <componentref id="bancadaTop3" />
+                <componentref id="bancadaSuporte" />
+            </children>
+        </component>
+
+        <component id="Bancada2">
+            <transformation>
+                <translate x="-4" y="0" z="0"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none" length_s="5" length_t="5"/>
+            <children>
+               <componentref id="bancadaTop1" />
+               <componentref id="bancadaTop2" />
+               <componentref id="bancadaTop3" />
+                <componentref id="bancadaSuporte" />
+            </children>
+        </component>
+
+        <component id="Bancada3">
+            <transformation>
+                <translate x="1.5" y="0" z="0"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none" length_s="5" length_t="5"/>
+            <children>
+               <componentref id="bancadaTop1" />
+               <componentref id="bancadaTop2" />
+               <componentref id="bancadaTop3" />
+                <componentref id="bancadaSuporte" />
+            </children>
+        </component>
+
+        <component id="Bancada4">
+            <transformation>
+                <translate x="4" y="0" z="0"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none" length_s="5" length_t="5"/>
+            <children>
+               <componentref id="bancadaTop1" />
+               <componentref id="bancadaTop2" />
+               <componentref id="bancadaTop3" />
+                <componentref id="bancadaSuporte" />
+            </children>
+        </component>
+
+        <component id="bancadaTotal1">
+            <transformation>
+                <translate x="0" y="0" z="-5"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none" length_s="5" length_t="5"/>
+            <children>
+               <componentref id="Bancada1" />
+               <componentref id="Bancada2" />
+               <componentref id="Bancada3" />
+                <componentref id="Bancada4" />
+            </children>
+        </component>
+
+        <component id="bancadaTotal2">
+            <transformation>
+                <rotate axis="y" angle="-180" /> 
+                <translate x="0" y="0" z="-5"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none" length_s="5" length_t="5"/>
+            <children>
+               <componentref id="Bancada1" />
+               <componentref id="Bancada2" />
+               <componentref id="Bancada3" />
+                <componentref id="Bancada4" />
+            </children>
+        </component>
+
 		<component id="QuidditchPitch">
             <transformation>
 				<translate x="0" y="0" z="0"/>
@@ -358,6 +522,8 @@
 			   <componentref id="Floor" />
                <componentref id="Balizas1" />
                <componentref id="Balizas2" />
+               <componentref id="bancadaTotal1" />
+               <componentref id="bancadaTotal2" />
 			
             </children>
         </component>
