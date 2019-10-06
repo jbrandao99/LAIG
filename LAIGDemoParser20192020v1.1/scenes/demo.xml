@@ -31,6 +31,7 @@
     <textures>
         <texture id="demoTexture" file="scenes/images/TexturesCom_FloorsRegular0204_1_seamless_S.jpg" />
 		<texture id="LinesTexture" file="scenes/images/White_full.png" />
+        <texture id="balizaTexture" file="scenes/images/gold.png" />
     </textures>
 
     <materials>
@@ -78,7 +79,17 @@
             <rectangle x1="-0.1" y1="-3.8" x2="0.05" y2="3.8" />
 		</primitive>
 		
-			
+		<primitive id="balizaTorus">
+            <torus inner="1" outer="5" slices="100" loops="100"/>
+        </primitive>
+		
+        <primitive id="balizaCylinder1">
+            <cylinder base="1" top="1" slices="100" height="15" stacks="100"/>
+        </primitive>
+
+        <primitive id="balizaCylinder2">
+            <cylinder base="1" top="1" slices="100" height="20" stacks="100"/>
+        </primitive>
 		
 		
 		
@@ -210,10 +221,133 @@
 			
             </children>
         </component>
+
+        <component id="entrada_baliza">
+            <transformation>
+				<translate x="0" y="5" z="0"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="balizaTexture" length_s="5" length_t="5"/>
+            <children>
+              
+			   <primitiveref id="balizaTorus" />
+			
+            </children>
+        </component>
+		
+        <component id="suporte_baliza1">
+            <transformation>
+				<translate x="0" y="-15" z="0"/>
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="balizaTexture" length_s="5" length_t="5"/>
+            <children>
+              
+			   <primitiveref id="balizaCylinder1" />
+			
+            </children>
+        </component>
+
+        <component id="suporte_baliza2">
+            <transformation>
+				<translate x="0" y="-20" z="0"/>
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="balizaTexture" length_s="5" length_t="5"/>
+            <children>
+              
+			   <primitiveref id="balizaCylinder2" />
+			
+            </children>
+        </component>
+		
+		<component id="baliza1">
+            <transformation>
+				<translate x="0" y="0" z="0"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none" length_s="0.1" length_t="0.1"/>
+            <children>
+               <componentref id="entrada_baliza" />
+                <componentref id="suporte_baliza2" />
+            </children>
+        </component>
+
+        <component id="baliza2">
+            <transformation>
+				<translate x="-15" y="-5" z="0"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none" length_s="0.1" length_t="0.1"/>
+            <children>
+               <componentref id="entrada_baliza" />
+                <componentref id="suporte_baliza1" />
+            </children>
+        </component>
+
+        <component id="baliza3">
+            <transformation>
+				<translate x="15" y="-5" z="0"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none" length_s="0.1" length_t="0.1"/>
+            <children>
+               <componentref id="entrada_baliza" />
+                <componentref id="suporte_baliza1" />
+            </children>
+        </component>
+
+        <component id="Balizas1">
+            <transformation>
+                <scale x="0.1" y="0.1" z="0.1" />
+				<translate x="70" y="20.5" z="0"/>
+                <rotate axis="y" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none" length_s="5" length_t="5"/>
+            <children>
+               <componentref id="baliza1" />
+                <componentref id="baliza2" />
+                <componentref id="baliza3" />
+            </children>
+        </component>
+
+        <component id="Balizas2">
+            <transformation>
+                <scale x="0.1" y="0.1" z="0.1" />
+				<translate x="-70" y="20.5" z="0"/>
+                <rotate axis="y" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none" length_s="5" length_t="5"/>
+            <children>
+               <componentref id="baliza1" />
+                <componentref id="baliza2" />
+                <componentref id="baliza3" />
+            </children>
+        </component>
 		
 		<component id="QuidditchPitch">
             <transformation>
-				<translate x="-5" y="0" z="0"/>
+				<translate x="0" y="0" z="0"/>
             </transformation>
             <materials>
                 <material id="demoMaterial" />
@@ -222,7 +356,8 @@
             <children>
               
 			   <componentref id="Floor" />
-		
+               <componentref id="Balizas1" />
+               <componentref id="Balizas2" />
 			
             </children>
         </component>
