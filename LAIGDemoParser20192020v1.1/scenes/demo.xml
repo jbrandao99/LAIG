@@ -1,9 +1,9 @@
 <lxs>
-    <scene root="demoRoot" axis_length="5"/>
+    <scene root="CasaDaMusica" axis_length="10"/>
 
     <views default="defaultCamera">
-        <perspective id="defaultCamera" near="0.1" far="500" angle="45">
-            <from x="30" y="15" z="30" />
+        <perspective id="defaultCamera" near="0.1" far="500" angle="90">
+            <from x="200" y="15" z="200" />
             <to x="0" y="-2" z="0" />
         </perspective>
     </views>
@@ -23,15 +23,15 @@
     </lights>
 
     <textures>
-        <texture id="demoTexture" file="scenes/images/vidral.jpg" />
+        <texture id="demoTexture" file="scenes/images/TexturesCom_FloorsRegular0204_1_seamless_S.jpg" />
     </textures>
 
     <materials>
         <material id="demoMaterial" shininess="10">
-            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
-            <diffuse r="0.6" g="0.0" b="0.0" a="1.0" />
-            <specular r="0.6" g="0.0" b="0.0" a="1.0" />
+            <emission r="1.0" g="1.0" b="1.0" a="1.0" />
+            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.0" g="0.0" b="0.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="0.0" a="1.0" />
         </material>
     </materials>
 
@@ -44,40 +44,125 @@
     </transformations>
 
     <primitives>
-        <primitive id="demoRectangle">
-            <rectangle x1="-0.5" y1="-1" x2="0.5" y2="1" />
+        
+		  <primitive id="Triangle1">
+            <triangle x1="1" y1="0" z1="0" x2="2" y2="0" z2="0" x3 ="2" y3="3" z3="0" />
         </primitive>
-        <primitive id="demoTriangle">
-            <triangle x1="-4" y1="-1" z1="0" x2="0.5" y2="1" z2="0" x3 ="-2" y3="3" z3="0" />
+		
+		<primitive id="Rectangle1">
+            <rectangle x1="2" y1="0"  x2="9" y2="3"  />
         </primitive>
-        <primitive id="demoCylinder">
-            <cylinder base="1" top="1" height="3" slices="100" stacks="2" />
+		
+		<primitive id="Triangle2">
+            <triangle x1="9" y1="0" z1="0" x2="9.4" y2="0" z2="0" x3 ="9" y3="3" z3="0" />
         </primitive>
-        <primitive id="demoSphere">
-            <sphere radius="1" slices="100" stacks="100" />
+		
+		<primitive id="Rectangle1">
+            <rectangle x1="2" y1="0"  x2="9" y2="3"  />
         </primitive>
-        <primitive id="demoTorus">
-            <torus inner="1" outer="3" slices="100" loops="100" />
+		
+		<primitive id="Rectangle2">
+            <rectangle x1="2" y1="3"  x2="9" y2="7"  />
         </primitive>
+		
+		<primitive id="Triangle3">
+            <triangle x1="9" y1="3" z1="1.93" x2="11" y2="4" z2="-6" x3 ="9" y3="7" z3="1.93" />
+        </primitive>
+		
+		<primitive id="Triangle4">
+            <triangle x1="11" y1="2.3" z1="-6" x2="12" y2="6.29" z2="-6" x3 ="9" y3="6.3" z3="1.93" />
+        </primitive>
+		
+		
     </primitives>
 
     <components>
-        <component id="demoRoot">
+        <component id="wall1">
             <transformation>
-                <translate x="0" y="0" z="1" />
-                <scale x="2" y="1" z="1" />
+				 <rotate axis="x" angle="40" />
+            	
+				<translate x="0" y="0" z="0"/>
             </transformation>
             <materials>
                 <material id="demoMaterial" />
             </materials>
             <texture id="demoTexture" length_s="5" length_t="5"/>
             <children>
-                <primitiveref id="demoRectangle" />
-                <primitiveref id="demoTriangle" />
-                <primitiveref id="demoCylinder" />
-                <primitiveref id="demoSphere" />
-                <primitiveref id="demoTorus" />
+               <primitiveref id="Triangle1" />
+			   <primitiveref id="Rectangle1" />
+			   <primitiveref id="Triangle2" />
+            </children>
+        </component>
+		
+		 <component id="wall2">
+            <transformation>
+				<translate x="0" y="-0.7" z="1.93"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture" length_s="5" length_t="5"/>
+            <children>
+              
+			   <primitiveref id="Rectangle2" />
+			
+            </children>
+        </component>
+		
+		<component id="wall3">
+            <transformation>
+				<translate x="0" y="-0.7" z="0"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture" length_s="5" length_t="5"/>
+            <children>
+              
+			   <primitiveref id="Triangle3" />
+			
+			
+            </children>
+        </component>
+		
+		<component id="wall4">
+            <transformation>
+		
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture" length_s="5" length_t="5"/>
+            <children>
+              
+		
+			   <primitiveref id="Triangle4" />
+			
+            </children>
+        </component>
+		
+		<component id="CasaDaMusica">
+            <transformation>
+				<translate x="-5" y="0" z="0"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none" length_s="0.1" length_t="0.1"/>
+            <children>
+              
+			   <componentref id="wall1" />
+			   <componentref id="wall2" />
+			   <componentref id="wall3" />
+			     <componentref id="wall4" />
+			
             </children>
         </component>
     </components>
+	
+	
+	
+	
+	
+	
 </lxs>
