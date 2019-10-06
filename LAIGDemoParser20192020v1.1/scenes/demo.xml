@@ -2,11 +2,17 @@
     <scene root="QuidditchPitch" axis_length="10"/>
 
     <views default="defaultCamera">
-        <perspective id="defaultCamera" near="0.1" far="500" angle="90">
-            <from x="200" y="15" z="200" />
+        <perspective id="defaultCamera" near="0.1" far="500" angle="45">
+            <from x="30" y="15" z="30" />
             <to x="0" y="-2" z="0" />
         </perspective>
+		
+		<perspective id="Test Perspective" near="30" far="500" angle="30">
+             <from x="26" y="20" z="70" />
+            <to x="64" y="0" z="20" />
+        </perspective>
     </views>
+
 
     <ambient>
         <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
@@ -61,8 +67,17 @@
 		</primitive>
 		
 		<primitive id="FloorLinesRect1">
-            <rectangle x1="-5" y1="3.6" x2="0" y2="3.9" />
+            <rectangle x1="-5" y1="3.77" x2="5" y2="3.9" />
 		</primitive>
+		
+		<primitive id="FloorLinesCurve2">
+            <cylinder base="1" top="1.15" height="0.001" slices="20" stacks="5" />
+		</primitive>
+		
+		<primitive id="FloorLinesRect2">
+            <rectangle x1="-0.1" y1="-3.8" x2="0.05" y2="3.8" />
+		</primitive>
+		
 			
 		
 		
@@ -140,7 +155,23 @@
 		
 		<component id="FloorLines3">
             <transformation>
-				
+				<translate x="0" y="0" z="0.034" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+           <texture id="LinesTexture" length_s="5" length_t="5"/>
+            <children>
+			<primitiveref id="FloorLinesRect1"/>
+			<primitiveref id="FloorLinesCurve2" />
+			<primitiveref id="FloorLinesRect2"/>
+			
+            </children>
+        </component>
+		
+		<component id="FloorLines4">
+            <transformation>
+				<translate x="0" y="-7.69" z="0.016" />
             </transformation>
             <materials>
                 <material id="demoMaterial" />
@@ -167,6 +198,7 @@
 			 <componentref id="FloorCylinder1Comp" />
 			 <componentref id="FloorCylinder2Comp" />
 			  <componentref id="FloorRectangleComp" />
+			   
 			 
 			  
 			  
@@ -174,6 +206,7 @@
 			  <componentref id="FloorLines2" />
 			  <componentref id="FloorLines3" />
 			  
+			   <componentref id="FloorLines4" />
 			
             </children>
         </component>
