@@ -1008,7 +1008,7 @@ class MySceneGraph {
 
                 // y3
                 var y3 = this.reader.getFloat(grandChildren[0], 'y3');
-                if (!(y3 != null && !isNaN(y3) && y3 > y2))
+                if (!(y3 != null && !isNaN(y3) && y3 >= y2))
                     return "unable to parse y3 of the primitive coordinates for ID = " + primitiveId;
 
                 // z3

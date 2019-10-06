@@ -1,5 +1,5 @@
 <lxs>
-    <scene root="CasaDaMusica" axis_length="10"/>
+    <scene root="QuidditchPitch" axis_length="10"/>
 
     <views default="defaultCamera">
         <perspective id="defaultCamera" near="0.1" far="500" angle="90">
@@ -24,6 +24,7 @@
 
     <textures>
         <texture id="demoTexture" file="scenes/images/TexturesCom_FloorsRegular0204_1_seamless_S.jpg" />
+		<texture id="LinesTexture" file="scenes/images/White_full.png" />
     </textures>
 
     <materials>
@@ -44,104 +45,140 @@
     </transformations>
 
     <primitives>
-        
-		  <primitive id="Triangle1">
-            <triangle x1="1" y1="0" z1="0" x2="2" y2="0" z2="0" x3 ="2" y3="3" z3="0" />
-        </primitive>
+          <primitive id="FloorRectangle1">
+            <rectangle x1="-5" y1="-4" x2="5" y2="4" />
+			</primitive>
+		<primitive id="FloorCylinder1">
+            <cylinder base="4" top="0.001" height="0.11" slices="20" stacks="5" />
+			</primitive>
+			
+		<primitive id="FloorCylinder2">
+            <cylinder base="4" top="0.001" height="0.11" slices="20" stacks="5" />
+		</primitive>
 		
-		<primitive id="Rectangle1">
-            <rectangle x1="2" y1="0"  x2="9" y2="3"  />
-        </primitive>
+		<primitive id="FloorLinesCurve1">
+            <cylinder base="3.6" top="3.9" height="0.01" slices="20" stacks="5" />
+		</primitive>
 		
-		<primitive id="Triangle2">
-            <triangle x1="9" y1="0" z1="0" x2="9.4" y2="0" z2="0" x3 ="9" y3="3" z3="0" />
-        </primitive>
+		<primitive id="FloorLinesRect1">
+            <rectangle x1="-5" y1="3.6" x2="0" y2="3.9" />
+		</primitive>
+			
 		
-		<primitive id="Rectangle1">
-            <rectangle x1="2" y1="0"  x2="9" y2="3"  />
-        </primitive>
 		
-		<primitive id="Rectangle2">
-            <rectangle x1="2" y1="3"  x2="9" y2="7"  />
-        </primitive>
 		
-		<primitive id="Triangle3">
-            <triangle x1="9" y1="3" z1="1.93" x2="11" y2="4" z2="-6" x3 ="9" y3="7" z3="1.93" />
-        </primitive>
-		
-		<primitive id="Triangle4">
-            <triangle x1="11" y1="2.3" z1="-6" x2="12" y2="6.29" z2="-6" x3 ="9" y3="6.3" z3="1.93" />
-        </primitive>
 		
 		
     </primitives>
 
     <components>
-        <component id="wall1">
+		
+		<component id="FloorRectangleComp">
             <transformation>
-				 <rotate axis="x" angle="40" />
-            	
-				<translate x="0" y="0" z="0"/>
+			 <translate x="0" y="0" z="0.015" />
             </transformation>
             <materials>
                 <material id="demoMaterial" />
             </materials>
             <texture id="demoTexture" length_s="5" length_t="5"/>
             <children>
-               <primitiveref id="Triangle1" />
-			   <primitiveref id="Rectangle1" />
-			   <primitiveref id="Triangle2" />
+			 <primitiveref id="FloorRectangle1"/>
             </children>
         </component>
 		
-		 <component id="wall2">
+		<component id="FloorCylinder1Comp">
             <transformation>
-				<translate x="0" y="-0.7" z="1.93"/>
+				 <translate x="5" y="0" z="0" />
             </transformation>
             <materials>
                 <material id="demoMaterial" />
             </materials>
             <texture id="demoTexture" length_s="5" length_t="5"/>
             <children>
-              
-			   <primitiveref id="Rectangle2" />
-			
+			 <primitiveref id="FloorCylinder1" />
             </children>
         </component>
 		
-		<component id="wall3">
+		<component id="FloorCylinder2Comp">
             <transformation>
-				<translate x="0" y="-0.7" z="0"/>
+				 <translate x="-5" y="0" z="0" />
             </transformation>
             <materials>
                 <material id="demoMaterial" />
             </materials>
             <texture id="demoTexture" length_s="5" length_t="5"/>
             <children>
-              
-			   <primitiveref id="Triangle3" />
-			
-			
+			 <primitiveref id="FloorCylinder2" />
             </children>
         </component>
 		
-		<component id="wall4">
+		<component id="FloorLines1">
             <transformation>
+				 <translate x="5" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+           <texture id="LinesTexture" length_s="5" length_t="5"/>
+            <children>
+			<primitiveref id="FloorLinesCurve1"/>
+            </children>
+        </component>
 		
+		<component id="FloorLines2">
+            <transformation>
+				 <translate x="-5" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+           <texture id="LinesTexture" length_s="5" length_t="5"/>
+            <children>
+			<primitiveref id="FloorLinesCurve1"/>
+            </children>
+        </component>
+		
+		<component id="FloorLines3">
+            <transformation>
+				
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+           <texture id="LinesTexture" length_s="5" length_t="5"/>
+            <children>
+			<primitiveref id="FloorLinesRect1"/>
+            </children>
+        </component>
+		
+		
+		
+		<component id="Floor">
+            <transformation>
+			<rotate axis="x" angle="-90" /> 
             </transformation>
             <materials>
                 <material id="demoMaterial" />
             </materials>
             <texture id="demoTexture" length_s="5" length_t="5"/>
             <children>
-              
 		
-			   <primitiveref id="Triangle4" />
+		
+			 <componentref id="FloorCylinder1Comp" />
+			 <componentref id="FloorCylinder2Comp" />
+			  <componentref id="FloorRectangleComp" />
+			 
+			  
+			  
+			   <componentref id="FloorLines1" />
+			  <componentref id="FloorLines2" />
+			  <componentref id="FloorLines3" />
+			  
 			
             </children>
         </component>
 		
-		<component id="CasaDaMusica">
+		<component id="QuidditchPitch">
             <transformation>
 				<translate x="-5" y="0" z="0"/>
             </transformation>
@@ -151,10 +188,8 @@
             <texture id="none" length_s="0.1" length_t="0.1"/>
             <children>
               
-			   <componentref id="wall1" />
-			   <componentref id="wall2" />
-			   <componentref id="wall3" />
-			     <componentref id="wall4" />
+			   <componentref id="Floor" />
+		
 			
             </children>
         </component>
