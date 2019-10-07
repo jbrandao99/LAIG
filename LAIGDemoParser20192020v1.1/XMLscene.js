@@ -34,6 +34,7 @@ class XMLscene extends CGFscene {
         this.gl.depthFunc(this.gl.LEQUAL);
 
         this.axis = new CGFaxis(this);
+        this.view = [];
         this.setUpdatePeriod(100);
     }
 
@@ -99,6 +100,9 @@ class XMLscene extends CGFscene {
         this.setGlobalAmbientLight(this.graph.ambient[0], this.graph.ambient[1], this.graph.ambient[2], this.graph.ambient[3]);
 
         this.initLights();
+
+        this.index = this.graph.defaultView;
+        this.interface.addViewsGroup(this.graph.views);
 
         this.sceneInited = true;
     }
