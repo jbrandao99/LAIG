@@ -27,11 +27,24 @@ class MyInterface extends CGFinterface {
         return true;
     }
 
+    addLightsGroup(lights) {
+
+        var group = this.gui.addFolder("Lights");
+        group.open();
+
+        for (var key in lights) {
+            if (lights.hasOwnProperty(key)) {
+                this.scene.lightValues[key] = lights[key][1];
+                group.add(this.scene.lightValues, key);
+            }
+        }
+    }
+
     addViewsGroup(views) {
 
         var group = this.gui.addFolder("Views");
         group.open();
-        
+
         var view = [];
 
         for (var key in views) {
@@ -40,8 +53,8 @@ class MyInterface extends CGFinterface {
             }
         }
         let scene = this.scene;
-        group.add(this.scene, "index", view).onChange(function (index) {
-            scene.camera = views[index];
+        group.add(this.scene, "Perspectives", view).onChange(function (Perspectives) {
+            scene.camera = views[Perspectives];
         });
     }
 
