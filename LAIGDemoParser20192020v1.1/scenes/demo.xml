@@ -20,12 +20,14 @@
     </ambient>
 
     <lights>
-        <omni id="demoLight" enabled="1">
-            <location x="9.8" y="11.9" z="10" w="1.0" />
-            <ambient r="0" g="0" b="0" a="1.0" />
+         <omni id="demoLight" enabled="1">
+            <location x="0" y="15" z="0" w="1.0" />
+            <ambient r="0.8" g="0.8" b="0.8" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="1" linear="0" quadratic="0" />
         </omni>
+        
     </lights>
 
     <textures>
@@ -47,10 +49,10 @@
 
     <materials>
         <material id="demoMaterial" shininess="10">
-            <emission r="1.0" g="1.0" b="1.0" a="1.0" />
-            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
-            <diffuse r="0.0" g="0.0" b="0.0" a="1.0" />
-            <specular r="0.0" g="0.0" b="0.0" a="1.0" />
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />  
         </material>
     </materials>
 
@@ -67,11 +69,11 @@
             <rectangle x1="-5" y1="-4" x2="5" y2="4" />
 			</primitive>
 		<primitive id="FloorCylinder1">
-            <cylinder base="4" top="0.001" height="0.11" slices="20" stacks="2" />
+            <cylinder base="4" top="0.00001" height="0.11" slices="20" stacks="2" />
 			</primitive>
 			
 		<primitive id="FloorCylinder2">
-            <cylinder base="4" top="0.001" height="0.11" slices="20" stacks="2" />
+            <cylinder base="4" top="0.00001" height="0.11" slices="20" stacks="2" />
 		</primitive>
 		
 		<primitive id="FloorLinesCurve1">
@@ -277,14 +279,11 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="5" length_t="5"/>
+            <texture id="inherit"/>
             <children>
-		
-		
 			 <componentref id="FloorCylinder1Comp" />
 			 <componentref id="FloorCylinder2Comp" />
 			  <componentref id="FloorRectangleComp" />
-			  
 			   <componentref id="FloorLines1" />
 			  <componentref id="FloorLines2" />
 			  <componentref id="FloorLines3" />
@@ -341,12 +340,11 @@
 		
 		<component id="baliza1">
             <transformation>
-				<translate x="0" y="0" z="0"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="none" length_s="0.1" length_t="0.1"/>
+            <texture id="inherit"/>
             <children>
                <componentref id="entrada_baliza" />
                 <componentref id="suporte_baliza2" />
@@ -360,7 +358,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="0.1" length_t="0.1"/>
+            <texture id="inherit"/>
             <children>
                <componentref id="entrada_baliza" />
                 <componentref id="suporte_baliza1" />
@@ -374,7 +372,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="0.1" length_t="0.1"/>
+            <texture id="inherit"/>
             <children>
                <componentref id="entrada_baliza" />
                 <componentref id="suporte_baliza1" />
@@ -390,7 +388,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="5" length_t="5"/>
+            <texture id="inherit"/>
             <children>
                <componentref id="baliza1" />
                 <componentref id="baliza2" />
@@ -407,7 +405,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="5" length_t="5"/>
+            <texture id="inherit"/>
             <children>
                <componentref id="baliza1" />
                 <componentref id="baliza2" />
@@ -480,8 +478,8 @@
 		<component id="bancadaBaseSmall5">
             <transformation>
 				<translate x="0" y="0" z="0.54"/>
-				<rotate axis="y" angle="-80" />
-				<translate x="-2.7" y="0" z="9.6"/>
+				<rotate axis="y" angle="100" />
+				<translate x="-10.55" y="0" z="8.2"/>
 			
             </transformation>
             <materials>
@@ -599,7 +597,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="5" length_t="5"/>
+            <texture id="inherit"/>
             <children>
                <componentref id="bancadaTop1" />
                <componentref id="bancadaTop2" />
@@ -616,7 +614,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="5" length_t="5"/>
+            <texture id="inherit"/>
             <children>
                <componentref id="bancadaTop1" />
                <componentref id="bancadaTop2" />
@@ -633,7 +631,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="5" length_t="5"/>
+            <texture id="inherit"/>
             <children>
                <componentref id="bancadaTop1" />
                <componentref id="bancadaTop2" />
@@ -650,7 +648,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="5" length_t="5"/>
+            <texture id="inherit"/>
             <children>
                <componentref id="bancadaTop1" />
                <componentref id="bancadaTop2" />
@@ -667,7 +665,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="5" length_t="5"/>
+            <texture id="inherit"/>
             <children>
 				<componentref id="bancadaBase1" />
 				<componentref id="bancadaBaseSmall1"/>
@@ -690,7 +688,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="5" length_t="5"/>
+            <texture id="inherit"/>
             <children>
                <componentref id="Bancada1" />
                <componentref id="Bancada2" />
@@ -710,7 +708,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="5" length_t="5"/>
+            <texture id="inherit"/>
             <children>
                <componentref id="Bancada1" />
                <componentref id="Bancada2" />
@@ -730,7 +728,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="5" length_t="5"/>
+            <texture id="inherit"/>
             <children>
 				<componentref id="bancadaBaseSmall1"/>
 				<componentref id="bancadaBaseSmall2"/>
@@ -750,7 +748,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="5" length_t="5"/>
+            <texture id="inherit"/>
             <children>
 				<componentref id="bancadaBaseSmall1"/>
 				<componentref id="bancadaBaseSmall2"/>
@@ -868,7 +866,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="5" length_t="5"/>
+            <texture id="inherit"/>
             <children>
                <componentref id="vassouraPauComp1" />
                <componentref id="vassouraPauComp2" />
@@ -885,7 +883,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="none" length_s="0.1" length_t="0.1"/>
+            <texture id="inherit"/>
             <children>
 				
               <componentref id="MainFloorComp" />
