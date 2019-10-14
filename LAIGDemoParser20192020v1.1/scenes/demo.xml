@@ -40,7 +40,9 @@
 		<texture id="QuaffleTexture" file="scenes/images/Quaffle.jpg" />
 		<texture id="BludgerTexture" file="scenes/images/Bludger.jpg" />
 		<texture id="SnitchTexture" file="scenes/images/Snitch.jpg" />
-		
+		<texture id="vassouraPauTexture" file="scenes/images/vassourapau.jpg" />
+        <texture id="vassouraTexture" file="scenes/images/vassouratexture.png" />
+		<texture id="floorTexture" file="scenes/images/woodtile.jpg" />
     </textures>
 
     <materials>
@@ -137,6 +139,22 @@
 		<primitive id="Snitch">
             <sphere radius="0.05" slices="50" stacks="20" />
         </primitive>
+		
+		<primitive id="vassouraPau1">
+            <cylinder base="0.4" top="0.4" slices="100" height="10" stacks="100"/>
+        </primitive>
+
+		<primitive id="vassouraPau2">
+            <cylinder base="0" top="0.4" slices="100" height="1" stacks="100"/>
+        </primitive>
+
+        <primitive id="vassouraEsfera">
+            <sphere radius="1" slices="100" stacks="100" />
+        </primitive>
+		
+		<primitive id="bancadaFloor">
+            <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+		</primitive>
 		
 		
 		
@@ -559,7 +577,20 @@
             </children>
         </component>
 
-        
+        <component id="bancadaFloor1">
+            <transformation>
+            <translate x="0" y="4" z="0"/>
+                <rotate axis="x" angle="-60" />
+                <scale x="1" y="1.2" z="1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="floorTexture" length_s="0.1" length_t="0.1"/>
+            <children>
+               <primitiveref id="bancadaFloor" />
+            </children>
+        </component>
 
         <component id="Bancada1">
             <transformation>
@@ -574,7 +605,7 @@
                <componentref id="bancadaTop2" />
                <componentref id="bancadaTop3" />
                 <componentref id="bancadaSuporte" />
-				
+				<componentref id="bancadaFloor1" />
             </children>
         </component>
 
@@ -591,6 +622,7 @@
                <componentref id="bancadaTop2" />
                <componentref id="bancadaTop3" />
                 <componentref id="bancadaSuporte" />
+				<componentref id="bancadaFloor1" />
             </children>
         </component>
 
@@ -607,6 +639,7 @@
                <componentref id="bancadaTop2" />
                <componentref id="bancadaTop3" />
                 <componentref id="bancadaSuporte" />
+				<componentref id="bancadaFloor1" />
             </children>
         </component>
 
@@ -623,6 +656,7 @@
                <componentref id="bancadaTop2" />
                <componentref id="bancadaTop3" />
                 <componentref id="bancadaSuporte" />
+				<componentref id="bancadaFloor1" />
             </children>
         </component>
 		
@@ -664,6 +698,7 @@
                 <componentref id="Bancada4" />
 				
 				<componentref id="bancadaBaseComp1" />
+				
             </children>
         </component>
 
@@ -682,6 +717,7 @@
                <componentref id="Bancada3" />
                 <componentref id="Bancada4" />
 				<componentref id="bancadaBaseComp1" />
+				
             </children>
         </component>
 		
@@ -701,6 +737,7 @@
 				<componentref id="bancadaBaseSmall3"/>
 				<componentref id="bancadaBaseSmall4"/>
 				<componentref id="bancadaBaseSmall5"/>
+				
             </children>
         </component>
 		
@@ -780,6 +817,66 @@
                
             </children>
         </component>
+		
+		<component id="vassouraPauComp1">
+            <transformation>
+                <rotate axis="y" angle="-90"/>
+                <translate x="0" y="0" z="0"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="vassouraPauTexture" length_s="5" length_t="5"/>
+            <children>
+               <primitiveref id="vassouraPau1" />
+            </children>
+        </component>
+
+        <component id="vassouraPauComp2">
+            <transformation>
+                <translate x="1" y="0" z="0"/>
+                <rotate axis="y" angle="-90"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="vassouraPauTexture" length_s="5" length_t="5"/>
+            <children>
+               <primitiveref id="vassouraPau2" />
+            </children>
+        </component>
+
+        <component id="vassouraEsferaComp">
+            <transformation>
+                <scale x="4" y="1.2" z="1" />
+                <translate x="-3" y="0" z="0"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="vassouraTexture" length_s="5" length_t="5"/>
+            <children>
+               <primitiveref id="vassouraEsfera" />
+            </children>
+        </component>
+
+        <component id="vassoura1">
+            <transformation>
+                <scale x="0.1" y="0.1" z="0.1" />
+                <translate x="40" y="7" z="0"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="5" length_t="5"/>
+            <children>
+               <componentref id="vassouraPauComp1" />
+               <componentref id="vassouraPauComp2" />
+               <componentref id="vassouraEsferaComp" />
+            </children>
+        </component>
+		
+		
 
 		<component id="QuidditchPitch">
             <transformation>
@@ -803,6 +900,7 @@
 			    <componentref id="BludgerComp1" />
 				<componentref id="BludgerComp2" />
 				<componentref id="SnitchComp" />
+				<componentref id="vassoura1" />
 			
             </children>
         </component>
