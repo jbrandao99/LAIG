@@ -34,28 +34,10 @@ class MyInterface extends CGFinterface {
 
         for (var key in lights) {
             if (lights.hasOwnProperty(key)) {
-                this.scene.lightValues[key] = lights[key][1];
+                this.scene.lightValues[key] = lights[key][0];
                 group.add(this.scene.lightValues, key);
             }
         }
-    }
-
-    addViewsGroup(views) {
-
-        var group = this.gui.addFolder("Views");
-        group.open();
-
-        var view = [];
-
-        for (var key in views) {
-            if (views.hasOwnProperty(key)) {
-                view.push(key);
-            }
-        }
-        let scene = this.scene;
-        group.add(this.scene, "Perspectives", view).onChange(function (Perspectives) {
-            scene.camera = views[Perspectives];
-        });
     }
 
     /**

@@ -13,6 +13,7 @@ class XMLscene extends CGFscene {
         super();
 
         this.interface = myinterface;
+        this.lightValues = {};
     }
 
     /**
@@ -100,6 +101,8 @@ class XMLscene extends CGFscene {
 
         this.initLights();
 
+        this.interface.addLightsGroup(this.graph.lights);
+
         this.sceneInited = true;
     }
 
@@ -129,6 +132,7 @@ class XMLscene extends CGFscene {
         }
 
         if (this.sceneInited) {
+
             // Draw axis
             this.setDefaultAppearance();
 
