@@ -19,9 +19,10 @@ class MyInterface extends CGFinterface {
         //  http://workshop.chromeexperiments.com/examples/gui
 
         this.gui = new dat.GUI();
-
+	
         // add a group of controls (and open/expand by defult)
-
+	
+		
         this.initKeys();
 
         return true;
