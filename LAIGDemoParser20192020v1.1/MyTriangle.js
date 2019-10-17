@@ -20,7 +20,7 @@ class MyTriangle extends CGFobject {
 
 		this.initBuffers();
 	}
-	
+
 	initBuffers() {
 		this.vertices = [
 			this.x1, this.y1, this.z1,	//0
@@ -31,7 +31,9 @@ class MyTriangle extends CGFobject {
 		//Counter-clockwise reference of vertices
 		this.indices = [
 			0, 1, 2,
-			1,3,2
+			1, 3, 2,
+			1, 0, 2,
+			1, 2, 3
 		];
 
 		//Facing Z positive
@@ -51,23 +53,20 @@ class MyTriangle extends CGFobject {
         t
         */
 
-		this.texCoords = [
-			0, 1,
-			1, 1,
-			0, 0,
-			1, 0
-		]
+		this.texCoords = []
 		this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
 	}
 
-	/**
-	 * @method updateTexCoords
-	 * Updates the list of texture coordinates of the triangle
-	 * @param {Array} coords - Array of texture coordinates
-	 */
-	updateTexCoords(coords) {
-		this.texCoords = [...coords];
+	updateTexCoords(s, t) {
+		this.texCoords = [
+			(this.c - this.a * Math.cos(this.beta))/s, (t - this.a * Math.sin(this.beta)),
+			0, t,
+			(this.c)/s, t
+		];
+	
 		this.updateTexCoordsGLBuffers();
+
+		// console.log(this.texCoords);
 	}
 }

@@ -43,7 +43,7 @@ class MyCylinder extends CGFobject {
                 this.vertices.push(ca, sa, j*(this.height/this.stacks));
                 this.vertices.push(caa2, saa2, (this.height/this.stacks)*(j+1));
                 this.vertices.push(caa, saa, j*(this.height/this.stacks));
-                
+
                 // normals of the face of the cylinder
                 this.normals.push(Math.cos(ang), 0, Math.sin(ang));
                 this.normals.push(Math.cos(ang), 0, Math.sin(ang));
@@ -74,7 +74,7 @@ class MyCylinder extends CGFobject {
         this.primitiveType = this.scene.gl.TRIANGLES;
         this.initGLBuffers();
     }
-    
+
     /*
     updateBuffers(complexity){
         this.slices = 4 + Math.round(16 * complexity); //complexity varies 0-1, so slices varies 3-12
@@ -83,4 +83,5 @@ class MyCylinder extends CGFobject {
         this.initNormalVizBuffers();
     }
 */
+updateTexCoords(s, t) {}
 }

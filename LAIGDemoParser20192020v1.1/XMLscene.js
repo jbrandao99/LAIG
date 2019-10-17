@@ -7,7 +7,7 @@ var DEGREE_TO_RAD = Math.PI / 180;
 class XMLscene extends CGFscene {
     /**
      * @constructor
-     * @param {MyInterface} myinterface 
+     * @param {MyInterface} myinterface
      */
     constructor(myinterface) {
         super();
@@ -36,7 +36,23 @@ class XMLscene extends CGFscene {
 
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(100);
+
+		 //Camera interface related variables
+        this.cameraIDs = [];
+        this.selectedCamera = null;
     }
+
+	 initGraphCameras() {
+        //Every id is saved so cameras can be manipulated on the interface
+        for (var key in this.graph.views) {
+            this.cameraIDs.push(key);
+        }
+
+        //Currently active camera is set to the default camera
+        this.selectedCamera = this.graph.defaultCameraId;
+        this.changeCamera();
+    }
+
 
     /**
      * Initializes the scene cameras.
@@ -44,6 +60,17 @@ class XMLscene extends CGFscene {
     initCameras() {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     }
+
+	 updateCameraNear(){
+        this.camera.near = this.cameraNear;
+    }
+
+	changeCamera() {
+        this.camera = this.graph.views[this.selectedCamera];
+        // The following line enables camera movement and zoom on the scene
+        this.interface.setActiveCamera(this.camera);
+    }
+
     /**
      * Initializes the scene lights with the values read from the XML file.
      */
@@ -89,10 +116,38 @@ class XMLscene extends CGFscene {
         this.setSpecular(0.2, 0.4, 0.8, 1.0);
         this.setShininess(10.0);
     }
-    /** Handler called when the graph is finally loaded. 
+
+	initViews(){
+        this.views = [];
+        for(var key in this.graph.views){
+            var near = this.graph.views[key].near;
+            var far = this.graph.views[key].far;
+            var angle = this.graph.views[key].angle;
+            var left = this.graph.views[key].left;
+            var right = this.graph.views[key].right;
+            var top = this.graph.views[key].top;
+            var bottom = this.graph.views[key].bottom;
+            var from = this.graph.views[key].from;
+            var to = this.graph.views[key].to;
+
+            if(this.graph.views[key].type == "perspective"){
+                this.views[key] = new CGFcamera(angle, near, far, vec3.fromValues(from.x, from.y, from.z), vec3.fromValues(to.x, to.y, to.z));
+            }
+            else{
+                this.views[key] = new CGFcameraOrtho(left, right, bottom, top, near, far, vec3.fromValues(from.x, from.y, from.z), vec3.fromValues(to.x, to.y, to.z), vec3.fromValues(0,1,0));
+            }
+        }
+    }
+
+    /** Handler called when the graph is finally loaded.
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
     onGraphLoaded() {
+
+		this.initViews();
+        this.camera = this.views[this.graph.defaultView];
+        this.interface.setActiveCamera(this.camera);
+
         this.axis = new CGFaxis(this, this.graph.referenceLength);
 
         this.gl.clearColor(this.graph.background[0], this.graph.background[1], this.graph.background[2], this.graph.background[3]);
@@ -101,7 +156,18 @@ class XMLscene extends CGFscene {
 
         this.initLights();
 
-        this.interface.addLightsGroup(this.graph.lights);
+		this.interface.addLightsGroup(this.graph.lights);
+
+
+
+
+		    this.currentView = this.graph.defaultView;
+        this.interface.addViews(this);
+
+
+
+
+
 
         this.sceneInited = true;
     }
@@ -117,14 +183,15 @@ class XMLscene extends CGFscene {
         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
         // Initialize Model-View matrix as identity (no transformation
+
         this.updateProjectionMatrix();
+
         this.loadIdentity();
 
         // Apply transformations corresponding to the camera position relative to the origin
         this.applyViewMatrix();
 
-        this.pushMatrix();
-        this.axis.display();
+
 
          var i = 0;
         for (var key in this.lightValues) {
@@ -141,17 +208,22 @@ class XMLscene extends CGFscene {
                 i++;
             }
         }
+this.pushMatrix();
+		this.axis.display();
 
         if (this.sceneInited) {
 
             // Draw axis
             this.setDefaultAppearance();
 
+
+
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
-        }
 
-        this.popMatrix();
+        }
+this.popMatrix();
+
         // ---- END Background, camera and axis setup
     }
 }

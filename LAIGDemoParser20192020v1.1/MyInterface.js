@@ -19,16 +19,17 @@ class MyInterface extends CGFinterface {
         //  http://workshop.chromeexperiments.com/examples/gui
 
         this.gui = new dat.GUI();
-	
+
         // add a group of controls (and open/expand by defult)
-	
-		
+
+
         this.initKeys();
 
         return true;
     }
 
     addLightsGroup(lights) {
+
 
         var group = this.gui.addFolder("Lights");
         group.open();
@@ -40,6 +41,24 @@ class MyInterface extends CGFinterface {
             }
         }
     }
+
+	addViews(scene){
+        var viewsKeys = [];
+        for (var key in this.scene.views) {
+            if (this.scene.views.hasOwnProperty(key)) {
+                viewsKeys.push(key);
+            }
+        }
+
+        var controller = this.gui.add(this.scene, 'currentView', viewsKeys);
+        controller.onChange(function(value){
+            scene.changeCamera(scene.currentView);
+        });
+    }
+
+
+
+
 
     /**
      * initKeys

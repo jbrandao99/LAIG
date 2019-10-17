@@ -15,7 +15,7 @@ var COMPONENTS_INDEX = 8;
  * MySceneGraph class, representing the scene graph.
  */
 class MySceneGraph {
-	
+
     /**
      * @constructor
      */
@@ -35,7 +35,7 @@ class MySceneGraph {
         this.axisCoords['y'] = [0, 1, 0];
         this.axisCoords['z'] = [0, 0, 1];
 
-        // File reading 
+        // File reading
         this.reader = new CGFXMLreader();
 
         /*
@@ -44,9 +44,9 @@ class MySceneGraph {
          * If any error occurs, the reader calls onXMLError on this object, with an error message
          */
         this.reader.open('scenes/' + filename, this);
-		
+
 		this.materialDefault = new CGFappearance(this.scene);
-        this.materialCounter = 0; 
+        this.materialCounter = 0;
     }
 
     /*
@@ -199,7 +199,7 @@ class MySceneGraph {
                 return error;
         }
         this.log("all parsed");
-		
+
 		for(let i = 0; i < this.components.length; i++){
             if(this.components[i].id == this.idRoot)
                 this.rootComponent = this.components[i];
@@ -208,7 +208,7 @@ class MySceneGraph {
     }
 
     /**
-     * Parses the <scene> block. 
+     * Parses the <scene> block.
      * @param {scene block element} sceneNode
      */
     parseScene(sceneNode) {
@@ -220,7 +220,7 @@ class MySceneGraph {
 
         this.idRoot = root;
 
-        // Get axis length        
+        // Get axis length
         var axis_length = this.reader.getFloat(sceneNode, 'axis_length');
         if (axis_length == null)
             this.onXMLMinorError("no axis_length defined for scene; assuming 'length = 1'");
@@ -267,7 +267,7 @@ class MySceneGraph {
             if (far == null || isNaN(far)) return "error parsing view 'far' value";
 
             var left = null, right = null, top = null, bottom = null, angle = null, from = {x: null, y: null, z: null}, to = {x: null, y: null, z: null};
-            
+
             if(nodeName == "ortho") {
                 //get the left field value of the current view
                 var left = this.reader.getFloat(children[i], 'left');
@@ -289,7 +289,7 @@ class MySceneGraph {
                 //get the angle field value of the current view
                 var angle = this.reader.getFloat(children[i], 'angle');
                 if (angle == null || isNaN(angle)) return "error parsing view 'angle' value";
-                angle = DEGREE_TO_RAD * angle;      
+                angle = DEGREE_TO_RAD * angle;
             }
 
             var grandChildren = children[i].children;
@@ -342,7 +342,7 @@ class MySceneGraph {
             } else {
                 return "'to' coordinate undefined for view " + viewId;
             }
-            
+
             this.views[viewId] = {
                 type: nodeName,
                 near: near,
@@ -526,7 +526,7 @@ class MySceneGraph {
     }
 
     /**
-     * Parses the <textures> block. 
+     * Parses the <textures> block.
      * @param {textures block element} texturesNode
      */
     parseTextures(texturesNode) {
@@ -546,7 +546,7 @@ class MySceneGraph {
             var textureId = this.reader.getString(children[i], 'id');
             if (textureId == null)
                 return "no ID defined for texture";
-                
+
             // Checks for repeated IDs.
             for(let i = 0; i < textures.length; i++){
                 if(textures[i].id == textureId)
@@ -597,7 +597,7 @@ class MySceneGraph {
             var materialId = this.reader.getString(children[i], 'id');
             if (materialId == null)
                 return "no ID defined for material";
-                
+
             // Checks for repeated IDs.
             for(let i = 0; i < materials.length; i++){
                 if(materials[i].id == materialId)
@@ -768,7 +768,7 @@ class MySceneGraph {
                 id: materialId,
                 material: newMaterial
             });
-            
+
             numMaterials++;
         }
 
@@ -802,7 +802,7 @@ class MySceneGraph {
             var transformationId = this.reader.getString(children[i], 'id');
             if (transformationId == null)
                 return "no ID defined for transformation";
-                
+
             // Checks for repeated IDs.
             if (this.transformations[transformationId] != null)
                 return "ID must be unique for each transformation (conflict: ID = " + transformationId + ")";
@@ -827,7 +827,7 @@ class MySceneGraph {
                     var z = this.reader.getFloat(grandChildren[j], 'z');
                     if (!(z != null && !isNaN(z)))
                         return "unable to parse translation z for transformation with ID = " + transformationId;
-                    
+
                     innerTransformations.push({type: 1, x: x, y: y, z: z});
 
 
@@ -841,7 +841,7 @@ class MySceneGraph {
                     var angle = this.reader.getFloat(grandChildren[j], 'angle');
                     if (!(angle != null && !isNaN(angle)))
                         return "unable to parse rotation angle for transformation with ID = " + transformationId;
-                    
+
                     innerTransformations.push({type: 2, axis: axis, angle: angle*DEGREE_TO_RAD});
 
                 } else if(grandChildren[j].nodeName == "scale") {
@@ -859,7 +859,7 @@ class MySceneGraph {
                     var z = this.reader.getFloat(grandChildren[j], 'z');
                     if (!(z != null && !isNaN(z)))
                         return "unable to parse scale y value for transformation with ID = " + transformationId;
-                    
+
                     innerTransformations.push({type: 3, x: x, y: y, z: z});
 
                 } else {
@@ -872,7 +872,7 @@ class MySceneGraph {
             if(innerTCounter == 0) {
                 return "at least one action must be defined for tansformation with ID = " + transformationId;
             }
-            
+
             this.scene.loadIdentity();
             for(let i = 0; i < innerTransformations.length; i++){
                 let trans = innerTransformations[i];
@@ -966,10 +966,10 @@ class MySceneGraph {
                     return "unable to parse y2 of the primitive coordinates for ID = " + primitiveId;
 
                 var rectangle = new MyRectangle(this.scene, primitiveId, x1, x2, y1, y2);
-			
+
                 primitives.push({id: primitiveId, type: "rectangle", primitive: rectangle});
             }
-            
+
             if (primitiveType == 'triangle') {
                 // x1
                 var x1 = this.reader.getFloat(grandChildren[0], 'x1');
@@ -1020,7 +1020,7 @@ class MySceneGraph {
 
                  primitives.push({id: primitiveId, type: "triangle", primitive: triangle});
             }
-          
+
             if (primitiveType == 'cylinder') {
 
                 // base
@@ -1051,7 +1051,7 @@ class MySceneGraph {
 
                 primitives.push({id: primitiveId, type: "cylinder", primitive: cylinder});
             }
-           
+
 
             if (primitiveType == 'sphere') {
 
@@ -1074,7 +1074,7 @@ class MySceneGraph {
 
                 primitives.push({id: primitiveId, type: "sphere", primitive: sphere});
             }
-            
+
             if (primitiveType == 'torus') {
 
                 // slices
@@ -1101,11 +1101,11 @@ class MySceneGraph {
 
                  primitives.push({id: primitiveId, type: "torus", primitive: torus});
             }
-            
+
         }
-			
+
 		 this.primitives = primitives;
-		
+
         this.log("Parsed primitives");
         return null;
     }
@@ -1129,7 +1129,7 @@ class MySceneGraph {
             var componentId = this.reader.getString(children[i], 'id');
             if (componentId == null)
                 return "no ID defined for component";
-                
+
             // Checks for repeated IDs.
             for(let i = 0; i < components.length; i++){
                 if(components[i].id == componentId)
@@ -1146,7 +1146,7 @@ class MySceneGraph {
             var componentTransformations = [];
             if(temp.nodeName != "transformation")
                 return "missing / out of order transformation tag in component with ID = " + componentId;
-            
+
             var componentTransformationsChildren = temp.children;
             if(componentTransformationsChildren.length != 0){
                 if(componentTransformationsChildren[0].nodeName == "transformationref"){
@@ -1173,7 +1173,7 @@ class MySceneGraph {
                             var z = this.reader.getFloat(componentTransformationsChildren[j], 'z');
                             if (!(z != null && !isNaN(z)))
                                 return "unable to parse translation z for the transformations in component with ID = " + componentId;
-                            
+
                             innerTransformations.push({type: 1, x: x, y: y, z: z});
 
 
@@ -1187,7 +1187,7 @@ class MySceneGraph {
                             var angle = this.reader.getFloat(componentTransformationsChildren[j], 'angle');
                             if (!(angle != null && !isNaN(angle)))
                                 return "unable to parse rotation angle for the transformations in component with ID = " + componentId;
-                            
+
                             innerTransformations.push({type: 2, axis: axis, angle: angle*DEGREE_TO_RAD});
 
                         } else if(componentTransformationsChildren[j].nodeName == "scale") {
@@ -1205,7 +1205,7 @@ class MySceneGraph {
                             var z = this.reader.getFloat(componentTransformationsChildren[j], 'z');
                             if (!(z != null && !isNaN(z)))
                                 return "unable to parse scale y value for the transformations in component with ID = " + componentId;
-                            
+
                             innerTransformations.push({type: 3, x: x, y: y, z: z});
 
                         } else {
@@ -1285,7 +1285,7 @@ class MySceneGraph {
             var componentTexture = [];
             if(temp.nodeName != "texture")
                 return "missing / out of order texture tag in component with ID = " + componentId;
-            
+
             var textureID = this.reader.getString(temp, 'id');
             var textureLengthS = null;
             var textureLengthT = null;
@@ -1326,7 +1326,7 @@ class MySceneGraph {
                 length_s: textureLengthS,
                 length_t: textureLengthT
             }
-            
+
             //Children
            var temp = grandChildren[3];
             var componentChildren = [];
@@ -1368,14 +1368,14 @@ class MySceneGraph {
                 primitiveref: primitive,
                 componentref: component
             }
-            
+
             components.push({
                 id: componentId,
                 transformations: componentTransformations,
                 materials: componentMaterials,
                 texture: componentTexture,
                 children: componentChildren
-            });   
+            });
         }
 
         //Creates Components objects
@@ -1383,7 +1383,7 @@ class MySceneGraph {
         components.forEach(function(element) {
             componentsTemp.push(new MyComponent(element.id, element.transformations, element.materials, element.texture, element.children));
         })
-        
+
         //Adding childrens to the components
         for(let i = 0; i < componentsTemp.length; i++){
             var childrens = componentsTemp[i].children.componentref.slice();
@@ -1401,7 +1401,7 @@ class MySceneGraph {
         }
 
         this.components = componentsTemp;
-        
+
         this.log("Parsed components");
 
         return null;
@@ -1524,44 +1524,44 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-		
+
         var rootMaterial;
         if(this.rootComponent.materials[0].id == "inherit")
-		
+
             rootMaterial = this.materialDefault;
-		
+
         else{
-			
+
             rootMaterial = this.rootComponent.materials[0].material;
-		
+
         }
         var rootTexture = this.rootComponent.texture;
-	
+
         this.scene.pushMatrix();
-	
+
         this.displaySceneRecursive(this.rootComponent, rootMaterial, rootTexture);
-	
+
         this.scene.popMatrix();
     }
-    
+
     displaySceneRecursive(component, materialFather, textureFather, fatherLength_s, fatherLength_t) {
-    
+
         var currComponent = component
-    
+
         var currMaterial = materialFather;
         var currTexture;
-        
+
 
         if(currComponent.transformations != null)
             this.scene.multMatrix(currComponent.transformations);
-        
+
         var index = this.materialCounter % currComponent.materials.length;
-	
+
         if(currComponent.materials[index].id != "inherit"){
             currMaterial = currComponent.materials[index].material;
         }
 
-        
+
         if(currComponent.texture.id == "none")
             currTexture = null;
         else if(currComponent.texture.id == "inherit")
@@ -1600,11 +1600,11 @@ class MySceneGraph {
         }
 
        for (let i = 0; i < currComponent.children.primitiveref.length; i++){
-          //  var temp = currComponent.children.primitiveref[i];
-          //  currComponent.children.primitiveref[i].primitive.updateTexCoords(length_s, length_t);
-            currComponent.children.primitiveref[i].primitive.display();
-		  
+           var temp = currComponent.children.primitiveref[i];
+            temp.primitive.updateTexCoords(length_s,length_t);
+            temp.primitive.display();
+
         }
     }
-	
+
 }
