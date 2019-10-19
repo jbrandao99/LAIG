@@ -359,6 +359,7 @@ class MySceneGraph {
             numViews++;
         }
         if(numViews == 0) return "There must be, at least, one of the following views: perspective, ortho";
+        console.log("AAAAAAAA"+numViews);
 
         //get the id of the default view
         var defaultView = this.reader.getString(viewsNode, 'default');

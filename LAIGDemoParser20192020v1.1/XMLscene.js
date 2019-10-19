@@ -65,10 +65,9 @@ class XMLscene extends CGFscene {
         this.camera.near = this.cameraNear;
     }
 
-	changeCamera() {
-        this.camera = this.graph.views[this.selectedCamera];
-        // The following line enables camera movement and zoom on the scene
-        this.interface.setActiveCamera(this.camera);
+	changeCamera(currentCamera) {
+    this.camera = this.views[currentCamera];
+    this.interface.setActiveCamera(this.camera);
     }
 
     /**
@@ -158,15 +157,8 @@ class XMLscene extends CGFscene {
 
 		this.interface.addLightsGroup(this.graph.lights);
 
-
-
-
 		    this.currentView = this.graph.defaultView;
         this.interface.addViews(this);
-
-
-
-
 
 
         this.sceneInited = true;
@@ -185,7 +177,6 @@ class XMLscene extends CGFscene {
         // Initialize Model-View matrix as identity (no transformation
 
         this.updateProjectionMatrix();
-
         this.loadIdentity();
 
         // Apply transformations corresponding to the camera position relative to the origin
@@ -208,21 +199,21 @@ class XMLscene extends CGFscene {
                 i++;
             }
         }
-this.pushMatrix();
+
 		this.axis.display();
 
         if (this.sceneInited) {
 
             // Draw axis
             this.setDefaultAppearance();
-
+			     this.pushMatrix();
 
 
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
-
+			 this.popMatrix();
         }
-this.popMatrix();
+
 
         // ---- END Background, camera and axis setup
     }

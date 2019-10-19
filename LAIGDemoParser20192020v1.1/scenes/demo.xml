@@ -25,6 +25,7 @@
             <ambient r="0.5" g="0.5" b="0.5" a="1"/>
             <diffuse r="0.7" g="0.7" b="0.7" a="1"/>
             <specular r="0.7" g="0.7" b="0.7" a="1"/>
+            <attenuation constant="1" linear="0" quadratic="0" />
         </omni>
 
 
