@@ -1,41 +1,64 @@
 <lxs>
     <scene root="QuidditchPitch" axis_length="10"/>
 
-    <views default="defaultCamera">
-        <perspective id="defaultCamera" near="0.1" far="500" angle="45">
-            <from x="10" y="10" z="10" />
+    <views default="DefaultCamera">
+        <perspective id="DefaultCamera" near="0.1" far="500" angle="45">
+            <from x="12" y="8" z="8" />
             <to x="0" y="0" z="0" />
         </perspective>
 
-		<perspective id="Test Perspective" near="0.1" far="500" angle="45">
-             <from x="11" y="11" z="11" />
+        <ortho id="OrthoCamera" near="0.1" far="500" left="-10" right="10" top="10" bottom="-10" >
+            <from x="20" y="20" z="20" />
             <to x="0" y="0" z="0" />
-        </perspective>
+        </ortho>
+
+      <perspective id="Snitch Perspective" near="0.1" far="500" angle="45">
+            <from x="0.5" y="1.5" z="1" />
+            <to x="0.5" y="1" z="0" />
+      </perspective>
+
+    <perspective id="Bludger Perspective" near="0.1" far="500" angle="45">
+            <from x="0.3" y="1.3" z="1.7" />
+            <to x="0" y="1" z="1" />
+    </perspective>
+
+    <perspective id="Quaffle Perspective" near="0.1" far="500" angle="45">
+            <from x="-1" y="1.5" z="0" />
+            <to x="0" y="1" z="0" />
+    </perspective>
+
+    <perspective id="Broom Perspective" near="0.1" far="500" angle="45">
+            <from x="5" y="1.5" z="3" />
+            <to x="3" y="1" z="0" />
+    </perspective>
+
     </views>
 
 
-    <ambient>
+
+    <globals>
         <ambient r="0.53" g="0.81" b="0.92" a="1.0" />
         <background r="0.53" g="0.81" b="0.92" a="1.0" />
-    </ambient>
+    </globals>
 
     <lights>
-         <omni id="demoLight" enabled="true">
-             <location x="0" y="-2" z="0" w="0.5" />
-            <ambient r="0.5" g="0.5" b="0.5" a="1"/>
+         <omni id="Sun Light" enabled="true">
+             <location x="0" y="15" z="0" w="0.5" />
+            <ambient r="1" g="1" b="1" a="1"/>
             <diffuse r="0.7" g="0.7" b="0.7" a="1"/>
             <specular r="0.7" g="0.7" b="0.7" a="1"/>
             <attenuation constant="1" linear="0" quadratic="0" />
         </omni>
 
 
-	<omni id="sunlight" enabled="true">
-            <location x="0" y="15" z="0" w="1.0" />
-            <ambient r="0.8" g="0.8" b="0.8" a="1.0" />
-            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
-            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+        <spot id="Stadium Spotlight" enabled="1" angle="40" exponent="10">
+            <location x="0" y="10" z="0" w="1.0" />
+            <target x="0" y="0" z="0" />
+            <ambient r="1" g="1" b="1" a="1.0" />
+            <diffuse r="0.0" g="0.0" b="0.0" a="1.0" />
+            <specular r="0.2" g="0.0" b="1.0" a="1.0" />
             <attenuation constant="1" linear="0" quadratic="0" />
-        </omni>
+        </spot>
 
 
     </lights>
@@ -64,13 +87,42 @@
             <diffuse r="0.5" g="0.5" b="0.5" a="1" />
             <specular r="0.5" g="0.5" b="0.5" a="1" />
         </material>
+
+        <material id="FloorMaterial" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1" />
+            <ambient r="0.3" g="0.3" b="0.3" a="1" />
+            <diffuse r="0.0" g="0" b="0" a="1" />
+            <specular r="0.0" g="0" b="0" a="1" />
+        </material>
+
+        <material id="SnitchMaterial" shininess="1">
+            <emission r="0.5" g="0.5" b="0.5" a="1" />
+            <ambient r="0.24725" g="0.1995" b="0.0745" a="1" />
+            <diffuse r="0.75164" g="0.60648" b="0.22648" a="1" />
+            <specular r="0.628281" g="0.555802" b="0.366065" a="1" />
+        </material>
+
+        <material id="GoldMaterial" shininess="20">
+          <emission r="0.0" g="0.0" b="0.0" a="1" />
+          <ambient r="0.2" g="0.2" b="0.2" a="1" />
+          <diffuse r="0.5" g="0.5" b="0.5" a="1" />
+          <specular r="0.5" g="0.5" b="0.5" a="1" />
+        </material>
     </materials>
 
+
+
     <transformations>
-        <transformation id="demoTransform">
-            <scale x="5" y="1" z="5" />
-            <rotate axis="x" angle="-45" />
-            <rotate axis="z" angle="-45" />
+        <transformation id="MainFloorRotation">
+            <rotate axis="x" angle="-90" />
+        </transformation>
+
+        <transformation id="FloorDefaultTransformation1">
+            <translate x="5" y="0" z="0" />
+        </transformation>
+
+        <transformation id="FloorDefaultTransformation2">
+            <translate x="-5" y="0" z="0" />
         </transformation>
     </transformations>
 
@@ -179,7 +231,7 @@
 			 <translate x="0" y="0" z="0.015" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="FloorMaterial" />
             </materials>
             <texture id="demoTexture" length_s="1" length_t="1"/>
             <children>
@@ -189,12 +241,12 @@
 
 		<component id="FloorCylinder1Comp">
             <transformation>
-				 <translate x="5" y="0" z="0" />
+				          <transformationref id="FloorDefaultTransformation1" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="FloorMaterial" />
             </materials>
-            <texture id="demoTexture" length_s="1" length_t="1"/>
+            <texture id="demoTexture" length_s="0.5" length_t="0.5"/>
             <children>
 			 <primitiveref id="FloorCylinder1" />
             </children>
@@ -202,10 +254,10 @@
 
 		<component id="FloorCylinder2Comp">
             <transformation>
-				 <translate x="-5" y="0" z="0" />
+				          <transformationref id="FloorDefaultTransformation2" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="FloorMaterial" />
             </materials>
             <texture id="demoTexture" length_s="1" length_t="1"/>
             <children>
@@ -215,10 +267,10 @@
 
 		<component id="FloorLines1">
             <transformation>
-				 <translate x="5" y="0" z="0" />
+				          <transformationref id="FloorDefaultTransformation1" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="FloorMaterial" />
             </materials>
            <texture id="LinesTexture" length_s="5" length_t="5"/>
             <children>
@@ -228,10 +280,10 @@
 
 		<component id="FloorLines2">
             <transformation>
-				 <translate x="-5" y="0" z="0" />
+				          <transformationref id="FloorDefaultTransformation2" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="FloorMaterial" />
             </materials>
            <texture id="LinesTexture" length_s="1" length_t="1"/>
             <children>
@@ -244,7 +296,7 @@
 				<translate x="0" y="0" z="0.034" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="FloorMaterial" />
             </materials>
            <texture id="LinesTexture" length_s="1" length_t="1"/>
             <children>
@@ -260,7 +312,7 @@
 				<translate x="0" y="-7.69" z="0.016" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="FloorMaterial" />
             </materials>
            <texture id="LinesTexture" length_s="1" length_t="1"/>
             <children>
@@ -270,7 +322,7 @@
 
 		<component id="MainFloorComp">
             <transformation>
-			<rotate axis="x" angle="-90" />
+          			<transformationref id="MainFloorRotation" />
             </transformation>
             <materials>
                 <material id="demoMaterial" />
@@ -284,7 +336,7 @@
 
 		<component id="Floor">
             <transformation>
-			<rotate axis="x" angle="-90" />
+  			         <transformationref id="MainFloorRotation" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -308,7 +360,7 @@
 				<translate x="0" y="5" z="0"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="GoldMaterial" />
             </materials>
             <texture id="balizaTexture" length_s="1" length_t="1"/>
             <children>
@@ -322,7 +374,7 @@
                 <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="GoldMaterial" />
             </materials>
             <texture id="balizaTexture" length_s="1" length_t="1"/>
             <children>
@@ -338,7 +390,7 @@
                 <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="GoldMaterial" />
             </materials>
             <texture id="balizaTexture" length_s="1" length_t="1"/>
             <children>
@@ -777,7 +829,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="QuaffleTexture" length_s="1" length_t="1"/>
+            <texture id="QuaffleTexture" length_s="0.5" length_t="0.5"/>
             <children>
                <primitiveref id="Quaffle" />
 
@@ -817,7 +869,7 @@
                 <translate x="0.5" y="1" z="0"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="SnitchMaterial" />
             </materials>
             <texture id="SnitchTexture" length_s="1" length_t="1"/>
             <children>

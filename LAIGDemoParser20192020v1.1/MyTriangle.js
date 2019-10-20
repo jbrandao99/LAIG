@@ -36,13 +36,24 @@ class MyTriangle extends CGFobject {
 			1, 2, 3
 		];
 
-		//Facing Z positive
-		this.normals = [
-			0, 0, 1,
-			0, 0, 1,
-			0, 0, 1
-		];
-					//FALTA AQUI
+		var vector1 = [this.x2 - this.x1, this.y2-this.y1,this.z2-this.z1];
+		var vector2 = [this.x3 - this.x2, this.y3-this.y2,this.z3-this.z2];
+		var vector3 = [this.x1 - this.x3, this.y1 - this.y3, this.z1 - this.z3];
+
+
+
+
+		var normal =vec3.create() //n - normal ao triangulo
+	 vec3.cross(normal, vector1, vector2);
+	 vec3.normalize(normal, normal);
+
+	 this.normals = [
+		 normal[0], normal[1], normal[2],
+		 normal[0], normal[1], normal[2],
+		 normal[0], normal[1], normal[2]];
+
+		this.beta = Math.acos((normal[0]*normal[0] - normal[1]*normal[1] + normal[0]*normal[0])/(2*normal[0]*normal[2]));
+
 		/*
 		Texture coords (s,t)
 		+----------> s
@@ -58,15 +69,19 @@ class MyTriangle extends CGFobject {
 		this.initGLBuffers();
 	}
 
-	updateTexCoords(s, t) {
+	updateTexCoords(s,t) {
 		this.texCoords = [
 			(this.c - this.a * Math.cos(this.beta))/s, (t - this.a * Math.sin(this.beta)),
 			0, t,
 			(this.c)/s, t
 		];
-	
-		this.updateTexCoordsGLBuffers();
+		// this.texCoords = [
+		// 	(this.c - this.a * Math.cos(this.beta))/s, (t - this.a * Math.sin(this.beta))/t,
+		// 	0, t/t,
+		// 	(this.c)/s, t/t
+		// ];
 
-		// console.log(this.texCoords);
-	}
+		this.updateTexCoordsGLBuffers();
+ 	 console.log(this.texCoords);
+}
 }
