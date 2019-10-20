@@ -1,10 +1,10 @@
 /**
- * MyRectangle
- * @constructor
- * @param scene - Reference to MyScene object
- * @param x - Scale of rectangle in X
- * @param y - Scale of rectangle in Y
- */
+* MyRectangle
+* @constructor
+* @param scene - Reference to MyScene object
+* @param x - Scale of rectangle in X
+* @param y - Scale of rectangle in Y
+*/
 class MyRectangle extends CGFobject {
 	constructor(scene, id, x1, x2, y1, y2) {
 		super(scene);
@@ -45,12 +45,12 @@ class MyRectangle extends CGFobject {
 		/*
 		Texture coords (s,t)
 		+----------> s
-        |
-        |
+		|
+		|
 		|
 		v
-        t
-        */
+		t
+		*/
 
 		this.texCoords = [
 			0, this.dy,
@@ -63,11 +63,11 @@ class MyRectangle extends CGFobject {
 	}
 
 	/**
-	 * @method updateTexCoords
-	 * Updates the list of texture coordinates of the rectangle
-	 * @param {Int} length_s - Scaling factor on texture's s axis
-	 * @param {Int} length_t - Scaling factor on texture's s axis
-	 */
+	* @method updateTexCoords
+	* Updates the list of texture coordinates of the rectangle
+	* @param {Int} length_s - Scaling factor on texture's s axis
+	* @param {Int} length_t - Scaling factor on texture's s axis
+	*/
 	updateTexCoords(length_s, length_t) {
 		this.texCoords = [
 			0, this.dy / length_t,
