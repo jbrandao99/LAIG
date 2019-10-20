@@ -1540,12 +1540,12 @@ class MySceneGraph {
 
         this.scene.pushMatrix();
 
-        this.displaySceneRecursive(this.rootComponent, rootMaterial, rootTexture);
+        this.recursiveProcess(this.rootComponent, rootMaterial, rootTexture);
 
         this.scene.popMatrix();
     }
 
-    displaySceneRecursive(component, materialFather, textureFather, fatherLength_s, fatherLength_t) {
+    recursiveProcess(component, materialFather, textureFather, fatherLength_s, fatherLength_t) {
 
         var currComponent = component
 
@@ -1596,7 +1596,7 @@ class MySceneGraph {
         for (let i = 0; i < currComponent.children.componentref.length; i++) {
                     this.scene.pushMatrix();
                     var children = currComponent.children.componentref[i];
-                    this.displaySceneRecursive(children, currMaterial, currTexture, length_s, length_t);
+                    this.recursiveProcess(children, currMaterial, currTexture, length_s, length_t);
                     this.scene.popMatrix();
         }
 

@@ -2,7 +2,7 @@
     <scene root="QuidditchPitch" axis_length="10"/>
 
     <views default="DefaultCamera">
-        <perspective id="DefaultCamera" near="0.1" far="500" angle="45">
+        <perspective id="DefaultCamera" near="0.1" far="50" angle="45">
             <from x="12" y="8" z="8" />
             <to x="0" y="0" z="0" />
         </perspective>
@@ -12,22 +12,22 @@
             <to x="0" y="0" z="0" />
         </ortho>
 
-      <perspective id="Snitch Perspective" near="0.1" far="500" angle="45">
+      <perspective id="Snitch Perspective" near="0.1" far="50" angle="45">
             <from x="0.5" y="1.5" z="1" />
             <to x="0.5" y="1" z="0" />
       </perspective>
 
-    <perspective id="Bludger Perspective" near="0.1" far="500" angle="45">
+    <perspective id="Bludger Perspective" near="0.1" far="50" angle="45">
             <from x="0.3" y="1.3" z="1.7" />
             <to x="0" y="1" z="1" />
     </perspective>
 
-    <perspective id="Quaffle Perspective" near="0.1" far="500" angle="45">
+    <perspective id="Quaffle Perspective" near="0.1" far="50" angle="45">
             <from x="-1" y="1.5" z="0" />
             <to x="0" y="1" z="0" />
     </perspective>
 
-    <perspective id="Broom Perspective" near="0.1" far="500" angle="45">
+    <perspective id="Broom Perspective" near="0.1" far="50" angle="45">
             <from x="5" y="1.5" z="3" />
             <to x="3" y="1" z="0" />
     </perspective>
@@ -64,7 +64,7 @@
     </lights>
 
     <textures>
-        <texture id="demoTexture" file="scenes/images/TexturesCom_FloorsRegular0204_1_seamless_S.jpg" />
+        <texture id="GrassTexture" file="scenes/images/TexturesCom_FloorsRegular0204_1_seamless_S.jpg" />
 		<texture id="LinesTexture" file="scenes/images/White_full.png" />
         <texture id="balizaTexture" file="scenes/images/gold.png" />
         <texture id="bancadaTexture1" file="scenes/images/slytherin.jpg" />
@@ -81,13 +81,6 @@
     </textures>
 
     <materials>
-        <material id="demoMaterial" shininess="10">
-            <emission r="0.0" g="0.0" b="0.0" a="1" />
-            <ambient r="0.2" g="0.2" b="0.2" a="1" />
-            <diffuse r="0.5" g="0.5" b="0.5" a="1" />
-            <specular r="0.5" g="0.5" b="0.5" a="1" />
-        </material>
-
         <material id="FloorMaterial" shininess="10">
             <emission r="0.0" g="0.0" b="0.0" a="1" />
             <ambient r="0.3" g="0.3" b="0.3" a="1" />
@@ -108,6 +101,35 @@
           <diffuse r="0.5" g="0.5" b="0.5" a="1" />
           <specular r="0.5" g="0.5" b="0.5" a="1" />
         </material>
+
+        <material id="BancadaMaterial" shininess="100">
+          <emission r="0" g="0" b="0" a="1" />
+          <ambient r="0.275" g="0.275" b="0.275" a="1" />
+          <diffuse r="0.3" g="0.3" b="0.3" a="1" />
+          <specular r="0.7" g="0.7" b="0.7" a="1" />
+        </material>
+
+        <material id="BallMaterial" shininess="100">
+          <emission r="0" g="0" b="0" a="1" />
+          <ambient r="0.3" g="0.3" b="0.3" a="1" />
+          <diffuse r="0.3" g="0.3" b="0.3" a="1" />
+          <specular r="0.3" g="0.3" b="0.3" a="1" />
+        </material>
+
+        <material id="VassouraMaterial" shininess="1">
+          <emission r="0" g="0" b="0" a="1" />
+          <ambient r="0.3" g="0.3" b="0.3" a="1" />
+          <diffuse r="0.4" g="0.4" b="0.4" a="1" />
+          <specular r="0.1" g="0.1" b="0.1" a="1" />
+        </material>
+
+        <material id="SandMaterial" shininess="1">
+          <emission r="0" g="0" b="0" a="1" />
+          <ambient r="0.275" g="0.275" b="0.275" a="1" />
+          <diffuse r="0.3" g="0.3" b="0.3" a="1" />
+          <specular r="0.1" g="0.1" b="0.1" a="1" />
+        </material>
+
     </materials>
 
 
@@ -233,7 +255,7 @@
             <materials>
                 <material id="FloorMaterial" />
             </materials>
-            <texture id="demoTexture" length_s="1" length_t="1"/>
+            <texture id="GrassTexture" length_s="1" length_t="1"/>
             <children>
 			 <primitiveref id="FloorRectangle1"/>
             </children>
@@ -246,7 +268,7 @@
             <materials>
                 <material id="FloorMaterial" />
             </materials>
-            <texture id="demoTexture" length_s="0.5" length_t="0.5"/>
+            <texture id="GrassTexture" length_s="0.5" length_t="0.5"/>
             <children>
 			 <primitiveref id="FloorCylinder1" />
             </children>
@@ -259,7 +281,7 @@
             <materials>
                 <material id="FloorMaterial" />
             </materials>
-            <texture id="demoTexture" length_s="1" length_t="1"/>
+            <texture id="GrassTexture" length_s="1" length_t="1"/>
             <children>
 			 <primitiveref id="FloorCylinder2" />
             </children>
@@ -325,7 +347,7 @@
           			<transformationref id="MainFloorRotation" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="SandMaterial" />
             </materials>
             <texture id="SandTexture" length_s="1" length_t="1"/>
             <children>
@@ -482,7 +504,7 @@
 				<translate x="-0.12" y="0" z="-0.85"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="BancadaMaterial" />
             </materials>
             <texture id="bancadaTexture2" length_s="1" length_t="1"/>
             <children>
@@ -497,7 +519,7 @@
 				<translate x="0.6" y="0" z="-2.6"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="BancadaMaterial" />
             </materials>
             <texture id="bancadaTexture2" length_s="1" length_t="1"/>
             <children>
@@ -513,7 +535,7 @@
 
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="BancadaMaterial" />
             </materials>
             <texture id="bancadaTexture2" length_s="1" length_t="1"/>
             <children>
@@ -529,7 +551,7 @@
 
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="BancadaMaterial" />
             </materials>
             <texture id="bancadaTexture2" length_s="1" length_t="1"/>
             <children>
@@ -545,7 +567,7 @@
 
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="BancadaMaterial" />
             </materials>
             <texture id="bancadaTexture2" length_s="1" length_t="1"/>
             <children>
@@ -558,7 +580,7 @@
 				<translate x="0" y="0" z="0.54"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="BancadaMaterial" />
             </materials>
             <texture id="bancadaTexture2" length_s="1" length_t="1"/>
             <children>
@@ -573,7 +595,7 @@
 				<translate x="0" y="0" z="0.54"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="BancadaMaterial" />
             </materials>
             <texture id="bancadaTexture2" length_s="1" length_t="1"/>
             <children>
@@ -588,7 +610,7 @@
                 <rotate axis="z" angle="-45" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="BancadaMaterial" />
             </materials>
             <texture id="bancadaTexture2" length_s="1" length_t="1"/>
             <children>
@@ -602,7 +624,7 @@
                 <translate x="-0.5" y="4" z="0.5"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="BancadaMaterial" />
             </materials>
             <texture id="bancadaTexture2" length_s="1" length_t="1"/>
             <children>
@@ -616,7 +638,7 @@
                 <translate x="-0.5" y="4" z="-0.5"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="BancadaMaterial" />
             </materials>
             <texture id="bancadaTexture2" length_s="1" length_t="1"/>
             <children>
@@ -629,7 +651,7 @@
                 <translate x="-0.5" y="4" z="-0.5"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="BancadaMaterial" />
             </materials>
             <texture id="bancadaTexture2" length_s="1" length_t="1"/>
             <children>
@@ -644,7 +666,7 @@
                 <scale x="1" y="1.2" z="1" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="BancadaMaterial" />
             </materials>
             <texture id="floorTexture" length_s="1" length_t="1"/>
             <children>
@@ -827,7 +849,7 @@
                 <translate x="0" y="1" z="0"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="BallMaterial" />
             </materials>
             <texture id="QuaffleTexture" length_s="0.5" length_t="0.5"/>
             <children>
@@ -841,7 +863,7 @@
                 <translate x="0" y="1" z="1"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="BallMaterial" />
             </materials>
             <texture id="BludgerTexture" length_s="1" length_t="1"/>
             <children>
@@ -855,7 +877,7 @@
                 <translate x="0" y="1" z="-1"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="BallMaterial" />
             </materials>
             <texture id="BludgerTexture" length_s="1" length_t="1"/>
             <children>
@@ -884,7 +906,7 @@
                 <translate x="0" y="0" z="0"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="VassouraMaterial" />
             </materials>
             <texture id="vassouraPauTexture" length_s="1" length_t="1"/>
             <children>
@@ -898,7 +920,7 @@
                 <rotate axis="y" angle="-90"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="VassouraMaterial" />
             </materials>
             <texture id="vassouraPauTexture" length_s="1" length_t="1"/>
             <children>
@@ -912,7 +934,7 @@
                 <translate x="-3" y="0" z="0"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="VassouraMaterial" />
             </materials>
             <texture id="vassouraTexture" length_s="1" length_t="1"/>
             <children>
@@ -943,7 +965,7 @@
 				<translate x="0" y="0" z="0"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit"/>
             <children>

@@ -31,7 +31,7 @@ class MyTriangle extends CGFobject {
 		//Counter-clockwise reference of vertices
 		this.indices = [
 			0, 1, 2,
-			2, 1, 0, 
+			2, 1, 0,
 		];
 
 		var vector1 = [this.x2 - this.x1, this.y2-this.y1,this.z2-this.z1];
@@ -82,6 +82,6 @@ class MyTriangle extends CGFobject {
 	 ];
 
 		this.updateTexCoordsGLBuffers();
- 	 console.log(this.texCoords);
+
 }
 }
