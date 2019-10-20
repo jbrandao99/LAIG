@@ -1452,11 +1452,8 @@ class MySceneGraph {
                 componentsTemp[i].addChildren_Component(c);
             }
         }
-        console.log("CCCCCCCCCCC"+componentsTemp[1].materialIndex);
-
+        
         this.components = componentsTemp;
-
-        console.log("DDDDDDDDD"+this.components[1].materialIndex);
 
         this.log("Parsed components");
 

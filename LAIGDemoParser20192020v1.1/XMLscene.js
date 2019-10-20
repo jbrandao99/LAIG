@@ -175,7 +175,7 @@ class XMLscene extends CGFscene {
           }
       }
 
-      
+
   /**
   * Displays the scene.
   */
@@ -212,7 +212,8 @@ class XMLscene extends CGFscene {
       }
     }
 
-    this.axis.display();
+    //Removed to look better
+    //this.axis.display();
 
     if (this.sceneInited) {
 
