@@ -604,7 +604,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="bancadaTexture2" length_s="0.5" length_t="0.5"/>
+            <texture id="bancadaTexture2" length_s="1" length_t="1"/>
             <children>
                <primitiveref id="bancadaTriangle" />
             </children>
@@ -618,7 +618,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="bancadaTexture2" length_s="0.5" length_t="0.5"/>
+            <texture id="bancadaTexture2" length_s="1" length_t="1"/>
             <children>
                <primitiveref id="bancadaTriangle" />
             </children>

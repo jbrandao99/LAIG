@@ -11,7 +11,7 @@ class MyTriangle extends CGFobject {
 		this.x1 = x1;
         this.x2 = x2;
         this.x3 = x3;
-		this.y1 = y1;
+				this.y1 = y1;
         this.y2 = y2;
         this.y3 = y3;
         this.z1 = z1;
@@ -31,9 +31,7 @@ class MyTriangle extends CGFobject {
 		//Counter-clockwise reference of vertices
 		this.indices = [
 			0, 1, 2,
-			1, 3, 2,
-			1, 0, 2,
-			1, 2, 3
+			2, 1, 0, 
 		];
 
 		var vector1 = [this.x2 - this.x1, this.y2-this.y1,this.z2-this.z1];
@@ -52,7 +50,6 @@ class MyTriangle extends CGFobject {
 		 normal[0], normal[1], normal[2],
 		 normal[0], normal[1], normal[2]];
 
-		this.beta = Math.acos((normal[0]*normal[0] - normal[1]*normal[1] + normal[0]*normal[0])/(2*normal[0]*normal[2]));
 
 		/*
 		Texture coords (s,t)
@@ -70,16 +67,19 @@ class MyTriangle extends CGFobject {
 	}
 
 	updateTexCoords(s,t) {
-		this.texCoords = [
-			(this.c - this.a * Math.cos(this.beta))/s, (t - this.a * Math.sin(this.beta)),
-			0, t,
-			(this.c)/s, t
-		];
-		// this.texCoords = [
-		// 	(this.c - this.a * Math.cos(this.beta))/s, (t - this.a * Math.sin(this.beta))/t,
-		// 	0, t/t,
-		// 	(this.c)/s, t/t
-		// ];
+		var distA = Math.sqrt(Math.pow(this.x2 - this.x3, 2) + Math.pow(this.y2 - this.y3, 2) + Math.pow(this.z2 - this.z3, 2));
+	 var distB = Math.sqrt(Math.pow(this.x1 - this.x3, 2) + Math.pow(this.y2 - this.y3, 2) + Math.pow(this.z2 - this.z3, 2));
+	 var distC = Math.sqrt(Math.pow(this.x2 - this.x1, 2) + Math.pow(this.y2 - this.y2, 2) + Math.pow(this.z2 - this.z2, 2));
+
+	 var angBeta = Math.acos((Math.pow(distA, 2) - Math.pow(distB, 2) + Math.pow(distC, 2)) / (2 * distA * distC));
+
+	 var distD = distA * Math.sin(angBeta);
+
+	 this.texCoords = [
+		 0, distD/t,
+		 distC/s, distD/t,
+		 (distC-distA*Math.cos(angBeta))/s,(distD-distA*Math.sin(angBeta))/t
+	 ];
 
 		this.updateTexCoordsGLBuffers();
  	 console.log(this.texCoords);
