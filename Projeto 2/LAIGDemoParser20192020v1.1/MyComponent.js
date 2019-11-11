@@ -19,6 +19,7 @@ class MyComponent {
     this.texture = texture;
     this.children = children;
     this.materialIndex = 0;
+    this.animations = animations;
   }
 
   updateMaterialIndex(component) {

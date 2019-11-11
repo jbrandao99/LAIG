@@ -175,6 +175,18 @@ class MySceneGraph {
                 return error;
         }
 
+        // <animations>
+     if ((index = nodeNames.indexOf("animations")) == -1)
+         return "tag <animations> missing";
+     else {
+         if (index != ANIMATIONS_INDEX)
+             this.onXMLMinorError("tag <animations> out of order");
+
+         //Parse transformations block
+         if ((error = this.parseAnimations(nodes[index])) != null)
+             return error;
+     }
+
         // <primitives>
         if ((index = nodeNames.indexOf("primitives")) == -1)
             return "tag <primitives> missing";
@@ -1452,7 +1464,7 @@ class MySceneGraph {
                 componentsTemp[i].addChildren_Component(c);
             }
         }
-        
+
         this.components = componentsTemp;
 
         this.log("Parsed components");
