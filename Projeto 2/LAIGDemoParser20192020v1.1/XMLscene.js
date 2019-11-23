@@ -173,6 +173,27 @@ class XMLscene extends CGFscene {
           if (this.interface.isKeyPressed('KeyM')) {
               this.graph.updateMaterialIndexes();
           }
+
+          if(this.sceneInited){
+            var components = this.graph.components;
+            for(let i = 0; i < components.length; i++){
+
+                //update water movement
+                if(components[i].children.primitiveref.length == 1){
+                    if(components[i].children.primitiveref[0].type == "water"){
+                        components[i].children.primitiveref[0].primitive.update(this.deltaTime);
+                    }
+                }
+
+                //update animations
+                for(let n = 0; n < components[i].animations.length; n++){
+                    if(components[i].animations[n].timeCounter < components[i].animations[n].time) {
+                        components[i].animations[n].update(this.deltaTime);
+                        break;
+                    }
+                }
+            }
+        }
       }
 
 

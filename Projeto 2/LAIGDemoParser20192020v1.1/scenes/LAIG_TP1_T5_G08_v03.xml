@@ -156,7 +156,12 @@
     </transformation>
   </transformations>
 
-
+  <animations>
+    <linear id="default" span="3">
+            <controlpoint x="30" y="0" z="55"/>
+            <controlpoint x="15" y="0" z="55"/>
+        </linear>
+  </animations>
 
   <primitives>
     <!-- FLOOR RELATED PRIMITIVES -->
