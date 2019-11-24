@@ -40,7 +40,9 @@ class XMLscene extends CGFscene {
 
     //Camera interface related variables
     this.cameraIDs = [];
-    this.selectedCamera = null;
+    this.selectedCamera = 0;
+        this.defaultCamera = 0;
+
 
     //TP2
     this.secObject = new MySecurityCamera(this);         //create rectangle object
@@ -178,28 +180,27 @@ class XMLscene extends CGFscene {
           if (this.interface.isKeyPressed('KeyM')) {
               this.graph.updateMaterialIndexes();
           }
-        }
 
           if (this.initialTime == 0) {
-      this.initialTime = currentTime;
-    } else {
-      var elapsedTime = currentTime - this.initialTime;
+        this.initialTime = currentTime;
+      } else {
+        var elapsedTime = currentTime - this.initialTime;
 
-      console.log(elapsedTime / 1000);
+        console.log(elapsedTime / 1000);
 
-      // Update Animations
-      for (var i = 0; i < this.graph.components.length; i++) {
-        if (this.graph.components[i].animations.animationref != null)
-          this.graph.components[i].animations.animationref.update(
-              elapsedTime / 1000);
+        // Update Animations
+        for (var i = 0; i < this.graph.components.length; i++) {
+          if (this.graph.components[i].animations.animationref != null)
+            this.graph.components[i].animations.animationref.update(
+                elapsedTime / 1000);
+        }
       }
     }
-}
 
   /**
   * renders the scene.
   */
-  render() {
+  render(camIndex) {
     // ---- BEGIN Background, camera and axis setup
 
     // Clear image and depth buffer everytime we update the scene
@@ -215,8 +216,7 @@ class XMLscene extends CGFscene {
     // Apply transformations corresponding to the camera position relative to the origin
     this.applyViewMatrix();
 
-
-
+this.changeCamera(camIndex);
     var i = 0;
     for (var key in this.lightValues) {
       if (this.lightValues.hasOwnProperty(key)) {
@@ -241,6 +241,7 @@ class XMLscene extends CGFscene {
       // Draw axis
       this.setDefaultAppearance();
       this.pushMatrix();
+
 
 
       // Displays the scene (MySceneGraph function).
