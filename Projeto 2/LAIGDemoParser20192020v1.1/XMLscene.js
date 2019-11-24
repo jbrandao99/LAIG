@@ -40,6 +40,10 @@ class XMLscene extends CGFscene {
     //Camera interface related variables
     this.cameraIDs = [];
     this.selectedCamera = null;
+
+    //TP2
+    this.secObject = new MySecurityCamera(this);         //create rectangle object
+    this.secTexture = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height); //create render-to-texture texture
   }
 
   initGraphCameras() {
@@ -61,7 +65,7 @@ class XMLscene extends CGFscene {
     this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
   }
 
-  updateCameraNear(){
+  updateCameraNear() {
     this.camera.near = this.cameraNear;
   }
 
@@ -80,7 +84,7 @@ class XMLscene extends CGFscene {
     // Reads the lights from the scene graph.
     for (var key in this.graph.lights) {
       if (i >= 8)
-      break;              // Only eight lights allowed by WebGL.
+        break;              // Only eight lights allowed by WebGL.
 
       if (this.graph.lights.hasOwnProperty(key)) {
         var light = this.graph.lights[key];
@@ -98,9 +102,9 @@ class XMLscene extends CGFscene {
 
         this.lights[i].setVisible(true);
         if (light[0])
-        this.lights[i].enable();
+          this.lights[i].enable();
         else
-        this.lights[i].disable();
+          this.lights[i].disable();
 
         this.lights[i].update();
 
@@ -116,9 +120,9 @@ class XMLscene extends CGFscene {
     this.setShininess(10.0);
   }
 
-  initViews(){
+  initViews() {
     this.views = [];
-    for(var key in this.graph.views){
+    for (var key in this.graph.views) {
       var near = this.graph.views[key].near;
       var far = this.graph.views[key].far;
       var angle = this.graph.views[key].angle;
@@ -129,11 +133,11 @@ class XMLscene extends CGFscene {
       var from = this.graph.views[key].from;
       var to = this.graph.views[key].to;
 
-      if(this.graph.views[key].type == "perspective"){
+      if (this.graph.views[key].type == "perspective") {
         this.views[key] = new CGFcamera(angle, near, far, vec3.fromValues(from.x, from.y, from.z), vec3.fromValues(to.x, to.y, to.z));
       }
-      else{
-        this.views[key] = new CGFcameraOrtho(left, right, bottom, top, near, far, vec3.fromValues(from.x, from.y, from.z), vec3.fromValues(to.x, to.y, to.z), vec3.fromValues(0,1,0));
+      else {
+        this.views[key] = new CGFcameraOrtho(left, right, bottom, top, near, far, vec3.fromValues(from.x, from.y, from.z), vec3.fromValues(to.x, to.y, to.z), vec3.fromValues(0, 1, 0));
       }
     }
   }
@@ -169,38 +173,38 @@ class XMLscene extends CGFscene {
        * Update's the materials if key M has been pressed
        * @param {update period set on scene's initialization} t
        */
-      update(t) {
-          if (this.interface.isKeyPressed('KeyM')) {
-              this.graph.updateMaterialIndexes();
+  update(t) {
+    if (this.interface.isKeyPressed('KeyM')) {
+      this.graph.updateMaterialIndexes();
+    }
+
+    if (this.sceneInited) {
+      var components = this.graph.components;
+      for (let i = 0; i < components.length; i++) {
+
+        //update water movement
+        if (components[i].children.primitiveref.length == 1) {
+          if (components[i].children.primitiveref[0].type == "water") {
+            components[i].children.primitiveref[0].primitive.update(this.deltaTime);
           }
+        }
 
-          if(this.sceneInited){
-            var components = this.graph.components;
-            for(let i = 0; i < components.length; i++){
-
-                //update water movement
-                if(components[i].children.primitiveref.length == 1){
-                    if(components[i].children.primitiveref[0].type == "water"){
-                        components[i].children.primitiveref[0].primitive.update(this.deltaTime);
-                    }
-                }
-
-                //update animations
-                for(let n = 0; n < components[i].animations.length; n++){
-                    if(components[i].animations[n].timeCounter < components[i].animations[n].time) {
-                        components[i].animations[n].update(this.deltaTime);
-                        break;
-                    }
-                }
-            }
+        //update animations
+        for (let n = 0; n < components[i].animations.length; n++) {
+          if (components[i].animations[n].timeCounter < components[i].animations[n].time) {
+            components[i].animations[n].update(this.deltaTime);
+            break;
+          }
         }
       }
+    }
+  }
 
 
   /**
-  * Displays the scene.
+  * renders the scene.
   */
-  display() {
+  render() {
     // ---- BEGIN Background, camera and axis setup
 
     // Clear image and depth buffer everytime we update the scene
@@ -250,5 +254,28 @@ class XMLscene extends CGFscene {
 
 
     // ---- END Background, camera and axis setup
+  }
+
+  /*
+    * Calls the render and displays the tectangle object
+    */
+  display() {
+
+    //renders main scene to be applied in secObject
+    this.render(this.selectedCamera);
+
+
+
+    //renders scene 
+    this.secTexture.attachToFrameBuffer();
+    this.render(this.defaultCamera);
+    this.secTexture.detachFromFrameBuffer();
+
+    //displays secObject and applies shasders propperties
+    this.gl.disable(this.gl.DEPTH_TEST);
+    this.secObject.display();
+    this.gl.enable(this.gl.DEPTH_TEST);
+
+    this.setActiveShader(this.defaultShader); //restores default shader
   }
 }
