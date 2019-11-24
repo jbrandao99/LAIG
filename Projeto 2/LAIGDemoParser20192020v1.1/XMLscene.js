@@ -35,7 +35,8 @@ class XMLscene extends CGFscene {
     this.gl.depthFunc(this.gl.LEQUAL);
 
     this.axis = new CGFaxis(this);
-    this.setUpdatePeriod(100);
+    this.setUpdatePeriod(1000 / 60);
+     this.initialTime = 0;
 
     //Camera interface related variables
     this.cameraIDs = [];
@@ -169,33 +170,26 @@ class XMLscene extends CGFscene {
        * Update's the materials if key M has been pressed
        * @param {update period set on scene's initialization} t
        */
-      update(t) {
+      update(currentTime) {
           if (this.interface.isKeyPressed('KeyM')) {
               this.graph.updateMaterialIndexes();
           }
 
-          if(this.sceneInited){
-            var components = this.graph.components;
-            for(let i = 0; i < components.length; i++){
+          if (this.initialTime == 0) {
+      this.initialTime = currentTime;
+    } else {
+      var elapsedTime = currentTime - this.initialTime;
 
-                //update water movement
-                if(components[i].children.primitiveref.length == 1){
-                    if(components[i].children.primitiveref[0].type == "water"){
-                        components[i].children.primitiveref[0].primitive.update(this.deltaTime);
-                    }
-                }
+      console.log(elapsedTime / 1000);
 
-                //update animations
-                for(let n = 0; n < components[i].animations.length; n++){
-                    if(components[i].animations[n].timeCounter < components[i].animations[n].time) {
-                        components[i].animations[n].update(this.deltaTime);
-                        break;
-                    }
-                }
-            }
-        }
+      // Update Animations
+      for (var i = 0; i < this.graph.components.length; i++) {
+        if (this.graph.components[i].animations.animationref != null)
+          this.graph.components[i].animations.animationref.update(
+              elapsedTime / 1000);
       }
-
+    }
+}
 
   /**
   * Displays the scene.
@@ -211,6 +205,7 @@ class XMLscene extends CGFscene {
 
     this.updateProjectionMatrix();
     this.loadIdentity();
+
 
     // Apply transformations corresponding to the camera position relative to the origin
     this.applyViewMatrix();

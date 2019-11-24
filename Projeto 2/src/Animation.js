@@ -2,7 +2,7 @@
  * Animation
  * @constructor
  */
-class MyAnimation {
+class Animation {
   constructor() {}
 
   update(t) {

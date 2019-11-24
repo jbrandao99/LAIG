@@ -1,0 +1,170 @@
+<lxs>
+    <scene root="demoRoot" axis_length="5"/>
+
+    <views default="defaultCamera">
+        <perspective id="defaultCamera" near="0.1" far="500" angle="45">
+            <from x="15" y="10" z="15" />
+            <to x="0" y="0" z="0" />
+        </perspective>
+        <perspective id="Front" near="0.1" far="500" angle="45">
+            <from x="0" y="5" z="30" />
+            <to x="0" y="0" z="0" />
+        </perspective>
+        <perspective id="Side" near="0.1" far="500" angle="45">
+            <from x="50" y="5" z="0" />
+            <to x="0" y="0" z="0" />
+        </perspective>
+        <perspective id="Top" near="0.1" far="500" angle="45">
+            <from x="1" y="25" z="0" />
+            <to x="0" y="0" z="0" />
+        </perspective>
+        <ortho id="defaultOrtho" near="0.2" far="400.0" left="0.0" right="50.0" top="30.0" bottom="0.0">
+            <from x="100.0" y="30.0" z="-220.0" />
+            <to x="25.0" y="-7.0" z="0" />
+            <up x="0.0" y="1.0" z="0.0" />
+        </ortho>
+    </views>
+
+    <globals>
+        <ambient r="0" g="0" b="0" a="0" />
+        <background r="0.2" g="0.2" b="0.5" a="1.0" />
+    </globals>
+
+    <lights>
+        <omni id="Omni" enabled="0">
+            <location x="9.8" y="11.9" z="10" w="1.0" />
+            <ambient r="0" g="0" b="0" a="0" />
+            <diffuse r="1.0" g="1.0" b="0.8" a="1.0" />
+            <specular r="1.0" g="1.0" b="0.8" a="1.0" />
+        </omni>
+        <spot id="Spot" enabled="0" angle="45" exponent="0.0">
+            <location x="-5.0" y="10.0" z="-5.0" w="1.0" />
+            <target x="0.0" y="5.0" z="0.0" />
+            <ambient r="1.0" g="0.6" b="0.2" a="1.0" />
+            <diffuse r="1.0" g="0.6" b="0.2" a="1.0" />
+            <specular r="1.0" g="0.6" b="0.2" a="1.0" />
+            <attenuation constant="0.0" linear="0.0" quadratic="0.0" />
+        </spot>
+    </lights>
+
+    <textures>
+        <texture id="grey" file="scenes/images/grey.jpeg" />
+        <texture id="tyre" file="scenes/images/tyre.jpg" />
+        <texture id="road" file="scenes/images/road.jpg" />
+        <texture id="white" file="scenes/images/white.jpg" />
+        <texture id="black" file="scenes/images/black.jpg" />
+    </textures>
+
+    <materials>
+        <material id="demoMaterial" shininess="10">
+            <emission r="0.0" g="0.0" b="1.0" a="0.0" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="0.0" a="1.0" />
+        </material>
+        <material id="demoMaterial2" shininess="10">
+            <emission r="1.0" g="0.0" b="0.0" a="0.0" />
+            <ambient r="0.5" g="0.7" b="0.8" a="1" />
+            <diffuse r="0.2" g="0.5" b="0.8" a="1.0" />
+            <specular r="0.2" g="0.5" b="0.8" a="1.0" />
+        </material>
+    </materials>
+
+    <transformations>
+        <transformation id="demoTransform">
+            <scale x="5" y="1" z="5" />
+            <rotate axis="x" angle="-45" />
+            <rotate axis="z" angle="-45" />
+        </transformation>
+    </transformations>
+
+    <animations>
+        <animation id="demoAnimation">
+            <keyframe instant="10">
+                <translate x="10" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="0" y="0" z="0" />
+            </keyframe>
+        </animation>
+    </animations>
+
+    <primitives>
+        <primitive id="demoRectangle">
+            <rectangle x1="-1" y1="-1" x2="1" y2="1" />
+        </primitive>
+        <primitive id="demoCylinder">
+            <cylinder base="1" top="1" height="4" slices="20" stacks="20" />
+        </primitive>
+        <primitive id="demoSphere">
+            <sphere radius="1" slices="10" stacks="10" />
+        </primitive>
+        <primitive id="demoTorus">
+            <torus inner="2" outer="5" slices="10" loops="10" />
+        </primitive>
+        <primitive id="demoPlane">
+            <plane npartsU="5" npartsV="8"/>
+        </primitive>
+        <primitive id="demoPatch">
+            <patch npointsU="3" npointsV="2" npartsU="2" npartsV="3">
+                <controlpoint xx="-2" yy="0.0" zz="4" />
+                <controlpoint xx="-1" yy="0.0" zz="0" />
+                <controlpoint xx="0" yy="2" zz="4" />
+                <controlpoint xx="0" yy="2" zz="0" />
+                <controlpoint xx="2" yy="0.0" zz="4" />
+                <controlpoint xx="1" yy="0.0" zz="0" />
+            </patch>
+        </primitive>
+        <primitive id="demoCylinder2">
+            <cylinder2 base="1" top="1" height="5" slices="20" stacks="20" />
+        </primitive>
+    </primitives>
+
+    <components>
+
+        <!-- PATCH RED -->
+        
+        <component id="cylinder1">
+            <transformation>
+                <scale x="1" y="1" z="1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial2" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="demoCylinder2" />
+            </children>
+        </component>
+
+        <!-- NORMAL BLUE -->
+
+        <component id="cylinder2">
+            <transformation>
+                <scale x="1" y="1" z="1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="demoCylinder" />
+            </children>
+        </component>
+
+        <!-- SCENE -->
+        <component id="demoRoot">
+            <transformation>
+                <scale x="1" y="1" z="1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial2" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="cylinder1"/>
+                <componentref id="cylinder2"/>
+            </children>
+        </component>
+
+    </components>
+</lxs>

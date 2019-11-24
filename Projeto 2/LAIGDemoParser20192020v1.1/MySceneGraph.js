@@ -962,106 +962,102 @@ class MySceneGraph {
         return null;
     }
 
+
     /**
-     * Parses the <animations> block.
-     * @param {animations block element} animationsNode
-     */
-    parseAnimations(animationsNode) {
-        var children = animationsNode.children;
+ * Parses the <animations> block.
+ * @param {animations block element} animationsNode
+ */
+parseAnimations(animationsNode) {
+  var children = animationsNode.children;
 
-        this.animations = [];
+  this.animations = [];
+  var grandChildren = [];
+  var grandgrandChildren = [];
 
-        for(var i = 0; i < children.length; i++) {
-            if(children[i].nodeName != "transformation") {
-                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
-                continue;
-            }
-
-            //get the id of the current animation
-            var animationId = this.reader.getString(children[i], 'id');
-            if (animationId == null)
-                return "no ID defined for animation";
-
-            // Checks for repeated IDs.
-            if (this.animations[animationId] != null)
-                return "ID must be unique for each animation (conflict: ID = " + animationId + ")";
-
-            //get the span of the current animation
-            var animationSpan = this.reader.getFloat(children[i], 'span');
-            if (animationSpan == null && !isNaN(animationSpan))
-                return "no span defined for animation with ID = " + animationId;
-
-
-            if(children[i].nodeName == "linear"){
-                var grandChildren = children[i].children;
-
-                var controlpoints = [];
-                let controlPointsCounter = 0;
-                for(let j = 0; j < grandChildren.length; j++) {
-                    if(grandChildren[j].nodeName == "controlpoint") {
-                        // x
-                        var x = this.reader.getFloat(grandChildren[j], 'x');
-                        if (!(x != null && !isNaN(x)))
-                            return "unable to parse controlpoint x for animation with ID = " + animationId;
-
-                        // y
-                        var y = this.reader.getFloat(grandChildren[j], 'y');
-                        if (!(y != null && !isNaN(y)))
-                            return "unable to parse controlpoint y for animation with ID = " + animationId;
-
-                        // z
-                        var z = this.reader.getFloat(grandChildren[j], 'z');
-                        if (!(z != null && !isNaN(z)))
-                            return "unable to parse controlpoint z for animation with ID = " + animationId;
-
-                        controlpoints.push({x: x, y: y, z: z});
-                        controlPointsCounter++;
-                    } else{
-                        this.onXMLMinorError("unknown tag <" + grandChildren[j].nodeName + ">");
-                        continue;
-                    }
-                }
-                if(controlPointsCounter < 2) {
-                    return "There must be at least two control points in the animation with ID = " + animationId;
-                }
-
-                var animation = new MyLinearAnimation(this.scene, animationId, animationSpan, controlpoints);
-                this.animations[animationId] = animation;
-            }
-            else {
-                var animationCenter = this.reader.getString(children[i], 'center');
-                if (animationCenter == null)
-                    return "no center defined for animation with ID : " + animationId;
-                animationCenter = animationCenter.split(" ");
-                if(animationCenter.length != 3)
-                    return "wrong center coordinates for animation with ID : " + animationId;
-
-                for(let i = 0; i < animationCenter.length; i++){
-                    animationCenter[i] = parseInt(animationCenter[i]);
-                }
-
-                var animationRadius = this.reader.getFloat(children[i], 'radius');
-                if (animationRadius == null || isNaN(animationRadius))
-                    return "no radius defined for animation with ID : " + animationId;
-
-                var animationStartAng = this.reader.getFloat(children[i], 'startang');
-                if (animationStartAng == null || isNaN(animationStartAng))
-                    return "no startang defined for animation with ID : " + animationId;
-
-                var animationRotAng = this.reader.getFloat(children[i], 'rotang');
-                if (animationRotAng == null || isNaN(animationRotAng))
-                    return "no rotang defined for animation with ID : " + animationId;
-
-
-                var animation = new MyCircularAnimation(this.scene, animationId, animationSpan, animationCenter, animationStartAng, animationRotAng, animationRadius);
-                this.animations[animationId] = animation;
-            }
-        }
-
-        this.log("Parsed animations");
-
-        return null;
+  for (var i = 0; i < children.length; i++) {
+    if (children[i].nodeName != 'animation') {
+      this.onXMLMinorError('unknown tag <' + children[i].nodeName + '>');
+      continue;
     }
+
+    // Get id of the current animation.
+    var animationID = this.reader.getString(children[i], 'id');
+    if (animationID == null) return 'no ID defined for animation';
+
+    // Checks for repeated IDs.
+    if (this.animations[animationID] != null)
+      return 'ID must be unique for each animation (conflict: ID = ' +
+          animationID + ')';
+
+    grandChildren = children[i].children;
+
+    if (grandChildren.length == 0)
+      return 'No keyframes defined for animation with ID ' + animationID;
+
+    var keyframes = []
+
+        // Go trough keyframes
+        for (var j = 0; j < grandChildren.length; j++) {
+      if (grandChildren[j].nodeName != 'keyframe') {
+        this.onXMLMinorError(
+            'unknown tag <' + grandChildren[i].nodeName + '>');
+        continue;
+      }
+
+      // Get instant of the current keyframe.
+      var instant = this.reader.getFloat(grandChildren[j], 'instant');
+      if (instant == null || instant < 0)
+        return 'Keyframe instant must be >= 0 in animation with ID ' +
+            animationID;
+
+      grandgrandChildren = grandChildren[j].children;
+
+      if (grandgrandChildren.length != 3)
+        return 'keyframe must have translate, rotate and scale elements in animation with ID ' +
+            animationID;
+
+      if (grandgrandChildren[0].nodeName != 'translate' ||
+          grandgrandChildren[1].nodeName != 'rotate' ||
+          grandgrandChildren[2].nodeName != 'scale')
+        return 'keyframe must have translate, rotate and scale elements in animation with ID ' +
+            animationID;
+
+
+      // Get transformation
+      var translateCoordinates = this.parseCoordinates3D(
+          grandgrandChildren[0],
+          'translate in animation with ID ' + animationID);
+
+      // Get rotation
+      var angle_x = this.reader.getFloat(grandgrandChildren[1], 'angle_x');
+      var angle_y = this.reader.getFloat(grandgrandChildren[1], 'angle_y');
+      var angle_z = this.reader.getFloat(grandgrandChildren[1], 'angle_z');
+
+      if (angle_x == null || isNaN(angle_x) || angle_y == null ||
+          isNaN(angle_y) || angle_z == null || isNaN(angle_z))
+        return 'keyframe must have valid rotation values in animation with ID ' +
+            animationID;
+
+      var rotationInEachAngle = [angle_x, angle_y, angle_z];
+
+      // Get escalation
+      var escalationCoordinates = this.parseCoordinates3D(
+          grandgrandChildren[2],
+          'escalation in animation with ID ' + animationID);
+
+      keyframes.push(new KeyframeComponent(
+          instant, translateCoordinates, rotationInEachAngle,
+          escalationCoordinates));
+    }
+
+    var animation = new KeyframeAnimation(this.scene, keyframes);
+    this.animations[animationID] = animation;
+  }
+
+  this.log('Parsed animations');
+
+  return null;
+}
 
     /**
      * Parses the <primitives> block.
@@ -1278,11 +1274,14 @@ class MySceneGraph {
     parseComponents(componentsNode) {
         var children = componentsNode.children;
          this.componentIDs = [];
-         var counter = 0;
-
+         var nodeNames = [];
         this.components = [];
 
         for(let i = 0; i < children.length; i++) {
+          nodeNames=[];
+
+
+          var counter = 0;
             if(children[i].nodeName != "component") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                 continue;
@@ -1301,15 +1300,22 @@ class MySceneGraph {
             for(let i = 0; i < this.components.length; i++){
                 if (this.components[componentID] != null)
                 return "ID must be unique for each component (conflict: ID = " + componentID + ")";
-  }
+              }
 
             var grandChildren = children[i].children;
+            for (var j = 0; j < grandChildren.length; j++) {
+        nodeNames.push(grandChildren[j].nodeName);
+      }
 
+
+            var animationIndex = nodeNames.indexOf('animationref');
 
 
             //Component Transformations
-            var temp = grandChildren[0];
-            console.log("000000"+grandChildren[0].nodeName);
+            var temp = grandChildren[counter];
+
+
+            /*console.log("000000"+grandChildren[0].nodeName);
             console.log("111111"+grandChildren[1].nodeName);
             console.log("222222"+grandChildren[2].nodeName);
             console.log("333333"+grandChildren[3].nodeName);
@@ -1318,7 +1324,8 @@ class MySceneGraph {
             console.log("444444"+grandChildren[6].nodeName);
             console.log("444444"+grandChildren[7].nodeName);
             console.log("444444"+grandChildren[8].nodeName);
-            console.log("444444"+grandChildren[9].nodeName);
+            console.log("444444"+grandChildren[9].nodeName);*/
+
             var componentTransformations = [];
             counter++;
             if(temp.nodeName != "transformation")
@@ -1421,25 +1428,35 @@ class MySceneGraph {
             }
 
             //Animations
-            var temp = grandChildren[4];
-            var componentAnimations = [];
-            if(temp.nodeName == "animations"){
-                var componentAnimationsChildren = temp.children;
-                for(let i = 0; i < componentAnimationsChildren.length; i++){
-                    if(componentAnimationsChildren[i].nodeName == "animationref"){
-                        var newObject = this.animations[this.reader.getString(componentAnimationsChildren[i],'id')].clone();
-                        componentAnimations.push(newObject);
-                       if(componentAnimations == null)
-                           return "no animation with ID = " + this.reader.getString(componentAnimationsChildren[i],'id');
-                    }
-               }
-               counter++;
-            }
+
+            var componentAnimation = [];
+
+            if (animationIndex == -1) {
+              console.log("got here2");
+              componentAnimation = {animationref: null};
+            } else {
+              var animationID =
+              this.reader.getString(grandChildren[animationIndex], 'id');
+
+              var animation = this.animations[animationID];
+
+              if (animation == null) {
+                this.onXMLError(
+                  'Couldn\'t find animation with ID ' + animationID +
+                  ' in component with ID ' + componentId);
+                  return null;
+                }
+          console.log("AAAAAAAAAAAAAAAAAAAAAAAAA");
+        counter++;
+        componentAnimation = {animationref: animation};
+      }
+
 
             //Materials
-            var temp = grandChildren[1];
+            var temp = grandChildren[counter];
             counter++;
             var componentMaterials = [];
+            console.log("111111  "+temp.nodeName);
             if(temp.nodeName != "materials")
                 return "missing / out of order materials tag in component with ID = " + CurrentId;
 
@@ -1475,7 +1492,7 @@ class MySceneGraph {
             }
 
             //Texture
-            var temp = grandChildren[2];
+            var temp = grandChildren[counter];
             counter++;
             var componentTexture = [];
             if(temp.nodeName != "texture")
@@ -1523,7 +1540,7 @@ class MySceneGraph {
             }
 
             //Children
-           var temp = grandChildren[3];
+           var temp = grandChildren[counter];
            counter++;
             var componentChildren = [];
             var primitive = [];
@@ -1571,7 +1588,7 @@ class MySceneGraph {
                 materials: componentMaterials,
                 texture: componentTexture,
                 children: componentChildren,
-                animations: componentAnimations
+                animations: componentAnimation
             });
         }
 
@@ -1775,15 +1792,9 @@ class MySceneGraph {
         else
             currTexture = currComponent.texture;
 
-            for(let n = 0; n < currComponent.animations.length; n++){
-                if(currComponent.animations[n].timeCounter != currComponent.animations[n].time){
-                    currComponent.animations[n].apply();
-                    break;
-                }
+            if (currComponent.animations.animationref != null)
+      currComponent.animations.animationref.apply();
 
-                if(n == (currComponent.animations.length-1))
-                    currComponent.animations[n].apply();
-            }
 
 
         if(currTexture != null)
