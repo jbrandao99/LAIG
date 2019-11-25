@@ -10,7 +10,7 @@ void main() {
 	vec4 color = texture2D(uSampler, vTextureCoord);
 
 	// Horizontal White Lines
-	if(mod(vTextureCoord.y * 10.0 - timeFactor * 100.0, 2.0) > 1.5)
+	if(mod(vTextureCoord.y * 10.0 - timeFactor * 20.0, 2.0) > 1.5)
 		color = vec4(color.rgb + 0.5, 1.0);
 
 	// Distance to center

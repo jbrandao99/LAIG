@@ -21,7 +21,7 @@ class KeyFrameAnimation extends MyAnimation{
         if(this.stage < this.keyFrames.length) {
             let breakTime = this.keyFrames[this.stage][0];
 
-            // Used to save the difference between keyframes intances
+            // Difference between keyframes intances
             let timeDiff;
 
             // Translation parameters

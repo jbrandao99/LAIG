@@ -553,23 +553,28 @@
       <sphere radius="1" slices="100" stacks="100" />
     </primitive>
 
-
-    <primitive id="demoCylinder2">
-            <cylinder2 base="1" top="1" height="4" slices="10" stacks="10" />
-    </primitive>
+    <primitive id="demoPatch">
+      <patch npointsU="3" npointsV="2" npartsU="10" npartsV="10">
+          <controlpoint xx="0" yy="0.0" zz="0.5" />
+          <controlpoint xx="-0.75" yy="0.0" zz="0" />
+          <controlpoint xx="0" yy="0" zz="0.5" />
+          <controlpoint xx="0" yy="2" zz="0" />
+          <controlpoint xx="0" yy="0.0" zz="0.5" />
+          <controlpoint xx="0.75" yy="0.0" zz="0" />
+      </patch>
+        </primitive>
 
     <primitive id="demoPlane">
             <plane npartsU="50" npartsV="80"/>
     </primitive>
 
-    <primitive id="demoPatch">
-            <patch npointsU="2" npointsV="2" npartsU="2" npartsV="2" >
-                <controlpoint xx="0" yy="1" zz="2" />
-                <controlpoint xx="0" yy="2" zz="4" />
-                <controlpoint xx="0" yy="3" zz="5" />
-                <controlpoint xx="0" yy="4" zz="6" />
-            </patch>
-        </primitive>
+    <primitive id="demoCylinder2">
+            <cylinder2 base="1" top="1" height="4" slices="10" stacks="10" />
+    </primitive>
+
+
+
+
 
   </primitives>
 
@@ -590,6 +595,7 @@
       <texture id="GrassTexture" length_s="1" length_t="1"/>
       <children>
         <primitiveref id="FloorRectangle1"/>
+
       </children>
     </component>
 
@@ -1189,6 +1195,10 @@
       <texture id="QuaffleTexture" length_s="0.5" length_t="0.5"/>
       <children>
         <primitiveref id="Quaffle" />
+  <!--      <primitiveref id="demoPatch" /> -->
+  <!--      <primitiveref id="demoPlane" /> -->
+  <!--      <primitiveref id="demoCylinder2" /> -->
+
 
       </children>
     </component>
