@@ -1,113 +1,97 @@
 /**
- * KeyframeAnimation
- * @constructor
- */
-class KeyframeAnimation extends MyAnimation {
-  constructor(scene, KeyframeComponents) {
-    super();
+* KeyFrameAnimation
+* @constructor
+*/
 
-    if (this.constructor === Animation) {
-      throw new TypeError(
-          'Abstract class "Animation" cannot be instantiated directly.');
+class KeyFrameAnimation extends MyAnimation{
+    constructor(scene){
+        super(scene);
+        this.keyFrames = [];
+        this.currentTrans = {x:0.0, y:0.0, z:0.0}; // Initial value for translation
+        this.currentRot = {x:0.0, y:0.0, z:0.0}; // Initial value for rotation
+        this.currentScale = {x:1.0, y:1.0, z:1.0}; // Initial value for scaling
+        this.startTime = 0;
+        this.stage = 0;
     }
 
-    this.scene = scene;
+    // Updates the initial values acording to the keyframe parameters and the time passed
+    update(t){
+        this.startTime += t;
 
-    this.keyframeComponents = [];
+        if(this.stage < this.keyFrames.length) {
+            let breakTime = this.keyFrames[this.stage][0];
 
-    // Create null keyframe, represents  Initial State
-    this.keyframeComponents.push(
-        new KeyframeComponent(0, [0, 0, 0], [0, 0, 0], [1, 1, 1]));
+            // Used to save the difference between keyframes intances
+            let timeDiff;
 
-    // Add other keyframes
-    for (var i = 0; i < KeyframeComponents.length; i++)
-      this.keyframeComponents.push(KeyframeComponents[i]);
+            // Translation parameters
+            let transX;
+            let transY;
+            let transZ;
 
-    // So we know when animation is over
-    this.lastKeyframeInstant =
-        this.keyframeComponents[this.keyframeComponents.length - 1].instant;
-  }
+            // Rotation parameters
+            let rotX;
+            let rotY;
+            let rotZ;
 
-  update(t) {
-    // If animation is not over
-    if (t <= this.lastKeyframeInstant) {
-      // Keyframes to use
-      var formerKeyframe;
-      var nextKeyframe;
+            // Scaling parameters
+            let scaleX;
+            let scaleY;
+            let scaleZ;
 
-      for (var i = 1; i < this.keyframeComponents.length; i++) {
-        if (this.keyframeComponents[i].instant > t) {
-          formerKeyframe = this.keyframeComponents[i - 1];
-          nextKeyframe = this.keyframeComponents[i];
-          break;
+            if(this.stage > 0) {
+                timeDiff = breakTime - this.keyFrames[this.stage - 1][0];
+                transX = this.keyFrames[this.stage][1][0] - this.keyFrames[this.stage - 1][1][0];
+                transY = this.keyFrames[this.stage][1][1] - this.keyFrames[this.stage - 1][1][1];
+                transZ = this.keyFrames[this.stage][1][2] - this.keyFrames[this.stage - 1][1][2];
+                rotX = this.keyFrames[this.stage][2][0] - this.keyFrames[this.stage - 1][2][0];
+                rotY = this.keyFrames[this.stage][2][1] - this.keyFrames[this.stage - 1][2][1];
+                rotZ = this.keyFrames[this.stage][2][2] - this.keyFrames[this.stage - 1][2][2];
+                scaleX = this.keyFrames[this.stage][3][0] - this.keyFrames[this.stage - 1][3][0];
+                scaleY = this.keyFrames[this.stage][3][1] - this.keyFrames[this.stage - 1][3][1];
+                scaleZ = this.keyFrames[this.stage][3][2] - this.keyFrames[this.stage - 1][3][2];
+            }
+            else {
+                timeDiff = breakTime;
+                transX = this.keyFrames[this.stage][1][0];
+                transY = this.keyFrames[this.stage][1][1];
+                transZ = this.keyFrames[this.stage][1][2];
+                rotX = this.keyFrames[this.stage][2][0];
+                rotY = this.keyFrames[this.stage][2][1];
+                rotZ = this.keyFrames[this.stage][2][2];
+                scaleX = this.keyFrames[this.stage][3][0] - 1;
+                scaleY = this.keyFrames[this.stage][3][1] - 1;
+                scaleZ = this.keyFrames[this.stage][3][2] - 1;
+            }
+
+
+
+            if(this.startTime <= breakTime) {
+                this.currentTrans.x += (transX / timeDiff) * t;
+                this.currentTrans.y += (transY / timeDiff) * t;
+                this.currentTrans.z += (transZ / timeDiff) * t;
+
+                this.currentRot.x += (rotX / timeDiff) * t;
+                this.currentRot.y += (rotY / timeDiff) * t;
+                this.currentRot.z += (rotZ / timeDiff) * t;
+
+                this.currentScale.x += (scaleX / timeDiff) * t;
+                this.currentScale.y += (scaleY / timeDiff) * t;
+                this.currentScale.z += (scaleZ / timeDiff) * t;
+            }
+
+            if(this.startTime > breakTime) this.stage++;
+
         }
-      }
 
-      var formerKeyframeInstant = formerKeyframe.instant;
-      var nextKeyframeInstant = nextKeyframe.instant;
-
-      var percentageAnimation = (t - formerKeyframeInstant) /
-          (nextKeyframeInstant - formerKeyframeInstant);
-
-      var xTranslation = this.lerp(
-          formerKeyframe.translation[0], nextKeyframe.translation[0],
-          percentageAnimation);
-      var yTranslation = this.lerp(
-          formerKeyframe.translation[1], nextKeyframe.translation[1],
-          percentageAnimation);
-      var zTranslation = this.lerp(
-          formerKeyframe.translation[2], nextKeyframe.translation[2],
-          percentageAnimation);
-      var xRotation = this.lerp(
-          formerKeyframe.rotation[0], nextKeyframe.rotation[0],
-          percentageAnimation);
-      var yRotation = this.lerp(
-          formerKeyframe.rotation[1], nextKeyframe.rotation[1],
-          percentageAnimation);
-      var zRotation = this.lerp(
-          formerKeyframe.rotation[2], nextKeyframe.rotation[2],
-          percentageAnimation);
-      var xEscalation = this.lerp(
-          formerKeyframe.escalation[0], nextKeyframe.escalation[0],
-          percentageAnimation);
-      var yEscalation = this.lerp(
-          formerKeyframe.escalation[1], nextKeyframe.escalation[1],
-          percentageAnimation);
-      var zEscalation = this.lerp(
-          formerKeyframe.escalation[2], nextKeyframe.escalation[2],
-          percentageAnimation);
-
-      // Matrix to apply to objects
-      this.animMatrix = mat4.create();
-
-      // Apply translation
-      this.animMatrix = mat4.translate(
-          this.animMatrix, this.animMatrix,
-          [xTranslation, yTranslation, zTranslation]);
-
-      // Apply rotation
-      this.animMatrix = mat4.rotate(
-          this.animMatrix, this.animMatrix, xRotation * DEGREE_TO_RAD,
-          [1, 0, 0]);
-      this.animMatrix = mat4.rotate(
-          this.animMatrix, this.animMatrix, yRotation * DEGREE_TO_RAD,
-          [0, 1, 0]);
-      this.animMatrix = mat4.rotate(
-          this.animMatrix, this.animMatrix, zRotation * DEGREE_TO_RAD,
-          [0, 0, 1]);
-
-      // Apply escalation
-      this.animMatrix = mat4.scale(
-          this.animMatrix, this.animMatrix,
-          [xEscalation, yEscalation, zEscalation]);
     }
-  }
 
-  apply() {
-    this.scene.multMatrix(this.animMatrix);
-  }
-
-  lerp(v0, v1, t) {
-    return (1 - t) * v0 + t * v1;
-  }
+    // Applies current values to object
+    apply(){
+        this.scene.translate(this.currentTrans.x, this.currentTrans.y, this.currentTrans.z);
+        this.scene.rotate(this.currentRot.z * Math.PI / 180, 0, 0, 1);
+        this.scene.rotate(this.currentRot.y * Math.PI / 180, 0, 1, 0);
+        this.scene.rotate(this.currentRot.x * Math.PI / 180, 1, 0, 0);
+        this.scene.scale(this.currentScale.x, this.currentScale.y, this.currentScale.z);
+    }
 }

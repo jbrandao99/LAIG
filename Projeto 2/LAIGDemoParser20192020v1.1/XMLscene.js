@@ -188,22 +188,22 @@ class XMLscene extends CGFscene {
 
     }
 
-    if (this.initialTime == 0) {
-      this.initialTime = currentTime;
-    } else {
-      var elapsedTime = currentTime - this.initialTime;
+    //time management
+        this.lastTime = this.lastTime || 0.0;
+        this.deltaTime = currentTime - this.lastTime || 0.0;
+        this.deltaTime = this.deltaTime / 1000; //"deltaTime" is now in seconds
+        this.currentTime = (this.currentTime + this.deltaTime) || 0.0; //"currentTime" keeps track of time in seconds
 
 
+        this.ani = this.graph.animations;
+        for (var key in this.ani) {
 
-      // Update Animations
-      for (var i = 0; i < this.graph.components.length; i++) {
+            this.ani[key].update(this.deltaTime);
+        }
 
-        if (this.graph.components[i].animations.animationref != null)
-          this.graph.components[i].animations.animationref.update(
-            elapsedTime / 1000);
-      }
-    }
-    this.secObject.updateTime(elapsedTime / 1000);
+        this.lastTime = currentTime;
+            let timeFactor = currentTime / 100 % 1000;
+            this.secObject.updateTime(timeFactor);
   }
 
   /**

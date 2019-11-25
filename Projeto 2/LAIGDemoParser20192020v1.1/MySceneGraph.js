@@ -964,100 +964,65 @@ class MySceneGraph {
 
 
     /**
- * Parses the <animations> block.
- * @param {animations block element} animationsNode
- */
-parseAnimations(animationsNode) {
-  var children = animationsNode.children;
+       * Parses the <animations> block.
+       * @param {animations block element} animationsNode
+       */
+      parseAnimations(animationsNode) {
+          var children = animationsNode.children;
+          var keyFrames;
+           this.animations = [];
 
-  this.animations = [];
-  var grandChildren = [];
-  var grandgrandChildren = [];
+          //Any number of animations
+          for(var i = 0; i < children.length; i++){
 
-  for (var i = 0; i < children.length; i++) {
-    if (children[i].nodeName != 'animation') {
-      this.onXMLMinorError('unknown tag <' + children[i].nodeName + '>');
-      continue;
-    }
+              if(children[i].nodeName != "animation"){
+                  this.onXMLError("unknown tag <" + children[i].nodeName + ">");
+              }
 
-    // Get id of the current animation.
-    var animationID = this.reader.getString(children[i], 'id');
-    if (animationID == null) return 'no ID defined for animation';
+              var animationID = this.reader.getString(children[i], 'id');
+              if(animationID == null) return "no ID defined for animation";
+              if(this.animations[animationID] != null)
+                  return ("ID must be unique for each animation");
 
-    // Checks for repeated IDs.
-    if (this.animations[animationID] != null)
-      return 'ID must be unique for each animation (conflict: ID = ' +
-          animationID + ')';
+              this.animations[animationID] = new KeyFrameAnimation(this.scene);
 
-    grandChildren = children[i].children;
+              keyFrames = children[i].children;
 
-    if (grandChildren.length == 0)
-      return 'No keyframes defined for animation with ID ' + animationID;
+              //any number of keyframes
+              for(var j = 0; j < keyFrames.length; j++){
 
-    var keyframes = []
+                  var AniFrame = [];
 
-        // Go trough keyframes
-        for (var j = 0; j < grandChildren.length; j++) {
-      if (grandChildren[j].nodeName != 'keyframe') {
-        this.onXMLMinorError(
-            'unknown tag <' + grandChildren[i].nodeName + '>');
-        continue;
+                  var instant = this.reader.getFloat(keyFrames[j], 'instant');
+                  AniFrame.push(instant);
+
+                  var keyTransformations = keyFrames[j].children;
+
+                  var trans = [];
+                  trans.push(this.reader.getFloat(keyTransformations[0], 'x'));
+                  trans.push(this.reader.getFloat(keyTransformations[0], 'y'));
+                  trans.push(this.reader.getFloat(keyTransformations[0], 'z'));
+                  AniFrame.push(trans);
+
+                  var rot = [];
+                  rot.push(this.reader.getFloat(keyTransformations[1], 'angle_x'));
+                  rot.push(this.reader.getFloat(keyTransformations[1], 'angle_y'));
+                  rot.push(this.reader.getFloat(keyTransformations[1], 'angle_z'));
+                  AniFrame.push(rot);
+
+                  var scale = [];
+                  scale.push(this.reader.getFloat(keyTransformations[2], 'x'));
+                  scale.push(this.reader.getFloat(keyTransformations[2], 'y'));
+                  scale.push(this.reader.getFloat(keyTransformations[2], 'z'));
+                  AniFrame.push(scale);
+
+                  this.animations[animationID].keyFrames.push(AniFrame);
+
+              }
+
+          }
+          this.log("Parsed animations");
       }
-
-      // Get instant of the current keyframe.
-      var instant = this.reader.getFloat(grandChildren[j], 'instant');
-      if (instant == null || instant < 0)
-        return 'Keyframe instant must be >= 0 in animation with ID ' +
-            animationID;
-
-      grandgrandChildren = grandChildren[j].children;
-
-      if (grandgrandChildren.length != 3)
-        return 'keyframe must have translate, rotate and scale elements in animation with ID ' +
-            animationID;
-
-      if (grandgrandChildren[0].nodeName != 'translate' ||
-          grandgrandChildren[1].nodeName != 'rotate' ||
-          grandgrandChildren[2].nodeName != 'scale')
-        return 'keyframe must have translate, rotate and scale elements in animation with ID ' +
-            animationID;
-
-
-      // Get transformation
-      var translateCoordinates = this.parseCoordinates3D(
-          grandgrandChildren[0],
-          'translate in animation with ID ' + animationID);
-
-      // Get rotation
-      var angle_x = this.reader.getFloat(grandgrandChildren[1], 'angle_x');
-      var angle_y = this.reader.getFloat(grandgrandChildren[1], 'angle_y');
-      var angle_z = this.reader.getFloat(grandgrandChildren[1], 'angle_z');
-
-      if (angle_x == null || isNaN(angle_x) || angle_y == null ||
-          isNaN(angle_y) || angle_z == null || isNaN(angle_z))
-        return 'keyframe must have valid rotation values in animation with ID ' +
-            animationID;
-
-      var rotationInEachAngle = [angle_x, angle_y, angle_z];
-
-      // Get escalation
-      var escalationCoordinates = this.parseCoordinates3D(
-          grandgrandChildren[2],
-          'escalation in animation with ID ' + animationID);
-
-      keyframes.push(new KeyframeComponent(
-          instant, translateCoordinates, rotationInEachAngle,
-          escalationCoordinates));
-    }
-
-    var animation = new KeyframeAnimation(this.scene, keyframes);
-    this.animations[animationID] = animation;
-  }
-
-  this.log('Parsed animations');
-
-  return null;
-}
 
     /**
      * Parses the <primitives> block.
@@ -1525,7 +1490,6 @@ parseAnimations(animationsNode) {
             var componentAnimation = [];
 
             if (animationIndex == -1) {
-              console.log("got here2");
               componentAnimation = {animationref: null};
             } else {
               var animationID =
@@ -1539,7 +1503,6 @@ parseAnimations(animationsNode) {
                   ' in component with ID ' + componentId);
                   return null;
                 }
-          console.log("AAAAAAAAAAAAAAAAAAAAAAAAA");
         counter++;
         componentAnimation = {animationref: animation};
       }

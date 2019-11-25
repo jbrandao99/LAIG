@@ -1,15 +1,17 @@
 /**
- * Animation
- * @constructor
- */
+* Animation
+* @constructor
+*/
+
+
 class MyAnimation {
-  constructor() {}
+    constructor(scene){
+        this.scene = scene;
+    }
 
-  update(t) {
-    throw new Error('Method \'update(t)\' must be implemented.');
-  }
 
-  apply() {
-    throw new Error('Method \'apply()\' must be implemented.');
-  }
+    update(){};
+
+    apply(){};
+
 }
