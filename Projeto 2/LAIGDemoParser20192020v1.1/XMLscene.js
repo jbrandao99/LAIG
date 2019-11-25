@@ -36,12 +36,12 @@ class XMLscene extends CGFscene {
 
     this.axis = new CGFaxis(this);
     this.setUpdatePeriod(1000 / 60);
-     this.initialTime = 0;
+    this.initialTime = 0;
 
     //Camera interface related variables
     this.currentViewIDs = [];
     this.selectedCamera = 0;
-        this.defaultCamera = 0;
+    this.defaultCamera = 0;
 
 
     //TP2
@@ -60,7 +60,6 @@ class XMLscene extends CGFscene {
     this.changeCamera();
   }
 
-
   /**
   * Initializes the scene cameras.
   */
@@ -75,6 +74,11 @@ class XMLscene extends CGFscene {
   changeCamera(currentCamera) {
     this.currentView = this.views[currentCamera];
     this.interface.setActiveCamera(this.currentView);
+
+  }
+
+  update(t) {
+    this.secObject.updateTime(t);
   }
 
   /**
@@ -143,8 +147,8 @@ class XMLscene extends CGFscene {
         this.views[key] = new CGFcameraOrtho(left, right, bottom, top, near, far, vec3.fromValues(from.x, from.y, from.z), vec3.fromValues(to.x, to.y, to.z), vec3.fromValues(0, 1, 0));
       }
     }
-        this.currentView = this.graph.defaultView;
-        this.currentSecurityCameraView = this.graph.defaultView;
+    this.currentView = this.graph.defaultView;
+    this.currentSecurityCameraView = this.graph.defaultView;
   }
 
   /** Handler called when the graph is finally loaded.
@@ -178,29 +182,29 @@ class XMLscene extends CGFscene {
        * Update's the materials if key M has been pressed
        * @param {update period set on scene's initialization} t
        */
-      update(currentTime) {
-          if (this.interface.isKeyPressed('KeyM')) {
-              this.graph.updateMaterialIndexes();
+  update(currentTime) {
+    if (this.interface.isKeyPressed('KeyM')) {
+      this.graph.updateMaterialIndexes();
 
-          }
-
-          if (this.initialTime == 0) {
-        this.initialTime = currentTime;
-      } else {
-        var elapsedTime = currentTime - this.initialTime;
-
-
-
-        // Update Animations
-        for (var i = 0; i < this.graph.components.length; i++) {
-
-          if (this.graph.components[i].animations.animationref != null)
-            this.graph.components[i].animations.animationref.update(
-                elapsedTime / 1000);
-        }
-      }
-      this.secObject.updateTime(elapsedTime/1000);
     }
+
+    if (this.initialTime == 0) {
+      this.initialTime = currentTime;
+    } else {
+      var elapsedTime = currentTime - this.initialTime;
+
+
+
+      // Update Animations
+      for (var i = 0; i < this.graph.components.length; i++) {
+
+        if (this.graph.components[i].animations.animationref != null)
+          this.graph.components[i].animations.animationref.update(
+            elapsedTime / 1000);
+      }
+    }
+    this.secObject.updateTime(elapsedTime / 1000);
+  }
 
   /**
   * renders the scene.
@@ -266,22 +270,22 @@ class XMLscene extends CGFscene {
     */
   display() {
     if (this.sceneInited) {
-    //renders main scene to be applied in secObject
-    this.secTexture.attachToFrameBuffer();
-    this.render(this.views[this.currentSecurityCameraView]);
-    this.secTexture.detachFromFrameBuffer();
-        this.render(this.views[this.currentView]);
+      //renders main scene to be applied in secObject
+      this.secTexture.attachToFrameBuffer();
+      this.render(this.views[this.currentSecurityCameraView]);
+      this.secTexture.detachFromFrameBuffer();
+      this.render(this.views[this.currentView]);
 
-        this.gl.disable(this.gl.DEPTH_TEST);
-        this.secObject.display();
-        this.gl.enable(this.gl.DEPTH_TEST);
-
-
-
-    //displays secObject and applies shasders propperties
+      this.gl.disable(this.gl.DEPTH_TEST);
+      this.secObject.display();
+      this.gl.enable(this.gl.DEPTH_TEST);
 
 
-    this.setActiveShader(this.defaultShader); //restores default shader
-  }
+
+      //displays secObject and applies shasders propperties
+
+
+      this.setActiveShader(this.defaultShader); //restores default shader
+    }
   }
 }

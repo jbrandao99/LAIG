@@ -9,7 +9,15 @@ class MySecurityCamera extends CGFobject {
     constructor(scene) {
         super(scene);
 
-        this.securCamera = new MyRectangle(scene, 1, 0, 1, 0);
+        this.securCamera = new MyRectangle(scene, null, 0.5, 1, -1, -0.5);
+
+        this.securCamera.texCoords = [
+            0, 0,
+            1, 0,
+            0, 1,
+            1, 1
+        ];
+        this.securCamera.updateTexCoordsGLBuffers();
 
         this.shader = new CGFshader(this.scene.gl, "./shaders/MySecurityCamera.vert", "./shaders/MySecurityCamera.frag");
         this.shader.setUniformsValues({ uSampler: 0 });
