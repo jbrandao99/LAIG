@@ -157,22 +157,289 @@
   </transformations>
 
   <animations>
-    <animation id="defaultAnimation">
-      <keyframe instant="2">
-          <translate x="4" y="0" z="0" />
+    <animation id="quaffleAnimation">
+      <keyframe instant="5">
+          <translate x="0" y="1" z="0" />
           <rotate angle_x="0" angle_y="0" angle_z="0" />
           <scale x="1" y="1" z="1" />
       </keyframe>
-            <keyframe instant="5">
-                <translate x="0" y="5" z="0" />
+            <keyframe instant="6">
+                <translate x="10" y="2.2" z="0" />
                 <rotate angle_x="0" angle_y="0" angle_z="0" />
                 <scale x="1" y="1" z="1" />
             </keyframe>
             <keyframe instant="7">
-                <translate x="0" y="5" z="-5" />
+                <translate x="0" y="2.2" z="-2" />
                 <rotate angle_x="0" angle_y="0" angle_z="360" />
                 <scale x="1" y="1" z="1" />
             </keyframe>
+            <keyframe instant="8">
+                <translate x="-2" y="2.2" z="2" />
+                <rotate angle_x="0" angle_y="0" angle_z="360" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="9">
+                <translate x="-8" y="1.3" z="-0.5" />
+                <rotate angle_x="0" angle_y="0" angle_z="360" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="10">
+                <translate x="-8" y="1.3" z="3" />
+                <rotate angle_x="0" angle_y="0" angle_z="360" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="12">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="360" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+        </animation>
+
+        <animation id="bludgerAnimation1">
+          <keyframe instant="5">
+            <translate x="0" y="1" z="0" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+
+          <keyframe instant="6">
+            <translate x="5" y="0" z="-2" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="7">
+            <translate x="0" y="1" z="2" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="8">
+            <translate x="-2" y="3" z="3" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="9">
+            <translate x="-5" y="3" z="3" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="10">
+            <translate x="-5" y="1" z="3" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="11">
+            <translate x="-5" y="1" z="-2" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="12">
+            <translate x="1" y="1" z="-2" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="13">
+            <translate x="2" y="4" z="-2" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="14">
+            <translate x="2" y="4" z="2" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="15">
+            <translate x="0" y="0" z="0" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+        </animation>
+
+        <animation id="bludgerAnimation2">
+          <keyframe instant="5">
+            <translate x="0" y="1" z="0" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+
+          <keyframe instant="6">
+            <translate x="-5" y="0" z="2" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="7">
+            <translate x="0" y="1" z="-2" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="8">
+            <translate x="2" y="3" z="-3" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="9">
+            <translate x="5" y="3" z="-3" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="10">
+            <translate x="5" y="1" z="-3" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="11">
+            <translate x="5" y="1" z="2" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="12">
+            <translate x="-1" y="1" z="2" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="13">
+            <translate x="-2" y="4" z="2" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="14">
+            <translate x="-2" y="4" z="-2" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="15">
+            <translate x="0" y="0" z="0" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+        </animation>
+
+        <animation id="snitchAnimation">
+          <keyframe instant="5">
+            <translate x="0" y="" z="0" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+
+          <keyframe instant="6">
+            <translate x="1" y="0" z="0" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="7">
+            <translate x="2" y="1" z="-1" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="8">
+            <translate x="-1" y="2" z="-3" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="9">
+            <translate x="-2" y="3" z="2" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="10">
+            <translate x="-1" y="1" z="-3" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="11">
+            <translate x="3" y="2" z="-1" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="12">
+            <translate x="2" y="1" z="2" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="13">
+            <translate x="-1" y="4" z="2" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="14">
+            <translate x="-4" y="2" z="-2" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="15">
+            <translate x="0" y="0" z="0" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+        </animation>
+
+        <animation id="broomAnimation">
+          <keyframe instant="1">
+            <translate x="0" y="0" z="0" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+
+          <keyframe instant="2">
+            <translate x="1" y="20" z="0" />
+            <rotate angle_x="0" angle_y="90" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="3">
+            <translate x="0" y="20" z="-5" />
+            <rotate angle_x="0" angle_y="90" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="4">
+            <translate x="0" y="20" z="-35" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="5">
+            <translate x="20" y="20" z="-35" />
+            <rotate angle_x="0" angle_y="0" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="6">
+            <translate x="45" y="20" z="-12.5" />
+            <rotate angle_x="0" angle_y="-90" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="7">
+            <translate x="45" y="20" z="12.5" />
+            <rotate angle_x="0" angle_y="-90" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="8">
+            <translate x="45" y="20" z="35" />
+            <rotate angle_x="0" angle_y="-180" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="10">
+            <translate x="-110" y="20" z="35" />
+            <rotate angle_x="0" angle_y="-180" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="11">
+            <translate x="-120" y="20" z="0" />
+            <rotate angle_x="0" angle_y="-270" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="12">
+            <translate x="-100" y="20" z="-35" />
+            <rotate angle_x="0" angle_y="-360" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="13">
+            <translate x="20" y="20" z="-35" />
+            <rotate angle_x="0" angle_y="-360" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+          <keyframe instant="14">
+            <translate x="0" y="0" z="0" />
+            <rotate angle_x="0" angle_y="-360" angle_z="0" />
+            <scale x="1" y="1" z="1" />
+          </keyframe>
+
         </animation>
   </animations>
 
@@ -910,9 +1177,7 @@
       <transformation>
         <translate x="0" y="1" z="0"/>
       </transformation>
-        <animationref id="defaultAnimation"/>
-
-
+        <animationref id="quaffleAnimation"/>
       <materials>
         <material id="BallMaterial" />
       </materials>
@@ -927,6 +1192,7 @@
       <transformation>
         <translate x="0" y="1" z="1"/>
       </transformation>
+      <animationref id="bludgerAnimation1"/>
       <materials>
         <material id="BallMaterial" />
       </materials>
@@ -940,6 +1206,7 @@
       <transformation>
         <translate x="0" y="1" z="-1"/>
       </transformation>
+      <animationref id="bludgerAnimation2"/>
       <materials>
         <material id="BallMaterial" />
       </materials>
@@ -954,6 +1221,7 @@
       <transformation>
         <translate x="0.5" y="1" z="0"/>
       </transformation>
+      <animationref id="snitchAnimation"/>
       <materials>
         <material id="SnitchMaterial" />
       </materials>
@@ -1013,6 +1281,7 @@
         <scale x="0.1" y="0.1" z="0.1" />
         <translate x="40" y="7" z="0"/>
       </transformation>
+      <animationref id="broomAnimation"/>
       <materials>
         <material id="inherit" />
       </materials>

@@ -64,16 +64,16 @@ class XMLscene extends CGFscene {
   * Initializes the scene cameras.
   */
   initCameras() {
-    this.currentView = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+    this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
   }
 
   updateCameraNear() {
-    this.currentView.near = this.currentViewNear;
+    this.camera.near = this.currentViewNear;
   }
 
   changeCamera(currentCamera) {
-    this.currentView = this.views[currentCamera];
-    this.interface.setActiveCamera(this.currentView);
+    this.camera = this.views[currentCamera];
+    this.interface.setActiveCamera(this.camera);
 
   }
 
@@ -147,7 +147,7 @@ class XMLscene extends CGFscene {
         this.views[key] = new CGFcameraOrtho(left, right, bottom, top, near, far, vec3.fromValues(from.x, from.y, from.z), vec3.fromValues(to.x, to.y, to.z), vec3.fromValues(0, 1, 0));
       }
     }
-    this.currentView = this.graph.defaultView;
+    this.camera = this.graph.defaultView;
     this.currentSecurityCameraView = this.graph.defaultView;
   }
 
@@ -157,8 +157,8 @@ class XMLscene extends CGFscene {
   onGraphLoaded() {
 
     this.initViews();
-    this.currentView = this.views[this.graph.defaultView];
-    this.interface.setActiveCamera(this.currentView);
+    this.camera = this.views[this.graph.defaultView];
+    this.interface.setActiveCamera(this.camera);
 
     this.axis = new CGFaxis(this, this.graph.referenceLength);
 

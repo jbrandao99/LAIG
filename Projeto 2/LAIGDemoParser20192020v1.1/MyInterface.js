@@ -54,6 +54,8 @@ class MyInterface extends CGFinterface {
     controller.onChange(function(value){
       scene.changeCamera(scene.currentView);
     });
+
+    this.gui.add(this.scene, 'currentSecurityCameraView', viewsKeys);
   }
 
   /**
