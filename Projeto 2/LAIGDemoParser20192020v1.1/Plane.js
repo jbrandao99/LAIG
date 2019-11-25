@@ -1,29 +1,35 @@
 /**
- * Plane
+ * MyPlane
  * @constructor
- * @param scene - Reference to MyScene object
  */
-class Plane extends CGFobject {
-    constructor(scene, id, npartsU, npartsV) {
+class MyPlane extends CGFobject
+{
+	constructor(scene, uDiv, vDiv) {
         super(scene);
-        this.id = id;
-        this.npartsU = npartsU;
-        this.npartsV = npartsV;
 
-        this.makeSurface(1, 1, [
-            [[-0.5, 0.0, 0.5, 1], [-0.5, 0.0, -0.5, 1]],
-            [[0.5, 0.0, 0.5, 1], [0.5, 0.0, -0.5, 1]]
-        ]);
-    }
+        this.uDiv = uDiv;
+        this.vDiv = vDiv;
 
-    makeSurface(degree1, degree2, controlvertexes) {
-        var nurbsSurface = new CGFnurbsSurface(degree1, degree2, controlvertexes);
+        let controlPoints = [
+            [
+                [-0.5, 0, 0.5, 1],
+                [-0.5, 0, -0.5, 1]
+            ],
 
-        this.obj = new CGFnurbsObject(
-            this.scene, this.npartsU, this.npartsV, nurbsSurface);
-    }
+            [
+                [0.5, 0, 0.5, 1],
+                [0.5, 0, -0.5, 1]
+            ]
+        ];
+
+        let nurbsSurface = new CGFnurbsSurface(1, 1, controlPoints);
+        this.obj = new CGFnurbsObject(this.scene, this.uDiv, this.vDiv, nurbsSurface);
+    };
 
     display() {
         this.obj.display();
     }
-}
+
+    updateTexCoords(s, t) {}
+
+};

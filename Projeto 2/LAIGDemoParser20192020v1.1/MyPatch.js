@@ -1,29 +1,37 @@
 /**
  * MyPatch
  * @constructor
- * @param scene - Reference to MyScene object
  */
-class MyPatch extends CGFobject {
-    constructor(scene, id, npointsU, npointsV, npartsU, npartsV, controlPoints) {
+class MyPatch extends CGFobject
+{
+	constructor(scene, nPointsU, nPointsV, uDiv, vDiv, controlPoints) {
         super(scene);
-        this.id = id;
-        this.npointsU = npointsU;
-        this.npointsV = npointsV;
-        this.npartsU = npartsU;
-        this.npartsV = npartsV;
-        this.controlPoints = controlPoints;
 
-        this.makeSurface(this.npointsU - 1, this.npointsV - 1, this.controlPoints);
-    }
+        this.uDiv = uDiv;
+        this.vDiv = vDiv;
+        this.nPointsU = nPointsU;
+        this.nPointsV = nPointsV;
+        this.uDeg = this.nPointsU - 1;
+        this.vDeg = this.nPointsV - 1;
 
-    makeSurface(degree1, degree2, controlvertexes) {
-        var nurbsSurface = new CGFnurbsSurface(degree1, degree2, controlvertexes);
+        this.controlPoints = [];
+        let i = 0;
+        for(let u = 0; u < nPointsU; u++) {
+            let uArray = [];
+            for(let v = 0; v < nPointsV; v++) {
+                uArray.push(controlPoints[i++]);
+            }
+            this.controlPoints.push(uArray);
+        }
 
-        this.obj = new CGFnurbsObject(
-            this.scene, this.npartsU, this.npartsV, nurbsSurface);
-    }
+        let nurbsSurface = new CGFnurbsSurface(this.uDeg, this.vDeg, this.controlPoints);
+        this.obj = new CGFnurbsObject(this.scene, this.uDiv, this.vDiv, nurbsSurface);
+    };
 
     display() {
         this.obj.display();
     }
-}
+
+    updateTexCoords(s, t) {}
+
+};

@@ -39,7 +39,7 @@ class XMLscene extends CGFscene {
      this.initialTime = 0;
 
     //Camera interface related variables
-    this.cameraIDs = [];
+    this.currentViewIDs = [];
     this.selectedCamera = 0;
         this.defaultCamera = 0;
 
@@ -52,7 +52,7 @@ class XMLscene extends CGFscene {
   initGraphCameras() {
     //Every id is saved so cameras can be manipulated on the interface
     for (var key in this.graph.views) {
-      this.cameraIDs.push(key);
+      this.currentViewIDs.push(key);
     }
 
     //Currently active camera is set to the default camera
@@ -65,16 +65,16 @@ class XMLscene extends CGFscene {
   * Initializes the scene cameras.
   */
   initCameras() {
-    this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+    this.currentView = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
   }
 
   updateCameraNear() {
-    this.camera.near = this.cameraNear;
+    this.currentView.near = this.currentViewNear;
   }
 
   changeCamera(currentCamera) {
-    this.camera = this.views[currentCamera];
-    this.interface.setActiveCamera(this.camera);
+    this.currentView = this.views[currentCamera];
+    this.interface.setActiveCamera(this.currentView);
   }
 
   /**
@@ -143,6 +143,8 @@ class XMLscene extends CGFscene {
         this.views[key] = new CGFcameraOrtho(left, right, bottom, top, near, far, vec3.fromValues(from.x, from.y, from.z), vec3.fromValues(to.x, to.y, to.z), vec3.fromValues(0, 1, 0));
       }
     }
+        this.currentView = this.graph.defaultView;
+        this.currentSecurityCameraView = this.graph.defaultView;
   }
 
   /** Handler called when the graph is finally loaded.
@@ -151,8 +153,8 @@ class XMLscene extends CGFscene {
   onGraphLoaded() {
 
     this.initViews();
-    this.camera = this.views[this.graph.defaultView];
-    this.interface.setActiveCamera(this.camera);
+    this.currentView = this.views[this.graph.defaultView];
+    this.interface.setActiveCamera(this.currentView);
 
     this.axis = new CGFaxis(this, this.graph.referenceLength);
 
@@ -179,6 +181,7 @@ class XMLscene extends CGFscene {
       update(currentTime) {
           if (this.interface.isKeyPressed('KeyM')) {
               this.graph.updateMaterialIndexes();
+
           }
 
           if (this.initialTime == 0) {
@@ -186,27 +189,30 @@ class XMLscene extends CGFscene {
       } else {
         var elapsedTime = currentTime - this.initialTime;
 
-        console.log(elapsedTime / 1000);
+
 
         // Update Animations
         for (var i = 0; i < this.graph.components.length; i++) {
+
           if (this.graph.components[i].animations.animationref != null)
             this.graph.components[i].animations.animationref.update(
                 elapsedTime / 1000);
         }
       }
+      this.secObject.updateTime(elapsedTime/1000);
     }
 
   /**
   * renders the scene.
   */
-  render(camIndex) {
+  render(camera) {
     // ---- BEGIN Background, camera and axis setup
 
     // Clear image and depth buffer everytime we update the scene
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
+    this.camera = camera;
     // Initialize Model-View matrix as identity (no transformation
 
     this.updateProjectionMatrix();
@@ -215,8 +221,9 @@ class XMLscene extends CGFscene {
 
     // Apply transformations corresponding to the camera position relative to the origin
     this.applyViewMatrix();
+    this.pushMatrix();
 
-this.changeCamera(camIndex);
+
     var i = 0;
     for (var key in this.lightValues) {
       if (this.lightValues.hasOwnProperty(key)) {
@@ -240,7 +247,8 @@ this.changeCamera(camIndex);
 
       // Draw axis
       this.setDefaultAppearance();
-      this.pushMatrix();
+
+
 
 
 
@@ -257,22 +265,23 @@ this.changeCamera(camIndex);
     * Calls the render and displays the tectangle object
     */
   display() {
-
+    if (this.sceneInited) {
     //renders main scene to be applied in secObject
-    this.render(this.selectedCamera);
-
-
-
-    //renders scene
     this.secTexture.attachToFrameBuffer();
-    this.render(this.defaultCamera);
+    this.render(this.views[this.currentSecurityCameraView]);
     this.secTexture.detachFromFrameBuffer();
+        this.render(this.views[this.currentView]);
+
+        this.gl.disable(this.gl.DEPTH_TEST);
+        this.secObject.display();
+        this.gl.enable(this.gl.DEPTH_TEST);
+
+
 
     //displays secObject and applies shasders propperties
-    this.gl.disable(this.gl.DEPTH_TEST);
-    this.secObject.display();
-    this.gl.enable(this.gl.DEPTH_TEST);
+
 
     this.setActiveShader(this.defaultShader); //restores default shader
+  }
   }
 }

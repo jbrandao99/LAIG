@@ -1,50 +1,53 @@
 /**
  * MyCylinder2
+ * @param gl {WebGLRenderingContext}
  * @constructor
- * @param scene - Reference to MyScene object
  */
-class MyCylinder2 extends CGFobject {
-    constructor(scene, id, base, top, height, slices, stacks) {
-        super(scene);
-        this.id = id;
-        this.base = base;
-        this.top = top;
-        this.height = height;
-        this.slices = slices;
-        this.stacks = stacks;
 
-        /*
-        Half Cylinder
-        Points
-    
-        1       2
-    
-        0       3
-        */
-        this.makeSurface(3, 1, [
-            [[-this.top, 0, this.height, 1], [-this.base, 0, 0, 1]],
-            [[-this.top, this.top * (4 / 3), this.height, 1], [-this.base, this.top * (4 / 3), 0, 1]],
-            [[this.top, this.top * (4 / 3), this.height, 1], [this.base, this.top * (4 / 3), 0, 1]],
-            [[this.top, 0, this.height, 1], [this.base, 0, 0, 1]]
-        ]);
+class MyCylinder2 extends CGFobject
+{
+	constructor(scene, base, top, heigth, slices, stacks)
+	{
+		super(scene);
+
+		this.base = base;
+		this.top = top;
+		this.heigth = heigth;
+		this.slices = slices;
+		this.stacks = stacks;
+		this.controlPoints = [
+			[
+				[0, 		 -this.base,  0, 		    1			  ],
+				[-this.base, -this.base,  0, 		    Math.sqrt(2)/2],
+				[-this.base, 0,   		  0, 		    1			  ],
+				[-this.base, this.base,   0, 		    Math.sqrt(2)/2],
+				[0,		     this.base,   0, 		    1			  ],
+				[this.base,  this.base,   0, 		    Math.sqrt(2)/2],
+				[this.base,	 0,    	      0, 		    1			  ],
+				[this.base,	 -this.base,  0, 		    Math.sqrt(2)/2],
+				[0, 		 -this.base,  0, 		    1			  ]
+			],
+			[
+				[0, 		 -this.top,   this.heigth,  1             ],
+				[-this.top,  -this.top,   this.heigth,  Math.sqrt(2)/2],
+				[-this.top,  0,  		  this.heigth,  1             ],
+				[-this.top,  this.top,    this.heigth,  Math.sqrt(2)/2],
+				[0,		     this.top,    this.heigth,  1             ],
+				[this.top,   this.top,    this.heigth,  Math.sqrt(2)/2],
+				[this.top,	 0,    	      this.heigth,  1             ],
+				[this.top,	 -this.top,   this.heigth,  Math.sqrt(2)/2],
+				[0, 		 -this.top,   this.heigth,  1             ]
+			]
+		];
+
+		let nurbsSurface = new CGFnurbsSurface(1, 8, this.controlPoints);
+		this.obj = new CGFnurbsObject(this.scene, this.stacks, this.slices, nurbsSurface);
     }
 
-    makeSurface(degree1, degree2, controlvertexes) {
-        var nurbsSurface = new CGFnurbsSurface(degree1, degree2, controlvertexes);
+	display(){
+		this.obj.display();
+	}
 
-        this.obj =
-            new CGFnurbsObject(this.scene, this.slices, this.stacks, nurbsSurface);
-    }
+	updateTexCoords(s, t) {}
 
-    display() {
-        this.scene.pushMatrix();
-
-        this.obj.display();
-
-        this.scene.rotate(Math.PI, 0, 0, 1);
-
-        this.obj.display();
-
-        this.scene.popMatrix();
-    }
-}
+};

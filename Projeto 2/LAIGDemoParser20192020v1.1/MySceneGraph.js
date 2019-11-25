@@ -1093,7 +1093,7 @@ parseAnimations(animationsNode) {
             if (grandChildren.length != 1 ||
                 (grandChildren[0].nodeName != 'rectangle' && grandChildren[0].nodeName != 'triangle' &&
                     grandChildren[0].nodeName != 'cylinder' && grandChildren[0].nodeName != 'sphere' &&
-                    grandChildren[0].nodeName != 'torus')) {
+                    grandChildren[0].nodeName != 'torus') && grandChildren[0].nodeName != "plane" && grandChildren[0].nodeName != "patch" && grandChildren[0].nodeName != "cylinder2") {
                 return "There must be exactly 1 primitive type (rectangle, triangle, cylinder, sphere or torus)"
             }
 
@@ -1259,7 +1259,100 @@ parseAnimations(animationsNode) {
                  primitives.push({id: primitiveId, type: "torus", primitive: torus});
             }
 
+            if (primitiveType == 'plane'){
+                   var npartsU = this.reader.getInteger(grandChildren[0], 'npartsU');
+                   if (!(npartsU != null && !isNaN(npartsU)))
+                       return "unable to parse npartsU value for primitive with ID = " + primitiveId;
+
+                   var npartsV = this.reader.getInteger(grandChildren[0], 'npartsV');
+                   if (!(npartsV != null && !isNaN(npartsV)))
+                       return "unable to parse npartsV value for primitive with ID = " + primitiveId;
+
+                   var plane = new MyPlane(this.scene, npartsU, npartsV);
+                   primitives.push({id: primitiveId, type: "plane", primitive: plane});
+                   break;
+            }
+
+
+              if (primitiveType == 'patch'){
+                    var npointsU = this.reader.getInteger(grandChildren[0], 'npointsU');
+                    if (!(npointsU != null && !isNaN(npointsU)))
+                        return "unable to parse npointsU value for primitive with ID = " + primitiveId;
+
+                    var npointsV = this.reader.getInteger(grandChildren[0], 'npointsV');
+                    if (!(npointsV != null && !isNaN(npointsV)))
+                        return "unable to parse npointsV value for primitive with ID = " + primitiveId;
+
+                    var npartsU = this.reader.getInteger(grandChildren[0], 'npartsU');
+                    if (!(npartsU != null && !isNaN(npartsU)))
+                        return "unable to parse npartsU value for primitive with ID = " + primitiveId;
+
+                    var npartsV = this.reader.getInteger(grandChildren[0], 'npartsV');
+                    if (!(npartsV != null && !isNaN(npartsV)))
+                        return "unable to parse npartsV value for primitive with ID = " + primitiveId;
+
+                    var controlpoints = [];
+                    let controlPointsCounter = 0;
+                    var grandGrandChildren = grandChildren[0].children;
+
+                    for(let n = 0; n < grandGrandChildren.length; n++){
+                        if(grandGrandChildren[n].nodeName == "controlpoint") {
+                            var xx = this.reader.getFloat(grandGrandChildren[n], 'xx');
+                            if (!(xx != null && !isNaN(xx)))
+                                return "unable to parse xx value for primitive with ID = " + primitiveId;
+
+                            var yy = this.reader.getFloat(grandGrandChildren[n], 'yy');
+                            if (!(yy != null && !isNaN(yy)))
+                                return "unable to parse yy value for primitive with ID = " + primitiveId;
+
+                            var zz = this.reader.getFloat(grandGrandChildren[n], 'zz');
+                            if (!(zz != null && !isNaN(zz)))
+                                return "unable to parse zz value for primitive with ID = " + primitiveId;
+
+                            controlpoints.push([xx, yy, zz, 1]);
+                            controlPointsCounter++;
+                        } else {
+                            this.onXMLMinorError("unknown tag <" + grandGrandChildren[n].nodeName + ">");
+                        }
+                    }
+                    if(controlPointsCounter != (npointsU * npointsV))
+                        return "invalid number of controlpoints for primitive with ID = " + primitiveId;
+
+                    var patch = new MyPatch(this.scene, npointsU, npointsV, npartsU, npartsV, controlpoints);
+                    primitives.push({id: primitiveId, type: "patch", primitive: patch});
+                    break;
+                  }
+
+                  if (primitiveType == 'cylinder2'){
+                    var base = this.reader.getFloat(grandChildren[0], 'base');
+                    if (!(base != null && !isNaN(base)))
+                        return "unable to parse base value for primitive with ID = " + primitiveId;
+
+                    var top = this.reader.getFloat(grandChildren[0], 'top');
+                    if (!(top != null && !isNaN(top)))
+                        return "unable to parse top value for primitive with ID = " + primitiveId;
+
+                    var height = this.reader.getFloat(grandChildren[0], 'height');
+                    if (!(height != null && !isNaN(height)))
+                        return "unable to parse height value for primitive with ID = " + primitiveId;
+
+                    var slices = this.reader.getInteger(grandChildren[0], 'slices');
+                    if (!(slices != null && !isNaN(slices)))
+                        return "unable to parse slices value for primitive with ID = " + primitiveId;
+
+                    var stacks = this.reader.getInteger(grandChildren[0], 'stacks');
+                    if (!(stacks != null && !isNaN(stacks)))
+                        return "unable to parse stacks value for primitive with ID = " + primitiveId;
+
+                    var cylinder2 = new MyCylinder2(this.scene, base, top, height, slices, stacks);
+                    primitives.push({id: primitiveId, type: "cylinder2", primitive: cylinder2});
+                    break;
+                }
+
+
         }
+
+
 
 		 this.primitives = primitives;
 

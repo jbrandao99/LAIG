@@ -2,35 +2,22 @@
 precision highp float;
 #endif
 
-
+varying vec2 vTextureCoord;
 uniform sampler2D uSampler;
 uniform float timeFactor;
-varying vec2 vTextureCoord;
-
-
 
 void main() {
-	vec3 line = vec3(0.6, 0.6, 0.6);
-	vec3 max_color = vec3(0.8);
-	vec2 coords = vTextureCoord.xy;
-	vec2 st = vTextureCoord.xy;
-	float ptc = 0.0;
-	float number_lines = 12.0;          // number_lines represents the number of lines on screen, but the relation isn't linear
-	float y_size = 14.0;                //y_size varies inversely with the size of the line on screen
-	float speed = 4.0;
+	vec4 color = texture2D(uSampler, vTextureCoord);
 
+	// Horizontal White Lines
+	if(mod(vTextureCoord.y * 10.0 - timeFactor, 2.0) > 1.0)
+		color = vec4(1.0,1.0,1.0,1.0);
 
-	ptc = distance(st, vec2(0.5, 0.5));    
+	// Distance to center
+	float distanceToCenter = sqrt(pow(vTextureCoord.x - 0.25, 2.0) + pow(vTextureCoord.y - 0.25, 2.0));
 
-	vec4 filterGradient = vec4(abs(max_color.r - ptc), abs(max_color.g - ptc), abs(max_color.b - ptc), 1.0);  //0.65 max color in the center, so it doesn't get to white/brigth in the center of the screen
-	
-	vec4 texture = texture2D(uSampler, vTextureCoord);
+	// Color to use (1.0 Pure Color from Texture, 0.0 Black Color)
+	float colorMultiplier = 1.0 - (sqrt(2.0) * 2.0 * distanceToCenter);
 
-	float alpha = abs(sin((coords.y * number_lines) - timeFactor * speed) * y_size);
-
-	gl_FragColor =  texture * filterGradient * vec4(line, alpha);
-
-	
-	
-		
+	gl_FragColor =  vec4(color.rgb * colorMultiplier, 1.0);
 }
