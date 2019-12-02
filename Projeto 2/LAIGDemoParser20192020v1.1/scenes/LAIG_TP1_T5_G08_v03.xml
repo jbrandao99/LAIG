@@ -553,6 +553,11 @@
       <sphere radius="1" slices="100" stacks="100" />
     </primitive>
 
+    <primitive id="demoCylinder2">
+            <cylinder2 base="1" top="1" height="4" slices="10" stacks="10" />
+    </primitive>
+
+
     <primitive id="demoPatch">
       <patch npointsU="3" npointsV="2" npartsU="10" npartsV="10">
           <controlpoint xx="0" yy="0.0" zz="0.5" />
@@ -568,9 +573,6 @@
             <plane npartsU="50" npartsV="80"/>
     </primitive>
 
-    <primitive id="demoCylinder2">
-            <cylinder2 base="1" top="1" height="4" slices="10" stacks="10" />
-    </primitive>
 
 
 

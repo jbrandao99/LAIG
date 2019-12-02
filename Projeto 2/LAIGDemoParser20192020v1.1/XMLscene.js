@@ -281,10 +281,6 @@ class XMLscene extends CGFscene {
       this.gl.enable(this.gl.DEPTH_TEST);
 
 
-
-      //displays secObject and applies shasders propperties
-
-
       this.setActiveShader(this.defaultShader); //restores default shader
     }
   }

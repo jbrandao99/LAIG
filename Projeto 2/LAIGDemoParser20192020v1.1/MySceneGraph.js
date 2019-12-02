@@ -1848,8 +1848,9 @@ class MySceneGraph {
         else
             currTexture = currComponent.texture;
 
-            if (currComponent.animations.animationref != null)
-      currComponent.animations.animationref.apply();
+            if (currComponent.animations.animationref != null){
+              currComponent.animations.animationref.apply();
+            }
 
 
 

@@ -17,18 +17,18 @@ class MyCylinder2 extends CGFobject
 		this.stacks = stacks;
 		this.controlPoints = [
 			[
-				[0, 		 -this.base,  0, 		    1			  ],
-				[-this.base, -this.base,  0, 		    Math.sqrt(2)/2],
-				[-this.base, 0,   		  0, 		    1			  ],
-				[-this.base, this.base,   0, 		    Math.sqrt(2)/2],
-				[0,		     this.base,   0, 		    1			  ],
-				[this.base,  this.base,   0, 		    Math.sqrt(2)/2],
-				[this.base,	 0,    	      0, 		    1			  ],
-				[this.base,	 -this.base,  0, 		    Math.sqrt(2)/2],
-				[0, 		 -this.base,  0, 		    1			  ]
+				[0,-this.base,0,1],
+				[-this.base,-this.base,0,Math.sqrt(2)/2],
+				[-this.base,0,0,1],
+				[-this.base, this.base,0,Math.sqrt(2)/2],
+				[0,this.base,0,1],
+				[this.base,this.base,0,Math.sqrt(2)/2],
+				[this.base,0,0,1],
+				[this.base,-this.base,0,Math.sqrt(2)/2],
+				[0,-this.base,0,1]
 			],
 			[
-				[0, 		 -this.top,   this.heigth,  1             ],
+				[0,-this.top,this.heigth,1             ],
 				[-this.top,  -this.top,   this.heigth,  Math.sqrt(2)/2],
 				[-this.top,  0,  		  this.heigth,  1             ],
 				[-this.top,  this.top,    this.heigth,  Math.sqrt(2)/2],

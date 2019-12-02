@@ -16,7 +16,7 @@ void main() {
 	// Distance to center
 	float distanceToCenter = sqrt(pow(vTextureCoord.x - 0.5, 2.0) + pow(vTextureCoord.y - 0.5, 2.0));
 
-	// Color to use (1.0 Pure Color from Texture, 0.0 Black Color)
+	// Color to use
 	float colorMultiplier = 1.0 - (1.6 * distanceToCenter);
 
 	gl_FragColor =  vec4(color.rgb * colorMultiplier, 1.0);
