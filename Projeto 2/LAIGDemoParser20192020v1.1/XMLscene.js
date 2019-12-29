@@ -1,5 +1,4 @@
 var DEGREE_TO_RAD = Math.PI / 180;
-var DEGREE_TO_RAD = Math.PI / 180;
 
 /**
 * XMLscene class, representing the scene that is to be rendered.
@@ -75,10 +74,6 @@ class XMLscene extends CGFscene {
     this.camera = this.views[currentCamera];
     this.interface.setActiveCamera(this.camera);
 
-  }
-
-  update(t) {
-    this.secObject.updateTime(t);
   }
 
   /**
@@ -188,22 +183,19 @@ class XMLscene extends CGFscene {
 
     }
 
-    //time management
-        this.lastTime = this.lastTime || 0.0;
-        this.deltaTime = currentTime - this.lastTime || 0.0;
-        this.deltaTime = this.deltaTime / 1000; //"deltaTime" is now in seconds
-        this.currentTime = (this.currentTime + this.deltaTime) || 0.0; //"currentTime" keeps track of time in seconds
+    if (this.initialTime == 0) {
+      this.initialTime = currentTime;
+    } else {
+      var elapsedTime = currentTime - this.initialTime;
 
+      // console.log(elapsedTime / 1000);
 
-        this.ani = this.graph.animations;
-        for (var key in this.ani) {
-
-            this.ani[key].update(this.deltaTime);
-        }
-
-        this.lastTime = currentTime;
-            let timeFactor = currentTime / 100 % 1000;
-            this.secObject.updateTime(timeFactor);
+      // Update Animations
+      for (var i = 0; i < this.graph.components.length; i++) {
+        if (this.graph.components[i].animations.animationref != null)
+          this.graph.components[i].animations.animationref.update(elapsedTime / 1000);
+      }
+    }
   }
 
   /**

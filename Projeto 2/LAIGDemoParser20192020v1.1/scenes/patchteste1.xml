@@ -1,0 +1,176 @@
+<lxs>
+  <scene root="QuidditchPitch" axis_length="10"/>
+
+  <views default="DefaultCamera">
+    <perspective id="DefaultCamera" near="0.1" far="50" angle="45">
+      <from x="12" y="8" z="8" />
+      <to x="0" y="0" z="0" />
+    </perspective>
+  </views>
+
+
+
+  <globals>
+    <ambient r="0.53" g="0.81" b="0.92" a="1.0" />
+    <background r="0.53" g="0.81" b="0.92" a="1.0" />
+  </globals>
+
+  <lights>
+    <omni id="Sun Light" enabled="true">
+      <location x="0" y="15" z="0" w="0.5" />
+      <ambient r="1" g="1" b="1" a="1"/>
+      <diffuse r="0.7" g="0.7" b="0.7" a="1"/>
+      <specular r="0.7" g="0.7" b="0.7" a="1"/>
+      <attenuation constant="1" linear="0" quadratic="0" />
+    </omni>
+  </lights>
+
+  <textures>
+    <texture id="GrassTexture" file="scenes/images/TexturesCom_FloorsRegular0204_1_seamless_S.jpg" />
+    <texture id="LinesTexture" file="scenes/images/White_full.png" />
+    <texture id="balizaTexture" file="scenes/images/gold.png" />
+    <texture id="bancadaTexture1" file="scenes/images/slytherin.jpg" />
+    <texture id="bancadaTexture2" file="scenes/images/gryffindor.jpg" />
+    <texture id="bancadaTexture3" file="scenes/images/ravenclaw.jpg" />
+    <texture id="bancadaTexture4" file="scenes/images/hufflepuff.jpg" />
+    <texture id="SandTexture" file="scenes/images/Sand_Texture.jpg" />
+    <texture id="QuaffleTexture" file="scenes/images/Quaffle.jpg" />
+    <texture id="BludgerTexture" file="scenes/images/Bludger.jpg" />
+    <texture id="SnitchTexture" file="scenes/images/Snitch.jpg" />
+    <texture id="vassouraPauTexture" file="scenes/images/vassourapau.jpg" />
+    <texture id="vassouraTexture" file="scenes/images/vassouratexture.png" />
+    <texture id="floorTexture" file="scenes/images/woodtile.jpg" />
+  </textures>
+
+  <materials>
+    <material id="FloorMaterial" shininess="10">
+      <emission r="0.0" g="0.0" b="0.0" a="1" />
+      <ambient r="0.3" g="0.3" b="0.3" a="1" />
+      <diffuse r="0.0" g="0" b="0" a="1" />
+      <specular r="0.0" g="0" b="0" a="1" />
+    </material>
+  </materials>
+
+
+
+  <transformations>
+    <transformation id="MainFloorRotation">
+      <rotate axis="x" angle="-90" />
+    </transformation>
+  </transformations>
+
+  <animations>
+    <animation id="quaffleAnimation">
+      <keyframe instant="5">
+          <translate x="0" y="1" z="0" />
+          <rotate angle_x="0" angle_y="0" angle_z="0" />
+          <scale x="1" y="1" z="1" />
+      </keyframe>
+            <keyframe instant="6">
+                <translate x="10" y="2.2" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="7">
+                <translate x="0" y="2.2" z="-2" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="8">
+                <translate x="-2" y="2.2" z="2" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="9">
+                <translate x="-8" y="1.3" z="-0.5" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="10">
+                <translate x="-8" y="1.3" z="3" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="12">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="13">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+        </animation>
+  </animations>
+
+  <primitives>
+    <!-- FLOOR RELATED PRIMITIVES -->
+
+    <primitive id="FloorRectangle1">
+      <rectangle x1="-5" y1="-4" x2="5" y2="4" />
+    </primitive>
+
+    <!-- BALIZA RELATED PRIMITIVES -->
+
+    <primitive id="balizaTorus">
+      <torus inner="1" outer="5" slices="100" loops="100"/>
+    </primitive>
+
+
+    <primitive id="balizaCylinder2">
+      <cylinder base="1" top="1" slices="100" height="20" stacks="100"/>
+    </primitive>
+
+    <primitive id="bancadaTriangle">
+      <triangle x1="0" x2="1" x3="0" y1="0" y2="0" y3="1" z1="0" z2="0" z3="0"/>
+    </primitive>
+
+
+    <primitive id="Quaffle">
+      <sphere radius="0.25" slices="50" stacks="20" />
+    </primitive>
+
+
+    <primitive id="demoPatch">
+      <patch npointsU="3" npointsV="2" npartsU="10" npartsV="10">
+          <controlpoint xx="0" yy="0.0" zz="0.5" />
+          <controlpoint xx="-0.75" yy="0.0" zz="0" />
+          <controlpoint xx="0" yy="0" zz="0.5" />
+          <controlpoint xx="0" yy="2" zz="0" />
+          <controlpoint xx="0" yy="0.0" zz="0.5" />
+          <controlpoint xx="0.75" yy="0.0" zz="0" />
+      </patch>
+        </primitive>
+
+    <primitive id="demoPlane">
+            <plane npartsU="50" npartsV="80"/>
+    </primitive>
+
+
+
+  </primitives>
+
+
+
+  <components>
+    <!-- MAIN COMPONENT -->
+
+    <component id="QuidditchPitch">
+      <transformation>
+        <translate x="0" y="0" z="0"/>
+      </transformation>
+      <materials>
+        <material id="inherit" />
+      </materials>
+      <texture id="inherit"/>
+      <children>
+
+        <primitiveref id="demoPatch" />
+
+
+      </children>
+    </component>
+  </components>
+
+</lxs>
