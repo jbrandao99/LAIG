@@ -28,6 +28,21 @@ class MyInterface extends CGFinterface {
     return true;
   }
 
+  /**
+     * Adds a dropdown for all the ambients in the scene passed as parameter.
+     * @param {CGFscene} scene
+     */
+    addAmbients(scene){
+        var ambients = [];
+
+        for(let i = 0; i < scene.graph.rootComponent.children.componentref.length; i++){
+            ambients.push(scene.graph.rootComponent.children.componentref[i].id);
+        }
+
+        this.gui.add(this.scene, 'currentAmbient', ambients);
+    }
+    
+
   addLightsGroup(lights) {
 
 

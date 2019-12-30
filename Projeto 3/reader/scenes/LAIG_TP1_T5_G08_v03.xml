@@ -1,13 +1,12 @@
 <lxs>
-  <scene root="QuidditchPitch" axis_length="10"/>
+  <scene root="MainScene" axis_length="10"/>
 
   <views default="DefaultCamera">
     <perspective id="DefaultCamera" near="0.1" far="50" angle="45">
-      <from x="5" y="5" z="5" />
+      <from x="12" y="8" z="8" />
       <to x="0" y="0" z="0" />
     </perspective>
   </views>
-
 
 
   <globals>
@@ -33,18 +32,34 @@
     <texture id="bancadaTexture2" file="scenes/images/gryffindor.jpg" />
     <texture id="bancadaTexture3" file="scenes/images/ravenclaw.jpg" />
     <texture id="bancadaTexture4" file="scenes/images/hufflepuff.jpg" />
-    <texture id="SandTexture" file="scenes/images/Sand_Texture.jpg" />
+    <texture id="ForestWindowTexture1" file="scenes/images/ForestWindow1.jpg" />
+    <texture id="ForestWindowTexture2" file="scenes/images/ForestWindow2.jpg" />
     <texture id="QuaffleTexture" file="scenes/images/Quaffle.jpg" />
     <texture id="BludgerTexture" file="scenes/images/Bludger.jpg" />
     <texture id="SnitchTexture" file="scenes/images/Snitch.jpg" />
     <texture id="vassouraPauTexture" file="scenes/images/vassourapau.jpg" />
-    <texture id="vassouraTexture" file="scenes/images/vassouratexture.png" />
-    <texture id="floorTexture" file="scenes/images/woodtile.jpg" />
+    <texture id="FrameTexture" file="scenes/images/FrameTexture.jpg" />
+    <texture id="FrameTexture2" file="scenes/images/FrameTexture2.jpg" />
+    <texture id="FloorTexture" file="scenes/images/Floor.jpg" />
   </textures>
 
   <materials>
     <material id="FloorMaterial" shininess="10">
-      <emission r="0.0" g="0.0" b="0.0" a="1" />
+      <emission r=".0" g="0.0" b="0.0" a="1" />
+      <ambient r="0.3" g="0.3" b="0.3" a="1" />
+      <diffuse r="0.0" g="0" b="0" a="1" />
+      <specular r="0.0" g="0" b="0" a="1" />
+    </material>
+
+    <material id="OutsideMaterial" shininess="10">
+      <emission r="0.5" g="0.5" b="0.5" a="1" />
+      <ambient r="0.3" g="0.3" b="0.3" a="1" />
+      <diffuse r="0.0" g="0" b="0" a="1" />
+      <specular r="0.0" g="0" b="0" a="1" />
+    </material>
+
+    <material id="FrameMaterial" shininess="10">
+      <emission r="0.5" g="0.5" b="0.5" a="1" />
       <ambient r="0.3" g="0.3" b="0.3" a="1" />
       <diffuse r="0.0" g="0" b="0" a="1" />
       <specular r="0.0" g="0" b="0" a="1" />
@@ -110,8 +125,27 @@
     <!-- FLOOR RELATED PRIMITIVES -->
 
     <primitive id="FloorRectangle1">
-      <rectangle x1="-5" y1="-4" x2="5" y2="4" />
+      <rectangle x1="-7" y1="-7" x2="7" y2="7" />
     </primitive>
+
+    <!-- WALL RELATED PRIMITIVES -->
+    <primitive id="Wall">
+      <rectangle x1="-7" y1="0" x2="7" y2="7" />
+    </primitive>
+
+    <primitive id="Window1">
+      <rectangle x1="0" y1="0" x2="0.5" y2="7" />
+    </primitive>
+
+    <primitive id="Window2">
+      <rectangle x1="13.50" y1="0" x2="14" y2="7" />
+    </primitive>
+
+    <primitive id="Window3">
+      <rectangle x1="0" y1="6.50" x2="14" y2="7" />
+    </primitive>
+
+
 
     <!-- BALIZA RELATED PRIMITIVES -->
 
@@ -134,22 +168,7 @@
     </primitive>
 
 
-    <primitive id="demoPatch">
-      <patch npointsU="3" npointsV="4" npartsU="20" npartsV="20">
-          <controlpoint xx="-2" yy="-2" zz="1" />
-          <controlpoint xx="-2" yy="-1" zz="-2" />
-          <controlpoint xx="-2" yy="1" zz="5" />
-          <controlpoint xx="-1.5" yy="2" zz="-1" />
-          <controlpoint xx="0" yy="-2" zz="0" />
-          <controlpoint xx="0" yy="-1" zz="-1" />
-          <controlpoint xx="0" yy="1" zz="1.5" />
-          <controlpoint xx="0" yy="2" zz="0" />
-          <controlpoint xx="2" yy="-2" zz="-1" />
-          <controlpoint xx="2" yy="-1" zz="2" />
-          <controlpoint xx="2" yy="1" zz="-5" />
-          <controlpoint xx="2" yy="2" zz="1" />
-      </patch>
-        </primitive>
+
 
     <primitive id="demoPlane">
             <plane npartsU="50" npartsV="80"/>
@@ -162,9 +181,83 @@
 
 
   <components>
-    <!-- MAIN COMPONENT -->
+    <!-- FLOOR COMPONENT -->
+    <component id="MainFloor">
+      <transformation>
+        <rotate axis="x" angle="-90" />
+      </transformation>
+      <materials>
+        <material id="FloorMaterial" />
+      </materials>
+      <texture id="FloorTexture" length_s="3" length_t="3"/>
+      <children>
+        <primitiveref id="FloorRectangle1"/>
+      </children>
+    </component>
 
-    <component id="QuidditchPitch">
+    <!-- WALL COMPONENT -->
+    <component id="WindowFrame1">
+      <transformation>
+        <translate x="-7" y="0" z="-6.95" />
+      </transformation>
+      <materials>
+        <material id="FrameMaterial" />
+      </materials>
+      <texture id="FrameTexture2" length_s="1" length_t="8"/>
+      <children>
+        <primitiveref id="Window1"/>
+        <primitiveref id="Window2"/>
+        <primitiveref id="Window3"/>
+      </children>
+    </component>
+
+    <component id="WindowFrame2">
+      <transformation>
+          <translate x="-6.99" y="0" z="-7" />
+        <rotate axis="y" angle="-90" />
+      </transformation>
+      <materials>
+        <material id="FrameMaterial" />
+      </materials>
+      <texture id="FrameTexture2" length_s="1" length_t="8"/>
+      <children>
+        <primitiveref id="Window1"/>
+        <primitiveref id="Window2"/>
+        <primitiveref id="Window3"/>
+      </children>
+    </component>
+
+
+    <component id="MainWall1">
+      <transformation>
+        <translate x="0" y="0" z="-7" />
+      </transformation>
+      <materials>
+        <material id="OutsideMaterial" />
+      </materials>
+      <texture id="ForestWindowTexture2" length_s="14" length_t="7"/>
+      <children>
+        <primitiveref id="Wall"/>
+      </children>
+    </component>
+
+    <component id="MainWall2">
+      <transformation>
+        <rotate axis="y" angle="90" />
+        <translate x="0" y="0" z="-7" />
+      </transformation>
+      <materials>
+        <material id="OutsideMaterial" />
+      </materials>
+      <texture id="ForestWindowTexture1" length_s="14" length_t="7"/>
+      <children>
+        <primitiveref id="Wall"/>
+      </children>
+    </component>
+
+
+<!-- MAIN COMPONENT -->
+    <component id="Forest">
       <transformation>
         <translate x="0" y="0" z="0" />
       </transformation>
@@ -173,9 +266,28 @@
       </materials>
       <texture id="LinesTexture" length_s="1" length_t="1"/>
       <children>
-        <primitiveref id="demoPatch"/>
+        <componentref id="WindowFrame1"/>
+        <componentref id="WindowFrame2"/>
+        <componentref id="MainFloor"/>
+        <componentref id="MainWall1"/>
+        <componentref id="MainWall2"/>
       </children>
     </component>
+
+    <component id="MainScene">
+        <transformation>
+        </transformation>
+        <materials>
+            <material id="inherit"/>
+        </materials>
+        <texture id="none"/>
+        <children>
+            <componentref id="Forest" />
+        </children>
+    </component>
   </components>
+
+
+
 
 </lxs>

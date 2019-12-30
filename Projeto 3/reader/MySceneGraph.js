@@ -1346,7 +1346,7 @@ class MySceneGraph {
 
                     var cylinder2 = new MyCylinder2(this.scene, base, top, height, slices, stacks);
                     primitives.push({id: primitiveId, type: "cylinder2", primitive: cylinder2});
-      
+
                 }
 
 
@@ -1833,29 +1833,28 @@ class MySceneGraph {
 
    }
 
-    /**
-     * Displays the scene, processing each node, starting in the root node.
-     */
-    displayScene() {
+   /**
+    * Displays the scene, processing each node, starting in the root node.
+    */
+   displayScene(ambient) {
+       let ambientComponent;
+       for(let i = 0; i < this.rootComponent.children.componentref.length; i++){
+           if(ambient == this.rootComponent.children.componentref[i].id)
+               ambientComponent = this.rootComponent.children.componentref[i];
+       }
 
-        var rootMaterial;
-        if(this.rootComponent.materials[0].id == "inherit")
+       let ambientMaterial;
+       if(ambientComponent.materials[0].id == "inherit")
+           ambientMaterial = this.materialDefault;
+       else{
+           ambientMaterial = ambientComponent.materials[0].material;
+       }
+       let ambientTexture = ambientComponent.texture;
 
-            rootMaterial = this.materialDefault;
-
-        else{
-
-            rootMaterial = this.rootComponent.materials[0].material;
-
-        }
-        var rootTexture = this.rootComponent.texture;
-
-        this.scene.pushMatrix();
-
-        this.recursiveProcess(this.rootComponent, rootMaterial, rootTexture);
-
-        this.scene.popMatrix();
-    }
+       this.scene.pushMatrix();
+       this.recursiveProcess(ambientComponent, ambientMaterial, ambientTexture);
+       this.scene.popMatrix();
+   }
 
     recursiveProcess(component, materialFather, textureFather, fatherLength_s, fatherLength_t) {
 

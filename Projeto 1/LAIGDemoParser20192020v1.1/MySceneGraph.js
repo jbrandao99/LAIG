@@ -1452,7 +1452,7 @@ class MySceneGraph {
                 componentsTemp[i].addChildren_Component(c);
             }
         }
-        
+
         this.components = componentsTemp;
 
         this.log("Parsed components");

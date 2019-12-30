@@ -166,7 +166,11 @@ class XMLscene extends CGFscene {
     this.interface.addLightsGroup(this.graph.lights);
 
     this.currentView = this.graph.defaultView;
+
     this.interface.addViews(this);
+
+    this.currentAmbient = this.graph.rootComponent.children.componentref[0].id;
+        this.interface.addAmbients(this);
 
 
     this.sceneInited = true;
@@ -245,11 +249,8 @@ class XMLscene extends CGFscene {
       this.setDefaultAppearance();
 
 
-
-
-
       // Displays the scene (MySceneGraph function).
-      this.graph.displayScene();
+      this.graph.displayScene(this.currentAmbient);
       this.popMatrix();
     }
 
