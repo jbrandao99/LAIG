@@ -155,7 +155,7 @@ class XMLscene extends CGFscene {
     this.camera = this.views[this.graph.defaultView];
     this.interface.setActiveCamera(this.camera);
 
-    this.axis = new CGFaxis(this, this.graph.referenceLength);
+//    this.axis = new CGFaxis(this, this.graph.referenceLength);
 
     this.gl.clearColor(this.graph.background[0], this.graph.background[1], this.graph.background[2], this.graph.background[3]);
 
@@ -167,10 +167,12 @@ class XMLscene extends CGFscene {
 
     this.currentView = this.graph.defaultView;
 
-    this.interface.addViews(this);
-
     this.currentAmbient = this.graph.rootComponent.children.componentref[0].id;
         this.interface.addAmbients(this);
+
+    this.interface.addViews(this);
+
+
 
 
     this.sceneInited = true;
@@ -241,7 +243,7 @@ class XMLscene extends CGFscene {
     }
 
     //Removed to look better
-    this.axis.display();
+    //this.axis.display();
 
     if (this.sceneInited) {
 
