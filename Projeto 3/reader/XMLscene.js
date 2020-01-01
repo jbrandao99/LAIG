@@ -172,7 +172,7 @@ class XMLscene extends CGFscene {
 
     this.interface.addViews(this);
 
-
+    this.interface.addCtrlv(this);
 
 
     this.sceneInited = true;
@@ -243,7 +243,7 @@ class XMLscene extends CGFscene {
     }
 
     //Removed to look better
-    //this.axis.display();
+    this.axis.display();
 
     if (this.sceneInited) {
 
