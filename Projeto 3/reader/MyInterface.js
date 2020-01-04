@@ -28,6 +28,10 @@ class MyInterface extends CGFinterface {
     return true;
   }
 
+  updategameStatusMessage(msg) {
+       this.gameOptions.status = msg;
+   }
+
   addCtrlv(scene){
     var group = this.gui.addFolder("Game");
     group.open;

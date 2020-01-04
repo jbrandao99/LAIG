@@ -100,6 +100,12 @@ print_header_line(_).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%                                       Commands                                                  %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+:- consult('src/ctrlv.pl').
+:- consult('src/menus.pl').
+:- consult('src/display.pl').
+:- consult('src/logic.pl').
+:- consult('src/utils.pl').
+:- consult('src/input.pl').
 
 :- consult('main.pl').
 

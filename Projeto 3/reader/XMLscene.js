@@ -46,6 +46,9 @@ class XMLscene extends CGFscene {
     //TP2
     this.secObject = new MySecurityCamera(this);         //create rectangle object
     this.secTexture = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height); //create render-to-texture texture
+
+    //TP3
+    this.game = new Game();
   }
 
   initGraphCameras() {
@@ -75,6 +78,65 @@ class XMLscene extends CGFscene {
     this.interface.setActiveCamera(this.camera);
 
   }
+
+  updateGameMode(mode) {
+        this.game.maxTime = this.interface.gameOptions.maxTime;
+
+          let init = this.game.init(mode);
+            this.updateMessage();
+            this.board.reset();
+            this.board.updateBoard(this.game.board);
+            if(mode == 4) this.botvbot();
+
+    }
+
+    updateMessage() {
+        if(this.game.winner) {
+            this.interface.updategameStatusMessage("Gameover ("
+            + ((this.game.winner == "w") ? "P1" : "P2") + " Won)");
+            return;
+        }
+
+        if(!this.game.active_game) {
+            this.interface.updategameStatusMessage("Choose a game mode");
+            return;
+        }
+
+        switch(this.game.game_mode) {
+            case 1:
+            if(this.game.next == "w") this.interface.updategameStatusMessage("P1 Turn");
+            else this.interface.updategameStatusMessage("P2 Turn");
+            break;
+            case 2:
+            if(this.game.next == "w") this.interface.updategameStatusMessage("P1 Turn");
+            else this.interface.updategameStatusMessage("BOT2 Turn");
+            break;
+            case 3:
+            if(this.game.next == "w") this.interface.updategameStatusMessage("BOT1 Turn");
+            else this.interface.updategameStatusMessage("P2 Turn");
+            break;
+            case 4:
+            if(this.game.next == "w") this.interface.updategameStatusMessage("BOT1 Turn");
+            else this.interface.updategameStatusMessage("BOT2 Turn");
+            break;
+        }
+    }
+
+    getOptionsString() {
+       let op = this.interface.gameOptions;
+       let ret = "[";
+       if(op.tournament) ret += "tournament(true)";
+       else ret += "tournament(false)";
+       if(!op.custom) ret += ",difficulty(" + op.difficulty + ")]";
+       else {
+           ret += ",depth(" + op.depth + ")";
+           ret += ",padding(" + op.padding + ")";
+           ret += ",width([" + op.width_1;
+           ret += "," + op.width_2;
+           ret += "," + op.width_3 + "])]";
+       }
+       return ret;
+   }
 
   /**
   * Initializes the scene lights with the values read from the XML file.

@@ -1,4 +1,4 @@
-class Pente{
+class Game{
     constructor(board, next, captures, turn, options, loaded, previous){
         this.client = new Client();
 
@@ -28,19 +28,25 @@ class Pente{
         this.timeout = 2000;
     }
 
-    init(mode, options) {
+    init(mode) {
         if(!this.active_game && !this.film) {
-            return this.reset(options).then(() => {
+            console.log('AAAAAA');
+                this.reset();
+                console.log('BBBBBB');
                 this.game_mode = mode;
+                console.log('CCCCCC');
                 this.active_game = true;
+                console.log('DDDDDD');
                 if(mode == 1 || mode == 2) {
+                    console.log('EEEEEE');
                     this.player_turn = true;
+                    console.log('FFFFFF');
                     return null;
                 }
                 else {
                     return this.bot().then(() => this.player_turn = true);
                 }
-            });
+
         }
         return null;
     }
@@ -95,8 +101,8 @@ class Pente{
         let next = game[0];
         game = game.slice(2, game.length);
 
-        let captures = {w: game.substring(1, game.indexOf(',')),
-                        b: game.substring(game.indexOf(',') + 1, game.indexOf(']'))};
+        let captures = {Player1: game.substring(1, game.indexOf(',')),
+                        Player2: game.substring(game.indexOf(',') + 1, game.indexOf(']'))};
         game = game.slice(game.indexOf(']') + 2, game.length);
 
         let turn = game.substring(0, game.indexOf(','));
@@ -134,3 +140,139 @@ class Pente{
            }
        })
    }
+
+   botMoveCoord(previousBoard, currentBoard) {
+        previousBoard = previousBoard.replace(/[,\[\]]/g, "");
+        currentBoard = currentBoard.replace(/[,\[\]]/g, "");
+        let coords;
+        for(let i = 0; i < currentBoard.length; i++) {
+            if(previousBoard[i] == "c" && currentBoard[i] != "c") {
+                let c = Math.floor(i/this.options.board_size);
+                coords =  {col: i - c * this.options.board_size + 1,
+                            row: c + 1};
+                return coords;
+            }
+        }
+    }
+
+    gameover() {
+        return this.client.makeRequest("gameover(" + this + ")")
+        .then( r => {
+            if(r == "false") return false;
+            else {
+                if(this.active_game) {
+                    this.active_game = false;
+                    this.winner = r;
+                    this.timer = 0;
+                }
+                return r;
+            }
+        })
+    }
+
+    reset(options) {
+        this.active_game = false;
+        this.game_mode = undefined;
+        this.player_turn = false;
+        this.previous = null;
+        this.winner = undefined;
+        this.timer = 0;
+        this.history = [];
+        this.film = false;
+
+        this.next = "Player1";
+        this.captures = {Player1: "0", Player2: "0"};
+        this.turn = "0";
+
+        this.loaded = false;
+
+    }
+
+    undo() {
+        if(this.player_turn && this.active_game) {
+            if(this.game_mode == 1) {
+                this.undo_aux();
+            }
+            else if(this.game_mode == 2) {
+                this.undo_aux();
+                this.undo_aux();
+            }
+            else if(this.game_mode == 3) {
+                if(this.turn != "1") {
+                    this.undo_aux();
+                    this.undo_aux();
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    undo_aux() {
+        if(this.previous) {
+            this.board       = this.previous.board;
+            this.next        = this.previous.next;
+            this.captures    = this.previous.captures;
+            this.turn        = this.previous.turn;
+            this.options     = this.previous.options;
+            this.previous    = this.previous.previous;
+            this.active_game = true;
+            this.winner      = undefined;
+            this.timer       = 0;
+            if(this.history.length > 0) this.history.pop();
+        }
+    }
+
+    replay(callback) {
+        if(!this.active_game && this.winner) {
+            this.film = true;
+            let index = 0;
+
+            let film = () => {
+                setTimeout(callback, this.timeout, this.board, (this.timeout+2000));
+                this.timeout += 2000;
+                let move = this.history[index];
+                index++;
+                if(move) {
+                    this.move(move.row, move.col)
+                    .then(r => {film()});
+                }
+            }
+            this.client.makeRequest("make_board(" + this.options.board_size + ")")
+            .then(r => {
+                this.board = r;
+                this.next= "Player1";
+                this.captures = {Player1: "0", Player2: "0"}
+                film();
+            })
+        }
+    }
+
+    toString() {
+       return "game(" + this.board
+               + "," + this.next
+               + ",[" + this.captures.Player1 + "," + this.captures.Player2 + "]"
+               + "," + this.turn
+               + "," + this.getOptions() + ")";
+   }
+
+   clone() {
+       return new Pente(this.board, this.next, this.captures,
+                       this.turn, this.options, this.loaded,
+                       this.previous);
+   }
+
+   update(deltaTime) {
+        if(this.active_game) {
+            let s = deltaTime / 1000;
+            this.timer += s;
+            if(this.timer >= this.maxTime) {
+                this.active_game = false;
+                this.winner = (this.next == "Player1") ? "Player2" : "Player1";
+                this.timer = 0;
+                return true;
+            }
+        }
+        return false;
+    }
+}
