@@ -74,7 +74,6 @@ class Game{
     updateGame(game,turn) {
         this.previous = this.clone();
 
-
         this.board = game;
         this.turn = turn;
         if((turn % 2)==0){

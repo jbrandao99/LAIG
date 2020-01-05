@@ -123,7 +123,7 @@ class MyBoard extends CGFobject
                             this.capturesPiecesP2++;
                         }
                         break;
-                    } else if (board[i] == "Player1" || board[i] == "Player2") break;
+                    } else if (board[i] == "Player1" || board[i] == "Player2" || board[i] == "block" ) break;
                 }
             }
             if(flag) {
@@ -133,7 +133,7 @@ class MyBoard extends CGFobject
                     this.pieces.push({finalCoords: finalCoords, currentCoords: initialCoordsP1, initialCoords: initialCoordsP1_2,  piece: this.pieceP1});
                 }
                 else if(next == "Player2") {
-                    let initialCoordsP2 = {x: 20.4, y: 17.9, z: 1};
+                    let initialCoordsP2 = {x: 0, y: 0, z: 4};
                     let initialCoordsP2_2 = JSON.parse(JSON.stringify(initialCoordsP2));
                     this.pieces.push({finalCoords: finalCoords, currentCoords: initialCoordsP2, initialCoords: initialCoordsP2_2, piece: this.pieceP2});
                 }
