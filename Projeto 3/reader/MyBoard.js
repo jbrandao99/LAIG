@@ -81,7 +81,7 @@ class MyBoard extends CGFobject
      * @param {String} board
      */
     updateBoard(board,next) {
-        board = board.replace(/[,\[\]]/g, "");
+  //      board = board.replace(/[,\[\]]/g, "");
         let flag;
 
         for(let i = 0; i < this.size*this.size; i++) {
@@ -91,7 +91,6 @@ class MyBoard extends CGFobject
             for(let j = this.pieces.length - 1; j >= 0; j--) {
                 if(finalCoords.row == this.pieces[j].finalCoords.row && finalCoords.col == this.pieces[j].finalCoords.col) {
                     flag = false;
-															console.log(this.size);
                     if(board[i] == "empty") {
 
                         if(this.pieces[j].piece == this.pieceP1){
@@ -326,6 +325,7 @@ class MyBoard extends CGFobject
      */
     displayPreview() {
         if(this.piecePreviewCoord != undefined && this.scene.game.active_game) {
+					console.log('AAAA');
             this.scene.pushMatrix();
             this.scene.translate(0.6, 0.6, 0);
             this.scene.translate(this.piecePreviewCoord.row*0.99,
@@ -365,12 +365,12 @@ class MyBoard extends CGFobject
         this.scene.rotate(-Math.PI/2, 1,0,0);
 
         if(this.scene.pickMode == false) {
+
             this.board.display();
             this.displayPreview();
             this.displayPieces();
         }
         else {
-						console.log('AAAA');
             this.scene.pushMatrix();
             this.scene.translate(0.23, 0.3, 0);
             for(let i = 0; i < this.size; i++) {

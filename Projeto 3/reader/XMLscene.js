@@ -48,6 +48,7 @@ class XMLscene extends CGFscene {
     this.secTexture = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height); //create render-to-texture texture
 
     //TP3
+    this.mouseHoverEvent = false;
     this.game = new Game();
     this.board;
   }
@@ -95,7 +96,7 @@ class XMLscene extends CGFscene {
     updateMessage() {
         if(this.game.winner) {
             this.interface.updategameStatusMessage("Gameover ("
-            + ((this.game.winner == "w") ? "P1" : "P2") + " Won)");
+            + ((this.game.winner == "Player1") ? "P1" : "P2") + " Won)");
             return;
         }
 
@@ -106,19 +107,19 @@ class XMLscene extends CGFscene {
 
         switch(this.game.game_mode) {
             case 1:
-            if(this.game.next == "w") this.interface.updategameStatusMessage("P1 Turn");
+            if(this.game.next == "Player1") this.interface.updategameStatusMessage("P1 Turn");
             else this.interface.updategameStatusMessage("P2 Turn");
             break;
             case 2:
-            if(this.game.next == "w") this.interface.updategameStatusMessage("P1 Turn");
+            if(this.game.next == "Player1") this.interface.updategameStatusMessage("P1 Turn");
             else this.interface.updategameStatusMessage("BOT2 Turn");
             break;
             case 3:
-            if(this.game.next == "w") this.interface.updategameStatusMessage("BOT1 Turn");
+            if(this.game.next == "Player1") this.interface.updategameStatusMessage("BOT1 Turn");
             else this.interface.updategameStatusMessage("P2 Turn");
             break;
             case 4:
-            if(this.game.next == "w") this.interface.updategameStatusMessage("BOT1 Turn");
+            if(this.game.next == "Player1") this.interface.updategameStatusMessage("BOT1 Turn");
             else this.interface.updategameStatusMessage("BOT2 Turn");
             break;
         }
@@ -146,7 +147,7 @@ class XMLscene extends CGFscene {
             switch(this.game.game_mode) {
                 case 1:
                     this.game.player_turn = false;
-                    this.game.move(coords.row, coords.col)
+                    this.game.move(coords.row, coords.col,this.game.turn)
                     .then(() => {
                         this.board.updateBoard(this.game.board);
                         this.game.gameover().then(r => {

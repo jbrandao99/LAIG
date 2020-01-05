@@ -79,7 +79,7 @@ addPiece(Piece, Player, Board, NewBoard, PlayerMode) :-
     format('Player 1: ~w~n',[Value1]),
     format('Player 2: ~w~n',[Value2]),
     symbol(Piece, S),
-    format('\n------------------ Player ~w - ~w -------------------\n', [Player, S]),
+
     (PlayerMode == 'P' ->
         checkPlay(Board, Line, Column);
     (PlayerMode == 'C0'; PlayerMode == 'C1') ->
@@ -221,10 +221,10 @@ getValidMovesRight(Board, Block, N, ColumnMax, ListOfMoves) :-
 
 /*
 ListOfMoves format:
-[ 
+[
     [ BlockOfPieces , [All valid moves for BlockOfPieces] ],
     [ BlockOfPieces1 , [All valid moves for BlockOfPieces1] ]
-    ... 
+    ...
 ]
 
 Example:
@@ -235,7 +235,7 @@ Example:
 ]
 */
 getValidMoves(_,_,[],[]).
-    
+
 getValidMoves(Board, Player, [H|T], ListOfMoves) :-
     getMinLine(H, 11, LineMin),
     getMaxLine(H, 0, LineMax),
@@ -353,7 +353,7 @@ choose_move(Board, Level, Move) :-
     append([Player], [MovePositions], Move).
 
 /*Play*/
-play(Player, Board, NewBoard, PlayerMode) :-    
+play(Player, Board, NewBoard, PlayerMode) :-
     value(Board, player1, Value1),
     value(Board, player2, Value2),
     valid_moves(Board, Player, ListOfMoves),
@@ -415,7 +415,7 @@ gameLoop(Board, FinalBoard, Player1, Player2, Player1Mode, Player2Mode) :-
         FinalBoard = Board).
 
 /*Inicia um jogo*/
-startGame(Player1, Player2, Player1Mode, Player2Mode) :- 
+startGame(Player1, Player2, Player1Mode, Player2Mode) :-
     initialBoard(Board),
     addBlocks(Board, NewBoard, Player1, Player2, Player1Mode, Player2Mode),
     addPiece(player1, Player1, NewBoard, NewBoard1, Player1Mode),
@@ -426,7 +426,3 @@ startGame(Player1, Player2, Player1Mode, Player2Mode) :-
     value(FinalBoard, player1, Value1),
     value(FinalBoard, player2, Value2),
     winnerMenu(Winner, Value1, Value2).
-    
-    
-    
-    
