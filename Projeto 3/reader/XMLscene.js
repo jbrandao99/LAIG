@@ -49,6 +49,7 @@ class XMLscene extends CGFscene {
 
     //TP3
     this.game = new Game();
+    this.board;
   }
 
   initGraphCameras() {
@@ -80,13 +81,14 @@ class XMLscene extends CGFscene {
   }
 
   updateGameMode(mode) {
-        this.game.maxTime = this.interface.gameOptions.maxTime;
-
-          let init = this.game.init(mode);
-            this.updateMessage();
-            this.board.reset();
-            this.board.updateBoard(this.game.board);
-            if(mode == 4) this.botvbot();
+    this.game.maxTime = this.interface.gameOptions.maxTime;
+    let init = this.game.init(mode);
+    this.updateMessage();
+    this.board.reset();
+    console.log(this.game.board);
+    this.board.updateBoard(this.game.board);
+    console.log('LEELELELELLE');
+    if(mode == 4) this.botvbot();
 
     }
 

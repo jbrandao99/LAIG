@@ -1093,7 +1093,7 @@ class MySceneGraph {
             if (grandChildren.length != 1 ||
                 (grandChildren[0].nodeName != 'rectangle' && grandChildren[0].nodeName != 'triangle' &&
                     grandChildren[0].nodeName != 'cylinder' && grandChildren[0].nodeName != 'sphere' &&
-                    grandChildren[0].nodeName != 'torus') && grandChildren[0].nodeName != "plane" && grandChildren[0].nodeName != "patch" && grandChildren[0].nodeName != "cylinder2") {
+                    grandChildren[0].nodeName != 'torus') && grandChildren[0].nodeName != "plane" && grandChildren[0].nodeName != "patch" && grandChildren[0].nodeName != "cylinder2" && grandChildren[0].nodeName != "board") {
                 return "There must be exactly 1 primitive type (rectangle, triangle, cylinder, sphere or torus)"
             }
 
@@ -1208,6 +1208,45 @@ class MySceneGraph {
 
                 primitives.push({id: primitiveId, type: "cylinder", primitive: cylinder});
             }
+
+            if (primitiveType == 'board'){
+                var idp1 = this.reader.getString(grandChildren[0], 'p1');
+                if (idp1 == null)
+                    return "no ID defined for p1 material in primitive with ID = " + primitiveId;
+
+                var idp2 = this.reader.getString(grandChildren[0], 'p2');
+                if (idp2 == null)
+                    return "no ID defined for p2 material in primitive with ID = " + primitiveId;
+
+                var idpreview = this.reader.getString(grandChildren[0], 'preview');
+                if (idpreview == null)
+                    return "no ID defined for preview material in primitive with ID = " + primitiveId;
+
+                var p1 = null, p2 = null, preview = null;
+                for(let m = 0; m < this.materials.length; m++){
+                    if(this.materials[m].id == idp1)
+                        p1 = this.materials[m].material;
+                    else if(this.materials[m].id == idp2)
+                        p2 = this.materials[m].material;
+                    else if(this.materials[m].id == idpreview)
+                        preview = this.materials[m].material;
+                }
+                if(p1 == null){
+                    return "no material with ID = " + idp1 + " in primitive with ID = "+ primitiveId;
+                }
+
+                if(p2 == null){
+                    return "no material with ID = " + idp2 + " in primitive with ID = "+ primitiveId;
+                }
+
+                if(preview == null){
+                    return "no material with ID = " + idpreview + " in primitive with ID = "+ primitiveId;
+                }
+
+                var board = new MyBoard(this.scene);
+                primitives.push({id: primitiveId, type: "board", primitive: board});
+
+              }
 
 
             if (primitiveType == 'sphere') {

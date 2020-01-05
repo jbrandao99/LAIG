@@ -29,26 +29,23 @@ class Game{
     }
 
     init(mode) {
-        if(!this.active_game && !this.film) {
-            console.log('AAAAAA');
-                this.reset();
-                console.log('BBBBBB');
-                this.game_mode = mode;
-                console.log('CCCCCC');
-                this.active_game = true;
-                console.log('DDDDDD');
-                if(mode == 1 || mode == 2) {
-                    console.log('EEEEEE');
-                    this.player_turn = true;
-                    console.log('FFFFFF');
-                    return null;
-                }
-                else {
-                    return this.bot().then(() => this.player_turn = true);
-                }
+      if(!this.active_game && !this.film) {
+          console.log('AAAAAA');
+          return this.reset().then(() => {
+            console.log('BBBBBBB');
+          this.game_mode = mode;
+          this.active_game = true;
+             if(mode == 1 || mode == 2) {
+                 this.player_turn = true;
+                 return null;
+             }
+             else {
+                 return this.bot().then(() => this.player_turn = true);
+             }
+           });
 
-        }
-        return null;
+     }
+     return null;
     }
 
     getOptions() {
@@ -170,7 +167,7 @@ class Game{
         })
     }
 
-    reset(options) {
+    reset() {
         this.active_game = false;
         this.game_mode = undefined;
         this.player_turn = false;
@@ -185,6 +182,16 @@ class Game{
         this.turn = "0";
 
         this.loaded = false;
+          console.log('CCCCC');
+
+            var r = this.client.makeRequest("initialBoard")
+
+                this.board = r;
+                  console.log('DDDD');
+                  console.log(this.board);
+                this.loaded = true;
+
+
 
     }
 

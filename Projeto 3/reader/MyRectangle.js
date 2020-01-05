@@ -62,6 +62,13 @@ class MyRectangle extends CGFobject {
 		this.initGLBuffers();
 	}
 
+	display() {
+
+		if(this.scene.pickMode == false) {
+		  super.display();
+		}
+	}
+
 	/**
 	* @method updateTexCoords
 	* Updates the list of texture coordinates of the rectangle

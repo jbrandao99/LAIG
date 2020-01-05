@@ -111,9 +111,9 @@ print_header_line(_).
 
 parse_input(quit, goodbye).
 
-parse_input(make_board(Size), Board) :- make_board(Size, Board).
+parse_input(initialBoard, Board) :- initialBoard(Board).
 
-parse_input(options(Options), O) :- sanitize_options(Options, O).
+parse_input(options(Options), O).
 
 parse_input(move(Game, Move), NewGame) :-
 	Game = game(Board, _, _, Turn, Options),
