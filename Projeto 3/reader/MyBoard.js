@@ -12,7 +12,7 @@ class MyBoard extends CGFobject
         super(scene);
         this.scene.board = this;
 
-        this.size = 9.6;
+        this.size = 10;
 
         this.board = new MyRectangle(this.scene,null, 0, this.size,0 , this.size);
         this.sensor = new MyPick(this.scene, 0.72);
@@ -80,10 +80,10 @@ class MyBoard extends CGFobject
      * Updates the board state with the server response board
      * @param {String} board
      */
-    updateBoard(board) {
-			console.log(board);
-    //    board = board.replace(/[,\[\]]/g, "");
+    updateBoard(board,next) {
+        board = board.replace(/[,\[\]]/g, "");
         let flag;
+
         for(let i = 0; i < this.size*this.size; i++) {
             flag = true;
             let t = Math.floor(i/this.size);
@@ -91,7 +91,9 @@ class MyBoard extends CGFobject
             for(let j = this.pieces.length - 1; j >= 0; j--) {
                 if(finalCoords.row == this.pieces[j].finalCoords.row && finalCoords.col == this.pieces[j].finalCoords.col) {
                     flag = false;
+															console.log(this.size);
                     if(board[i] == "empty") {
+
                         if(this.pieces[j].piece == this.pieceP1){
                             this.pieces[j].initialCoords = JSON.parse(JSON.stringify(this.pieces[j].currentCoords));
                             this.pieces[j].finalCoords.row = 21.6 + this.incrementPieceP1Row;
@@ -126,12 +128,12 @@ class MyBoard extends CGFobject
                 }
             }
             if(flag) {
-                if(board[i] == "Player1") {
-                    let initialCoordsP1 = {x: 20.4, y: -0.1, z: 1};
+                if(next == "Player1") {
+                    let initialCoordsP1 = {x: 0, y: 0, z: 2};
                     let initialCoordsP1_2 = JSON.parse(JSON.stringify(initialCoordsP1));
                     this.pieces.push({finalCoords: finalCoords, currentCoords: initialCoordsP1, initialCoords: initialCoordsP1_2,  piece: this.pieceP1});
                 }
-                else if(board[i] == "Player2") {
+                else if(next == "Player2") {
                     let initialCoordsP2 = {x: 20.4, y: 17.9, z: 1};
                     let initialCoordsP2_2 = JSON.parse(JSON.stringify(initialCoordsP2));
                     this.pieces.push({finalCoords: finalCoords, currentCoords: initialCoordsP2, initialCoords: initialCoordsP2_2, piece: this.pieceP2});
@@ -323,7 +325,7 @@ class MyBoard extends CGFobject
      * Displays preview piece when mouse is over the board.
      */
     displayPreview() {
-        if(this.piecePreviewCoord != undefined && this.scene.pente.active_game) {
+        if(this.piecePreviewCoord != undefined && this.scene.game.active_game) {
             this.scene.pushMatrix();
             this.scene.translate(0.6, 0.6, 0);
             this.scene.translate(this.piecePreviewCoord.row*0.99,
@@ -358,7 +360,7 @@ class MyBoard extends CGFobject
         this.logPicking();
 
         this.scene.pushMatrix();
-        this.scene.scale(0.2, 0.2, 0.2);
+        this.scene.scale(0.192, 0.192, 0.192);
         this.scene.translate(0, 0, this.size);
         this.scene.rotate(-Math.PI/2, 1,0,0);
 
@@ -368,6 +370,7 @@ class MyBoard extends CGFobject
             this.displayPieces();
         }
         else {
+						console.log('AAAA');
             this.scene.pushMatrix();
             this.scene.translate(0.23, 0.3, 0);
             for(let i = 0; i < this.size; i++) {

@@ -372,7 +372,7 @@
     			<materials>
     				<material id="inherit" />
     			</materials>
-    			<texture id="BoardTexture" length_s="9.6" length_t="9.6"/>
+    			<texture id="BoardTexture" length_s="10" length_t="10"/>
     			<children>
     				<primitiveref id="MainBoard"/>
     			</children>

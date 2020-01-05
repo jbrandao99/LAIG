@@ -83,13 +83,13 @@ class XMLscene extends CGFscene {
   updateGameMode(mode) {
     this.game.maxTime = this.interface.gameOptions.maxTime;
     let init = this.game.init(mode);
-    this.updateMessage();
-    this.board.reset();
-    console.log(this.game.board);
-    this.board.updateBoard(this.game.board);
-    console.log('LEELELELELLE');
-    if(mode == 4) this.botvbot();
-
+        if(init) init.then(() => {
+            this.updateMessage();
+            this.board.reset();
+            console.log(this.game.next);
+            this.board.updateBoard(this.game.board,this.game.next);
+            if(mode == 4) this.botvbot();
+        })
     }
 
     updateMessage() {
@@ -139,6 +139,63 @@ class XMLscene extends CGFscene {
        }
        return ret;
    }
+
+   board_click(coords) {
+     console.log(coords);
+        if(this.game.active_game && this.game.player_turn) {
+            switch(this.game.game_mode) {
+                case 1:
+                    this.game.player_turn = false;
+                    this.game.move(coords.row, coords.col)
+                    .then(() => {
+                        this.board.updateBoard(this.game.board);
+                        this.game.gameover().then(r => {
+                            this.game.player_turn = true;
+                            this.updateMessage();
+                        })
+                    })
+                    break;
+                case 2:
+                    this.game.player_turn = false;
+                    this.game.move(coords.row, coords.col)
+                    .then(() => {
+                        this.board.updateBoard(this.game.board);
+                        this.game.gameover().then(r => {
+                            if(!r) {
+                                this.game.bot().then( () => {
+                                    this.board.updateBoard(this.game.board);
+                                    this.game.gameover().then(r => {
+                                        this.game.player_turn = true;
+                                        this.updateMessage();
+                                    })
+                                })
+                            }
+                            this.updateMessage();
+                        })
+                    })
+                    break;
+                case 3:
+                    this.game.player_turn = false;
+                    this.game.move(coords.row, coords.col)
+                    .then(() => {
+                        this.board.updateBoard(this.game.board);
+                        this.game.gameover().then(r => {
+                            if(!r) {
+                                this.game.bot().then( () => {
+                                    this.board.updateBoard(this.game.board);
+                                    this.game.gameover().then(r => {
+                                        this.game.player_turn = true;
+                                        this.updateMessage();
+                                    })
+                                })
+                            }
+                            this.updateMessage();
+                        })
+                    })
+                    break;
+            }
+        }
+    }
 
   /**
   * Initializes the scene lights with the values read from the XML file.

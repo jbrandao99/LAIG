@@ -117,7 +117,6 @@ parse_input(options(Options), O).
 
 parse_input(move(Game, Move), NewGame) :-
 	Game = game(Board, _, _, Turn, Options),
-	opt_tournament(Options, Tournament),
 	valid_move(Board, Turn, Tournament, Move), !,
 	move(Move, Game, NewGame).
 parse_input(move(_, _), false) :- write('fail'),nl.

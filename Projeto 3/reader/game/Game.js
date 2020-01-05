@@ -30,9 +30,9 @@ class Game{
 
     init(mode) {
       if(!this.active_game && !this.film) {
-          console.log('AAAAAA');
+
           return this.reset().then(() => {
-            console.log('BBBBBBB');
+
           this.game_mode = mode;
           this.active_game = true;
              if(mode == 1 || mode == 2) {
@@ -42,7 +42,7 @@ class Game{
              else {
                  return this.bot().then(() => this.player_turn = true);
              }
-           });
+           })
 
      }
      return null;
@@ -182,15 +182,13 @@ class Game{
         this.turn = "0";
 
         this.loaded = false;
-          console.log('CCCCC');
 
-            var r = this.client.makeRequest("initialBoard")
 
+            return this.client.makeRequest("initialBoard")
+            .then(r => {
                 this.board = r;
-                  console.log('DDDD');
-                  console.log(this.board);
                 this.loaded = true;
-
+            })
 
 
     }
