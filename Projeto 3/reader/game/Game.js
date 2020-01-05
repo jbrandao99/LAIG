@@ -21,7 +21,7 @@ class Game{
         this.board = board || undefined;
         this.next = next || " Player1";
         this.captures = captures || {Player1: "0", Player2: "0"};
-        this.turn = turn || "0";
+      this.turn = turn || "1";
         this.options = options || {};
 
         this.loaded = loaded || false;
@@ -71,47 +71,60 @@ class Game{
         return ret;
     }
 
-    updateGame(game) {
+    updateGame(game,turn) {
         this.previous = this.clone();
-        let game_parsed = this.parseGameString(game);
 
-        this.board = game_parsed.board;
-        this.next = game_parsed.next;
-        this.captures = game_parsed.captures;
-        this.turn = game_parsed.turn;
-        this.options = game_parsed.options;
+        this.board = game;
+        this.turn = turn;
+        if((turn % 2)==0){
+          this.next = "Player2";
+        }
+        else {
+          this.next = "Player1";
+        }
+
         this.timer = 0;
     }
 
-    updateGame_replay(game) {
-        let game_parsed = this.parseGameString(game);
+    updateGame_replay(game,turn) {
+        let game_parsed = this.parseGameString(game,turn);
 
         this.board = game_parsed.board;
         this.next = game_parsed.next;
-        this.captures = game_parsed.captures;
     }
 
-    parseGameString(game) {
-        let board_re = /\[(\[([cwb][,]?)+\][,]?)+\]/;
-        let board = board_re.exec(game)[0];
-        game = game.slice(game.search("]],") + 3, game.length);
-        let next = game[0];
-        game = game.slice(2, game.length);
+/*    parseGameString(game,turn) {
 
-        let captures = {Player1: game.substring(1, game.indexOf(',')),
-                        Player2: game.substring(game.indexOf(',') + 1, game.indexOf(']'))};
-        game = game.slice(game.indexOf(']') + 2, game.length);
+        let board = game;
 
-        let turn = game.substring(0, game.indexOf(','));
-        game = game.slice(game.indexOf(',') + 1, game.length - 1);
+        let turn = turn +1;
 
-        let options = this.parseOptions(game);
+        if((turn % 2)==0){
+          let next = "Player2";
+        }
+        else {
+          let next = "Player1";
+        }
 
-        return {board: board, next: next, captures: captures, turn: turn, options: options};
-    }
+        return {board: board, next: next, turn: turn};
+    }*/
 
-    move(R, C) {
-        return this.client.makeRequest("move(" + this + ",[" + R + "," + C + "])")
+    move(R, C,turn) {
+        console.log(turn);
+        if(turn<4){
+          return this.client.makeRequest("place_block(" + this.board + "," + R + "," + C + ")")
+          .then(r => {
+              if(this.active_game && r != "false") {
+                  this.updateGame(r,turn);
+                  this.history.push({row: R, col:C});
+              }
+              else if(this.film) {
+                  this.updateGame_replay(r);
+              }
+          });
+        }
+        else{
+        return this.client.makeRequest("move(" + this.board + ",[" + R + "," + C + "])")
         .then(r => {
             if(this.active_game && r != "false") {
                 this.updateGame(r);
@@ -121,6 +134,7 @@ class Game{
                 this.updateGame_replay(r);
             }
         });
+      }
     }
 
     bot() {
@@ -153,7 +167,7 @@ class Game{
     }
 
     gameover() {
-        return this.client.makeRequest("gameover(" + this + ")")
+        return this.client.makeRequest("gameover(" + this.board + ")")
         .then( r => {
             if(r == "false") return false;
             else {
@@ -262,7 +276,7 @@ class Game{
    }
 
    clone() {
-       return new Pente(this.board, this.next, this.captures,
+       return new Game(this.board, this.next, this.captures,
                        this.turn, this.options, this.loaded,
                        this.previous);
    }

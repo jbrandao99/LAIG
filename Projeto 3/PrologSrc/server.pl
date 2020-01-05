@@ -115,6 +115,8 @@ parse_input(initialBoard, Board) :- initialBoard(Board).
 
 parse_input(options(Options), O).
 
+parse_input(place_block(Board,Line,Column),NewBoard):- replaceInMatrix(Board, Line, Column, block, NewBoard).
+
 parse_input(move(Game, Move), NewGame) :-
 	Game = game(Board, _, _, Turn, Options),
 	valid_move(Board, Turn, Tournament, Move), !,
@@ -127,8 +129,11 @@ parse_input(bot(Game), NewGame) :-
 	choose_move(Tree, Move, Options),
 	move(Move, Game, NewGame).
 
-parse_input(gameover(Game), P) :-
-	is_player(P),
-	game_over(Game, P),
-	victory(P).
+parse_input(gameover(Board), P) :-
+	valid_moves(Board, 'PlayerA', ListOfMoves),
+	valid_moves(Board, 'PlayerB', ListOfMoves1),
+	ListOfMoves \= [];
+	ListOfMoves1 \= [],
+	P is "false".
+
 parse_input(gameover(_), false).
