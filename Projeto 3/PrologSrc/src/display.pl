@@ -1,19 +1,19 @@
 initialBoard([
-[empty,empty,empty,empty,empty,empty,empty,empty,empty,empty],
-[empty,empty,empty,empty,empty,empty,empty,empty,empty,empty],
-[empty,empty,empty,empty,empty,empty,empty,empty,empty,empty],
-[empty,empty,empty,empty,empty,empty,empty,empty,empty,empty],
-[empty,empty,empty,empty,empty,empty,empty,empty,empty,empty],
-[empty,empty,empty,empty,empty,empty,empty,empty,empty,empty],
-[empty,empty,empty,empty,empty,empty,empty,empty,empty,empty],
-[empty,empty,empty,empty,empty,empty,empty,empty,empty,empty],
-[empty,empty,empty,empty,empty,empty,empty,empty,empty,empty],
-[empty,empty,empty,empty,empty,empty,empty,empty,empty,empty]
+[e,e,e,e,e,e,e,e,e,e],
+[e,e,e,e,e,e,e,e,e,e],
+[e,e,e,e,e,e,e,e,e,e],
+[e,e,e,e,e,e,e,e,e,e],
+[e,e,e,e,e,e,e,e,e,e],
+[e,e,e,e,e,e,e,e,e,e],
+[e,e,e,e,e,e,e,e,e,e],
+[e,e,e,e,e,e,e,e,e,e],
+[e,e,e,e,e,e,e,e,e,e],
+[e,e,e,e,e,e,e,e,e,e]
 ]).
 
-symbol(empty,S) :- S=' '.
-symbol(player1,S) :- S='A'.
-symbol(player2,S) :- S='B'.
+symbol(e,S) :- S=' '.
+symbol(a,S) :- S='A'.
+symbol(b,S) :- S='B'.
 symbol(block,S) :- S='#'.
 
 letter(1, L) :- L='A'.

@@ -6,7 +6,7 @@ checkPlay(Board, LineOut, ColumnOut) :-
 
 isEmpty(Board, Line, Column, LineOut, ColumnOut) :-
     getValueFromMatrix(Board, Line, Column, Value),
-    Value == empty,
+    Value == e,
     LineOut is Line,
     ColumnOut is Column.
 
@@ -23,7 +23,7 @@ checkSurroundings(_, _, 11, Board, Board, []).
 checkSurroundings(Player, Line, Column, Board, FinalBoard, ListOfBlocks) :-
   getValueFromMatrix(Board, Line, Column, Value),
   Value == Player,
-  replaceInMatrix(Board, Line, Column, empty, NewBoard),
+  replaceInMatrix(Board, Line, Column, e, NewBoard),
   RightColumn is Column + 1,
   LineDown is Line + 1,
   LeftColumn is Column - 1,
@@ -62,7 +62,7 @@ getEmptyCells(Board, Line, 11, ListOfMoves):-
 
 getEmptyCells(Board, Line, Column, ListOfMoves) :-
     getValueFromMatrix(Board, Line, Column, Value),
-    (Value == empty ->
+    (Value == e ->
     Coordinates = [Line,Column];
     Coordinates = []),
     NewColumn is Column+1,
@@ -112,7 +112,7 @@ checkMoveUp(Board, [H|T], N, LineMin, MovePositions) :-
     NewLine > 0,
     NewLine < 11,
     getValueFromMatrix(Board, NewLine, Column, Value),
-    Value == empty,
+    Value == e,
     checkMoveUp(Board, T, N, LineMin, AuxMovePositions),
     append([[NewLine, Column]], AuxMovePositions, MovePositions).
 
@@ -127,7 +127,7 @@ checkMoveDown(Board, [H|T], N, LineMax, MovePositions) :-
     NewLine > 0,
     NewLine < 11,
     getValueFromMatrix(Board, NewLine, Column, Value),
-    Value == empty,
+    Value == e,
     checkMoveDown(Board, T, N, LineMax, AuxMovePositions),
     append([[NewLine, Column]], AuxMovePositions, MovePositions).
 
@@ -142,7 +142,7 @@ checkMoveLeft(Board, [H|T], N, ColumnMin, MovePositions) :-
     NewColumn > 0,
     NewColumn < 11,
     getValueFromMatrix(Board, Line, NewColumn, Value),
-    Value == empty,
+    Value == e,
     checkMoveLeft(Board, T, N, ColumnMin, AuxMovePositions),
     append(AuxMovePositions, [[Line, NewColumn]], MovePositions).
 
@@ -157,7 +157,7 @@ checkMoveRight(Board, [H|T], N, ColumnMax, MovePositions) :-
     NewColumn > 0,
     NewColumn < 11,
     getValueFromMatrix(Board, Line, NewColumn, Value),
-    Value == empty,
+    Value == e,
     checkMoveRight(Board, T, N, ColumnMax, AuxMovePositions),
     append(AuxMovePositions, [[Line, NewColumn]], MovePositions).
 
@@ -256,6 +256,7 @@ getValidMoves(Board, Player, [H|T], ListOfMoves) :-
     append([], OtherBlockListOfMoves, ListOfMoves)).
 
 valid_moves(Board, Player, ListOfMoves) :-
+    write(Player),
     getPiecesBlocks(Board, Player, 1, 1, ListOfBlocks),
     getValidMoves(Board, Player, ListOfBlocks, ListOfMoves).
 

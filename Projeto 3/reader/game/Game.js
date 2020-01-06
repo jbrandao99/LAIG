@@ -19,10 +19,10 @@ class Game{
 
         // game information required for server
         this.board = board || undefined;
-        this.next = next || " Player1";
-        this.captures = captures || {Player1: "0", Player2: "0"};
-      this.turn = turn || "1";
-        this.options = options || {};
+        this.next = next || "Player1";
+
+        this.turn = turn || 1;
+
 
         this.loaded = loaded || false;
         this.timeout = 2000;
@@ -42,7 +42,7 @@ class Game{
              else {
                  return this.bot().then(() => this.player_turn = true);
              }
-           })
+           });
 
      }
      return null;
@@ -75,12 +75,12 @@ class Game{
         this.previous = this.clone();
 
         this.board = game;
-        this.turn = turn;
+        this.turn = turn+1;
         if((turn % 2)==0){
-          this.next = "Player2";
+          this.next = "Player1";
         }
         else {
-          this.next = "Player1";
+          this.next = "Player2";
         }
 
         this.timer = 0;
@@ -110,9 +110,9 @@ class Game{
     }*/
 
     move(R, C,turn) {
-        console.log(turn);
-        if(turn<4){
-          return this.client.makeRequest("place_block(" + this.board + "," + R + "," + C + ")")
+
+        if(this.next == "Player1"){
+          return this.client.makeRequest("place_block_1(" + this.board + "," + R + "," + C + ")")
           .then(r => {
               if(this.active_game && r != "false") {
                   this.updateGame(r,turn);
@@ -124,7 +124,7 @@ class Game{
           });
         }
         else{
-        return this.client.makeRequest("move(" + this.board + ",[" + R + "," + C + "])")
+        return this.client.makeRequest("place_block_2(" + this.board + "," + R + "," + C + ")")
         .then(r => {
             if(this.active_game && r != "false") {
                 this.updateGame(r);
@@ -134,8 +134,9 @@ class Game{
                 this.updateGame_replay(r);
             }
         });
-      }
+
     }
+  }
 
     bot() {
        return this.client.makeRequest("bot(" + this + ")")
@@ -167,7 +168,7 @@ class Game{
     }
 
     gameover() {
-        return this.client.makeRequest("gameover(" + this.board + ")")
+        return this.client.makeRequest("gameover(" + this.board + "," +this.turn+ ")")
         .then( r => {
             if(r == "false") return false;
             else {
@@ -193,7 +194,7 @@ class Game{
 
         this.next = "Player1";
         this.captures = {Player1: "0", Player2: "0"};
-        this.turn = "0";
+        this.turn = 1;
 
         this.loaded = false;
 

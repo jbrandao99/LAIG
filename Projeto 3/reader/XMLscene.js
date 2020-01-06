@@ -48,9 +48,12 @@ class XMLscene extends CGFscene {
     this.secTexture = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height); //create render-to-texture texture
 
     //TP3
+      this.setPickEnabled(true);
     this.mouseHoverEvent = false;
     this.game = new Game();
     this.board;
+    this.cameraZindex = 30;
+
   }
 
   initGraphCameras() {
@@ -75,6 +78,38 @@ class XMLscene extends CGFscene {
     this.camera.near = this.currentViewNear;
   }
 
+  updateCamera(deltaTime){
+        if(this.game.active_game && this.game.game_mode == 1){
+            if(this.game.next == "Player1"){
+                if(this.cameraZindex < 30)
+                    this.cameraZindex += deltaTime/100;
+
+                this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(18, 13, this.cameraZindex), vec3.fromValues(20, 3, 20));
+            }
+            else{
+                if(this.cameraZindex > 10)
+                    this.cameraZindex -= deltaTime/100;
+
+                this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(18, 13, this.cameraZindex), vec3.fromValues(20, 3, 20));
+            }
+        }
+        else if(this.game.active_game && this.game.game_mode == 2){
+            this.camera = this.views["Player1 Camera"];
+            this.interface.setActiveCamera(this.camera);
+        }
+        else if(this.game.active_game && this.game.game_mode == 3){
+            this.camera = this.views["Player2 Camera"];
+            this.interface.setActiveCamera(this.camera);
+        }
+        else if(this.game.active_game && this.game.game_mode == 4){
+            this.camera = this.views["Board Camera"];
+            this.interface.setActiveCamera(this.camera);
+        }
+        else{
+            this.interface.setActiveCamera(this.camera);
+        }
+    }
+
   changeCamera(currentCamera) {
     this.camera = this.views[currentCamera];
     this.interface.setActiveCamera(this.camera);
@@ -87,7 +122,6 @@ class XMLscene extends CGFscene {
         if(init) init.then(() => {
             this.updateMessage();
             this.board.reset();
-            console.log(this.game.next);
             this.board.updateBoard(this.game.board,this.game.next);
             if(mode == 4) this.botvbot();
         })
@@ -141,6 +175,42 @@ class XMLscene extends CGFscene {
        return ret;
    }
 
+   undo() {
+        if(this.game.undo()) {
+            this.board.undoBoard(this.game.board, this.game.captures);
+            this.updateMessage();
+        }
+    }
+
+
+   reset() {
+       this.pente.reset().then( () => {
+           this.board.reset();
+           this.updateMessage();
+       })
+   }
+
+
+   replay(){
+       if(!this.pente.active_game && this.pente.winner != null && !this.pente.film){
+           this.board.reset();
+           this.pente.timeout = 2000;
+
+           this.camera = this.views["game_view"];
+           this.interface.setActiveCamera(this.camera);
+
+           let updateBoard = (board, currentTimeOut) => {
+               if(this.pente.film)
+                   this.board.updateBoard(board);
+
+               if(this.pente.timeout == currentTimeOut){
+                   this.pente.film = false;
+               }
+           }
+           this.pente.replay(updateBoard);
+       }
+   }
+
    board_click(coords) {
      console.log(coords);
         if(this.game.active_game && this.game.player_turn) {
@@ -149,7 +219,7 @@ class XMLscene extends CGFscene {
                     this.game.player_turn = false;
                     this.game.move(coords.row, coords.col,this.game.turn)
                     .then(() => {
-                        this.board.updateBoard(this.game.board);
+                        this.board.updateBoard(this.game.board,this.game.next);
                         this.game.gameover().then(r => {
                             this.game.player_turn = true;
                             this.updateMessage();
@@ -310,6 +380,7 @@ class XMLscene extends CGFscene {
       this.graph.updateMaterialIndexes();
 
     }
+    if(this.sceneInited){
 
     if (this.initialTime == 0) {
       this.initialTime = currentTime;
@@ -324,6 +395,10 @@ class XMLscene extends CGFscene {
           this.graph.components[i].animations.animationref.update(elapsedTime / 1000);
       }
     }
+    this.board.updatePieces(this.deltaTime);
+    this.updateCamera(this.deltaTime);
+  }
+    if(this.game.update(this.deltaTime)) this.updateMessage();
   }
 
   /**

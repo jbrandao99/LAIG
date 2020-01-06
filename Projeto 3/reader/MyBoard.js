@@ -55,6 +55,7 @@ class MyBoard extends CGFobject
                     if(sensor) {
                         let coords = this.sensorIdToCoord(this.scene.pickResults[i][1]);
                         if(this.scene.mouseHoverEvent) {
+
                             this.piecePreviewCoord = {
                                 row: coords.row - 1,
                                 col: this.size - coords.col
@@ -81,19 +82,20 @@ class MyBoard extends CGFobject
      * @param {String} board
      */
     updateBoard(board,next) {
-  //      board = board.replace(/[,\[\]]/g, "");
         let flag;
 
-        for(let i = 0; i < this.size*this.size; i++) {
+        for(let i = 0; i < (this.size*this.size)*2+21; i++) {
+
             flag = true;
             let t = Math.floor(i/this.size);
             let finalCoords = {row: t + 1, col: i - t*this.size + 1}
             for(let j = this.pieces.length - 1; j >= 0; j--) {
                 if(finalCoords.row == this.pieces[j].finalCoords.row && finalCoords.col == this.pieces[j].finalCoords.col) {
                     flag = false;
-                    if(board[i] == "empty") {
+                    if(board[i] == "e") {
 
                         if(this.pieces[j].piece == this.pieceP1){
+
                             this.pieces[j].initialCoords = JSON.parse(JSON.stringify(this.pieces[j].currentCoords));
                             this.pieces[j].finalCoords.row = 21.6 + this.incrementPieceP1Row;
                             this.pieces[j].finalCoords.col = 4 + this.incrementPieceP1Col;
@@ -123,20 +125,26 @@ class MyBoard extends CGFobject
                             this.capturesPiecesP2++;
                         }
                         break;
-                    } else if (board[i] == "Player1" || board[i] == "Player2" || board[i] == "block" ) break;
+                    } else if (board[i] == "a" || board[i] == "b" ) break;
                 }
             }
+
             if(flag) {
-                if(next == "Player1") {
-                    let initialCoordsP1 = {x: 0, y: 0, z: 2};
+
+                if(board[i] == "a") {
+                    let initialCoordsP1 = {x: 20.4, y: -0.1, z: 1};
                     let initialCoordsP1_2 = JSON.parse(JSON.stringify(initialCoordsP1));
                     this.pieces.push({finalCoords: finalCoords, currentCoords: initialCoordsP1, initialCoords: initialCoordsP1_2,  piece: this.pieceP1});
+											console.log(this.pieces);
                 }
-                else if(next == "Player2") {
-                    let initialCoordsP2 = {x: 0, y: 0, z: 4};
+								else if(board[i] == "b") {
+                    let initialCoordsP2 = {x: 20.4, y: 17.9, z: 1};
                     let initialCoordsP2_2 = JSON.parse(JSON.stringify(initialCoordsP2));
                     this.pieces.push({finalCoords: finalCoords, currentCoords: initialCoordsP2, initialCoords: initialCoordsP2_2, piece: this.pieceP2});
+										console.log(this.pieces);
                 }
+
+
             }
         }
     }
@@ -228,7 +236,7 @@ class MyBoard extends CGFobject
     /**
      * Undo one move on board.
      */
-    undoBoard(board, captures){
+    undoBoard(board){
         board = board.replace(/[,\[\]]/g, "");
         let flag;
         for(let i = 0; i < this.size*this.size; i++) {
@@ -238,7 +246,7 @@ class MyBoard extends CGFobject
             for(let j = this.pieces.length - 1; j >= 0; j--) {
                 if(finalCoords.row == this.pieces[j].finalCoords.row && finalCoords.col == this.pieces[j].finalCoords.col) {
                     flag = false;
-                    if(board[i] == "c") {
+                    if(board[i] == "e") {
                         if(this.pieces[j].piece == this.pieceP1){
                             this.pieces[j].initialCoords = JSON.parse(JSON.stringify(this.pieces[j].currentCoords));
                             this.pieces[j].finalCoords.row = 21.6;
@@ -250,62 +258,12 @@ class MyBoard extends CGFobject
                             this.pieces[j].finalCoords.col = 0.92;
                         }
                         break;
-                    } else if (board[i] == "w" || board[i] == "b") break;
+                    } else if (board[i] == "a" || board[i] == "b") break;
                 }
             }
             if(flag) {
-                if(parseInt(captures.b) != this.capturesPiecesP1 && board[i] == "w"){
-                    let previousPieceP1Row;
-                    let previousPieceP1Col;
 
-                    if(this.incrementPieceP1Col == 0 && this.incrementPieceP1Row == -1){
-                        previousPieceP1Row = 0;
-                        previousPieceP1Col = 4;
-                    }
-                    else{
-                        previousPieceP1Row = this.incrementPieceP1Row;
-                        previousPieceP1Col = this.incrementPieceP1Col - 1;
-                    }
-
-                    this.pieces.forEach(e => {
-                        if((21.6 + previousPieceP1Row) == e.finalCoords.row && (4 + previousPieceP1Col) == e.finalCoords.col){
-                            e.initialCoords = JSON.parse(JSON.stringify(e.currentCoords));
-                            e.finalCoords.row = finalCoords.row;
-                            e.finalCoords.col = finalCoords.col;
-
-                            this.incrementPieceP1Row = previousPieceP1Row;
-                            this.incrementPieceP1Col = previousPieceP1Col;
-                            this.capturesPiecesP1--;
-                        }
-                    })
-                }
-                else if(parseInt(captures.w) != this.capturesPiecesP2 && board[i] == "b"){
-                    let previousPieceP2Row;
-                    let previousPieceP2Col;
-
-                    if(this.incrementPieceP2Col == 0 && this.incrementPieceP2Row == -1){
-                        previousPieceP2Row = 0;
-                        previousPieceP2Col = -4;
-                    }
-                    else{
-                        previousPieceP2Row = this.incrementPieceP2Row;
-                        previousPieceP2Col = this.incrementPieceP2Col + 1;
-                    }
-
-                    this.pieces.forEach(e => {
-                        if((21.6 + previousPieceP2Row) == e.finalCoords.row && (16.02 + previousPieceP2Col) == e.finalCoords.col){
-                            e.initialCoords = JSON.parse(JSON.stringify(e.currentCoords))
-                            e.finalCoords.row = finalCoords.row;
-                            e.finalCoords.col = finalCoords.col;
-
-                            this.incrementPieceP2Row = previousPieceP2Row;
-                            this.incrementPieceP2Col = previousPieceP2Col;
-                            this.capturesPiecesP2--;
-                        }
-                    })
-                }
-                else{
-                    if(board[i] == "w") {
+                    if(board[i] == "a") {
                         let initialCoordsP1 = {x: 20.4, y: -0.1, z: 1};
                         let initialCoordsP1_2 = JSON.parse(JSON.stringify(initialCoordsP1));
                         this.pieces.push({finalCoords: finalCoords, currentCoords: initialCoordsP1, initialCoords: initialCoordsP1_2,  piece: this.pieceP1});
@@ -315,7 +273,7 @@ class MyBoard extends CGFobject
                         let initialCoordsP2_2 = JSON.parse(JSON.stringify(initialCoordsP2));
                         this.pieces.push({finalCoords: finalCoords, currentCoords: initialCoordsP2, initialCoords: initialCoordsP2_2, piece: this.pieceP2});
                     }
-                }
+
             }
         }
     }
@@ -325,7 +283,6 @@ class MyBoard extends CGFobject
      */
     displayPreview() {
         if(this.piecePreviewCoord != undefined && this.scene.game.active_game) {
-					console.log('AAAA');
             this.scene.pushMatrix();
             this.scene.translate(0.6, 0.6, 0);
             this.scene.translate(this.piecePreviewCoord.row*0.99,
@@ -343,6 +300,7 @@ class MyBoard extends CGFobject
      */
     displayPieces() {
         this.pieces.forEach(e => {
+
             this.scene.pushMatrix();
             this.scene.translate(0.6, 0.6, 0);
             this.scene.translate(e.currentCoords.x, e.currentCoords.y, e.currentCoords.z);

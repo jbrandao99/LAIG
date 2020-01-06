@@ -1122,7 +1122,7 @@
         <componentref id="chair_1"/>
         <componentref id="chair_2"/>
         <componentref id="Table"/>
-        <componentref id="Board"/>  
+        <componentref id="Board"/>
         <componentref id="Hold_Pieces"/>
         <componentref id="Score_Board"/>
       </children>
@@ -1141,7 +1141,7 @@
         <componentref id="WindowFrame4"/>
         <componentref id="MainFloor1"/>
         <componentref id="Table"/>
-        <componentref id="Board"/>  
+        <componentref id="Board"/>
         <componentref id="Hold_Pieces"/>
         <componentref id="Score_Board"/>
         <componentref id="Basketball1"/>
@@ -1166,35 +1166,13 @@
         <componentref id="chair_1"/>
         <componentref id="chair_2"/>
         <componentref id="Table"/>
-        <componentref id="Board"/>  
+        <componentref id="Board"/>
         <componentref id="Hold_Pieces"/>
         <componentref id="Score_Board"/>
         <componentref id="School_Board"/>
       </children>
     </component>
 
-    <component id="Underground">
-      <transformation>
-        <translate x="0" y="0" z="0" />
-      </transformation>
-      <materials>
-        <material id="inherit" />
-      </materials>
-      <texture id="inherit" length_s="1" length_t="1"/>
-      <children>
-      <componentref id="WindowFrame1"/>
-        <componentref id="WindowFrame2"/>
-        <componentref id="MainFloor"/>
-        <componentref id="MainWall1"/>
-        <componentref id="MainWall2"/>
-        <componentref id="chair_1"/>
-        <componentref id="chair_2"/>
-        <componentref id="Table"/>
-        <componentref id="Board"/>  
-        <componentref id="Hold_Pieces"/>
-        <componentref id="Score_Board"/>
-      </children>
-    </component>
 
     <component id="MainScene">
         <transformation>
@@ -1207,7 +1185,6 @@
             <componentref id="Forest" />
             <componentref id="Basket" />
             <componentref id="School" />
-            <componentref id="Underground" />
         </children>
     </component>
   </components>

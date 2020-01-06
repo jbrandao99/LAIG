@@ -115,25 +115,30 @@ parse_input(initialBoard, Board) :- initialBoard(Board).
 
 parse_input(options(Options), O).
 
-parse_input(place_block(Board,Line,Column),NewBoard):- replaceInMatrix(Board, Line, Column, block, NewBoard).
+parse_input(place_block_1(Board,Line,Column),NewBoard):- replaceInMatrix(Board, Line, Column, a, NewBoard).
 
-parse_input(move(Game, Move), NewGame) :-
-	Game = game(Board, _, _, Turn, Options),
-	valid_move(Board, Turn, Tournament, Move), !,
-	move(Move, Game, NewGame).
-parse_input(move(_, _), false) :- write('fail'),nl.
+parse_input(place_block_2(Board,Line,Column),NewBoard):- replaceInMatrix(Board, Line, Column, b, NewBoard).
 
-parse_input(bot(Game), NewGame) :-
-	Game = game(_, _, _, _, Options),
-	analyze_tree(Game, Tree),
-	choose_move(Tree, Move, Options),
-	move(Move, Game, NewGame).
 
-parse_input(gameover(Board), P) :-
-	valid_moves(Board, 'PlayerA', ListOfMoves),
-	valid_moves(Board, 'PlayerB', ListOfMoves1),
-	ListOfMoves \= [];
-	ListOfMoves1 \= [],
-	P is "false".
 
-parse_input(gameover(_), false).
+parse_input(bot(Game), NewGame):- %TODO
+
+aux(false).
+aux2([],_,Board,P):-
+	game_over(Board,P).
+aux2(_,[],Board,P):-
+	game_over(Board,P).
+aux2([],[],Board,P):-
+	game_over(Board,P).
+aux2(List1,List2,Board,false).
+
+parse_input(gameover(Board,turn), P) :-
+	valid_moves(Board, a, ListOfMoves),
+	valid_moves(Board, b, ListOfMoves1),
+	aux2(ListOfMoves,ListOfMoves1,Board,P).
+
+parse_input(gameover(_,1), P):-
+	aux(P).
+
+parse_input(gameover(_,2), P):-
+	aux(P).

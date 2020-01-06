@@ -73,8 +73,7 @@ class MyInterface extends CGFinterface {
 
        //options
        let bot_options = group.addFolder("Options");
-       bot_options.add(this.gameOptions, 'tournament').name("Tournament Rule");
-       bot_options.add(this.gameOptions, 'difficulty', {Trivial: 1, Easy: 2, Medium: 3, Hard: 4, Hardcore: 5}).name("Difficulty")
+       bot_options.add(this.gameOptions, 'difficulty', {Easy: 1, Medium: 2}).name("Difficulty")
        .onChange(value => {
            value = parseInt(value);
            switch (value) {
@@ -116,16 +115,8 @@ class MyInterface extends CGFinterface {
            }
        });
 
-       // bot settings
-       let bot_settings = [5];
-       bot_options.add(this.gameOptions, 'custom').onChange(value => this.update_bot_settings(value, bot_settings)).name("Custom");
-       bot_settings[0] = bot_options.add(this.gameOptions, 'depth', 1, 10).step(1).listen().name("Depth");
-       bot_settings[1] = bot_options.add(this.gameOptions, 'padding', 1, 9).step(1).listen().name("Padding");
-       bot_settings[2] = bot_options.add(this.gameOptions, 'width_1', 1, 10).step(1).name("width 1").listen().name("Width (1)");
-       bot_settings[3] = bot_options.add(this.gameOptions, 'width_2', 1, 10).step(1).name("width 2").listen().name("Width (2)");
-       bot_settings[4] = bot_options.add(this.gameOptions, 'width_3', 1, 10).step(1).name("width 3").listen().name("Width (3)");
 
-       this.update_bot_settings(this.gameOptions.custom, bot_settings);
+
 
        //actions
        let options = group.addFolder("Actions");
@@ -216,4 +207,10 @@ class MyInterface extends CGFinterface {
   isKeyPressed(keyCode) {
     return this.activeKeys[keyCode] || false;
   }
+
+  processMouseMove(event) {
+        super.processMouseMove(event);
+        this.scene.onPick(event);
+        this.scene.mouseHoverEvent = true;
+    }
 }
